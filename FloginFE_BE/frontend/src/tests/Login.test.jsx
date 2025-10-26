@@ -1,10 +1,11 @@
 import { render, screen, fireEvent } from '@testing-library/react';
+import '@testing-library/jest-dom';
 import Login from '../components/Login';
 
 describe('Login Component', () => {
   test('renders login form', () => {
     render(<Login />);
-    expect(screen.getByText(/Login/i)).toBeInTheDocument();
+    expect(screen.getByRole('heading', { name: /Login/i })).toBeInTheDocument();
     expect(screen.getByLabelText(/Username/i)).toBeInTheDocument();
     expect(screen.getByLabelText(/Password/i)).toBeInTheDocument();
   });
@@ -13,7 +14,7 @@ describe('Login Component', () => {
     render(<Login />);
     const usernameInput = screen.getByLabelText(/Username/i);
     const passwordInput = screen.getByLabelText(/Password/i);
-    const submitButton = screen.getByText(/Login/i);
+    const submitButton = screen.getByRole('button', { name: /Login/i });
 
     fireEvent.change(usernameInput, { target: { value: 'testuser' } });
     fireEvent.change(passwordInput, { target: { value: 'password123' } });
