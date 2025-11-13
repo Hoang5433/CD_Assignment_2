@@ -4,16 +4,16 @@ import com.flogin.dto.login.LoginRequestDTO;
 import com.flogin.dto.login.LoginResponseDTO;
 import com.flogin.dto.login.RegisterRequestDTO;
 import com.flogin.dto.login.RegisterResponseDTO;
+import com.flogin.dto.user.UserResponseDTO;
+import com.flogin.entity.User;
 import com.flogin.service.AuthService;
 import jakarta.validation.Valid;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.core.Authentication;
+import org.springframework.web.bind.annotation.*;
 
 @RequestMapping("/auth")
 @RequiredArgsConstructor
@@ -26,7 +26,16 @@ public class AuthController {
         return ResponseEntity.ok(authService.login(loginRequestDTO));
     }
     @PostMapping("/register")
-    public ResponseEntity<RegisterResponseDTO> login(@RequestBody @Valid RegisterRequestDTO registerRequestDTO) {
+    public ResponseEntity<RegisterResponseDTO> register(@RequestBody @Valid RegisterRequestDTO registerRequestDTO) {
         return ResponseEntity.ok(authService.register(registerRequestDTO));
+    }
+    @GetMapping("/profile")
+    public ResponseEntity<UserResponseDTO> getProfile(Authentication authentication){
+        String username = authentication.getName();
+        User user = authService.getUserByUsername(username);
+        return ResponseEntity.ok(new UserResponseDTO(
+                user.getFullName(),
+                user.getUsername()
+        ));
     }
 }

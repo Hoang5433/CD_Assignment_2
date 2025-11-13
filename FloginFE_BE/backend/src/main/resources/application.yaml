@@ -1,0 +1,26 @@
+spring:
+  application:
+    name: login-product
+
+  datasource:
+    url: jdbc:mysql://localhost:3306/login_product
+    username: root
+    password: root
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  docker:
+    compose:
+      file: FloginFE_BE/backend/compose.yaml
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: false
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQLDialect
+
+app:
+  jwt:
+    secret: H3l1Y3dOqMvz71IGsTtRJo+z6ZJbBDezA1clo0uWpvmVa2TqZZIfWFlTCXAbA1XZ+ZkRX0GG1VoPZkAEXmNvNg==
+    expiration: 3636363636

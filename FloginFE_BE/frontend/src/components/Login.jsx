@@ -1,66 +1,63 @@
-import React, { useState } from 'react';
-import { authService } from '../services/api';
+import { z } from "zod";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { toast } from "sonner";
+import { useNavigate } from "react-router";
+import { useAuthStore } from "../stores/useAuthStore";
 
-function Login({ onLoginSuccess }) {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
-  const [loading, setLoading] = useState(false);
+function Login() {
+  const loginSchema = z.object({
+    username: z.string().min(1, "Tên đăng nhập không được bỏ trống"),
+    password: z.string().min(1, "Mật khẩu không được bỏ trống"),
+  });
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setError('');
-    setLoading(true);
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+  } = useForm({
+    resolver: zodResolver(loginSchema),
+  });
+
+  const navigate = useNavigate();
+  const { logIn } = useAuthStore();
+
+  const onSubmit = async (data) => {
+    const { username, password } = data;
 
     try {
-      const response = await authService.login({ username, password });
-      console.log('Login successful:', response.data);
-      
-      // Store token if provided
-      if (response.data.token) {
-        localStorage.setItem('token', response.data.token);
+      const success = await logIn(username, password);
+      if (success) {
+        navigate("/admin/products");
       }
-      
-      if (onLoginSuccess) {
-        onLoginSuccess({ username, ...response.data });
-      }
-    } catch (err) {
-      console.error('Login failed:', err);
-      setError(err.response?.data?.message || 'Đăng nhập thất bại. Vui lòng thử lại.');
-    } finally {
-      setLoading(false);
+    } catch (error) {
+      console.error("Đăng nhập thất bại:", error);
+      toast.error("Đăng nhập không thành công");
     }
   };
 
   return (
     <div className="login-container">
-      <h2>Login</h2>
-      {error && <div style={{ color: 'red', marginBottom: '15px', textAlign: 'center' }}>{error}</div>}
-      <form onSubmit={handleSubmit}>
+      <h2>Đăng nhập</h2>
+      <form onSubmit={handleSubmit(onSubmit)}>
         <div>
-          <label htmlFor="username">Username:</label>
-          <input
-            id="username"
-            type="text"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            disabled={loading}
-            required
-          />
+          <label htmlFor="username">Tên đăng nhập:</label>
+          <input id="username" type="text" {...register("username")} />
+          {errors.username && (
+            <p className="warning-login">{errors.username.message}</p>
+          )}
         </div>
+
         <div>
-          <label htmlFor="password">Password:</label>
-          <input
-            id="password"
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            disabled={loading}
-            required
-          />
+          <label htmlFor="password">Mật khẩu:</label>
+          <input id="password" type="password" {...register("password")} />
+          {errors.password && (
+            <p className="warning-login">{errors.password.message}</p>
+          )}
         </div>
-        <button type="submit" disabled={loading}>
-          {loading ? 'Đang đăng nhập...' : 'Login'}
+
+        <button type="submit" disabled={isSubmitting}>
+          {isSubmitting ? "Đang đăng nhập..." : "Đăng nhập"}
         </button>
       </form>
     </div>

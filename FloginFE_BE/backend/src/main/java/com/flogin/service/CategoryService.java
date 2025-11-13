@@ -11,6 +11,7 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @RequiredArgsConstructor
@@ -26,7 +27,9 @@ public class CategoryService {
     public Category getCategory(Long id) {
         return categoryRepository.findById(id).orElseThrow(() -> new BadCredentialsException("Category không tồn tại"));
     }
-
+    public List<Category> getAllCategory(){
+        return categoryRepository.findAll();
+    }
     public void deleteCategory(Long id) {
         categoryRepository.deleteById(id);
     }

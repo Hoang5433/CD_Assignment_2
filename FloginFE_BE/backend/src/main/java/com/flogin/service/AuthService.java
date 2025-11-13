@@ -55,4 +55,7 @@ public class AuthService {
         userRepository.save(user);
         return new RegisterResponseDTO(registerRequestDTO.getFullName(), registerRequestDTO.getUsername());
     }
+    public User getUserByUsername(String username){
+        return userRepository.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException("Tai khoan khong ton tai"));
+    }
 }

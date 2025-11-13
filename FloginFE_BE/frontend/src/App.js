@@ -1,39 +1,18 @@
-import React, { useState } from 'react';
-import Login from './components/Login';
-import Product from './components/Product';
+import Login from "./components/Login";
+import { Toaster } from "sonner";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import AdminRoutes from "./routes/AdminRoutes";
 
 function App() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [currentUser, setCurrentUser] = useState(null);
-
-  const handleLoginSuccess = (userData) => {
-    setIsLoggedIn(true);
-    setCurrentUser(userData);
-  };
-
-  const handleLogout = () => {
-    localStorage.removeItem('token');
-    setIsLoggedIn(false);
-    setCurrentUser(null);
-  };
-
   return (
     <div className="App">
-      {!isLoggedIn ? (
-        <Login onLoginSuccess={handleLoginSuccess} />
-      ) : (
-        <div>
-          <div className="app-header">
-            <div className="user-info">
-              {currentUser && <span>Xin chào, <strong>{currentUser.username || 'User'}</strong></span>}
-            </div>
-            <button className="btn-logout" onClick={handleLogout}>
-              🚪 Đăng xuất
-            </button>
-          </div>
-          <Product />
-        </div>
-      )}
+      <Toaster closeButton={true} richColors />
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<Login />} />
+          <Route path="/admin/*" element={<AdminRoutes />} />
+        </Routes>
+      </BrowserRouter>
     </div>
   );
 }

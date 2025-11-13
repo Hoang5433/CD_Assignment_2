@@ -63,6 +63,9 @@ code {
   transform: translateY(0);
 }
 
+.warning-login {
+  color: red;
+}
 /* CSS3 Animations */
 @keyframes fadeIn {
   from {
@@ -475,3 +478,4 @@ code {
     width: 100%;
   }
 }
+

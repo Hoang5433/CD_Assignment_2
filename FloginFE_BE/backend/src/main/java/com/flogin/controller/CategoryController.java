@@ -10,6 +10,7 @@ import lombok.experimental.FieldDefaults;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 
 @RequestMapping("/categories")
@@ -26,6 +27,10 @@ public class CategoryController {
     public ResponseEntity<String> deleteCategory(@PathVariable Long id) {
         categoryService.deleteCategory(id);
         return ResponseEntity.ok("Category với id " + id + " đã xóa thành công");
+    }
+    @GetMapping()
+    public ResponseEntity<List<Category>> getAllCategory(){
+        return ResponseEntity.ok(categoryService.getAllCategory());
     }
     @GetMapping("/{id}")
     public ResponseEntity<Category> getCategory(@PathVariable Long id) {

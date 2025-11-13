@@ -6,11 +6,15 @@ import com.flogin.entity.Category;
 import com.flogin.entity.Product;
 import com.flogin.repository.CategoryRepository;
 import com.flogin.repository.ProductRepository;
+import com.flogin.service.mapper.ProductMapper;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
@@ -18,6 +22,7 @@ import org.springframework.stereotype.Service;
 public class ProductService {
     ProductRepository productRepository;
     CategoryRepository categoryRepository;
+    ProductMapper productMapper;
 
     public ProductResponseDTO createProduct(ProductRequestDTO productRequestDTO) {
         Category category = categoryRepository.findById(productRequestDTO.getCategory_id())
@@ -71,12 +76,15 @@ public class ProductService {
     public ProductResponseDTO getProduct(Long id) {
         Product product = productRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Product không tồn tại"));
-        return new ProductResponseDTO(
-                product.getName(),
-                product.getPrice(),
-                product.getQuantity(),
-                product.getDescription(),
-                product.getCategory()
-        );
+        return productMapper.toProductResponseDTO(product);
+    }
+    public List<ProductResponseDTO> getAllProduct(){
+        List<Product> products = productRepository.findAll();
+        if (products.isEmpty()) return null;
+        List<ProductResponseDTO> responseDTOList = new ArrayList<>();
+        for (Product product : products){
+            responseDTOList.add(productMapper.toProductResponseDTO(product));
+        }
+        return responseDTOList;
     }
 }

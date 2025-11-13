@@ -12,6 +12,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RequestMapping("/products")
 @RequiredArgsConstructor
 @RestController
@@ -25,6 +27,10 @@ public class ProductController {
     @PutMapping("/{id}")
     public ResponseEntity<ProductResponseDTO> updateProduct(@RequestBody @Valid ProductRequestDTO productRequestDTO, @PathVariable Long id) {
         return ResponseEntity.ok(productService.updateProduct(id, productRequestDTO));
+    }
+    @GetMapping()
+    public ResponseEntity<List<ProductResponseDTO>> getAllProduct(){
+        return ResponseEntity.ok(productService.getAllProduct());
     }
     @GetMapping("/{id}")
     public ResponseEntity<ProductResponseDTO> getProduct(@PathVariable Long id) {
