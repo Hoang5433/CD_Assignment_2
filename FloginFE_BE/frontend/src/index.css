@@ -10,7 +10,7 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #2563eb 0%, #06b6d4 100%);
   min-height: 100vh;
   padding: 20px;
 }
@@ -39,7 +39,7 @@ code {
 }
 
 .user-info strong {
-  color: #667eea;
+  color: #2563eb;
 }
 
 .btn-logout {
@@ -108,7 +108,7 @@ code {
 
 .login-container h2 {
   text-align: center;
-  color: #667eea;
+  color: #2563eb;
   margin-bottom: 30px;
   animation: slideIn 0.8s ease-out;
 }
@@ -134,16 +134,16 @@ code {
 }
 
 .login-container input:focus {
-  border-color: #667eea;
+  border-color: #2563eb;
   outline: none;
-  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
   transform: translateY(-2px);
 }
 
 .login-container button {
   width: 100%;
   padding: 12px;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #2563eb 0%, #06b6d4 100%);
   color: white;
   border: none;
   border-radius: 6px;
@@ -155,7 +155,7 @@ code {
 
 .login-container button:hover {
   transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+  box-shadow: 0 6px 20px rgba(37, 99, 235, 0.4);
   animation: pulse 0.6s ease-in-out;
 }
 
@@ -183,7 +183,7 @@ code {
 }
 
 .product-header h2 {
-  color: #667eea;
+  color: #2563eb;
   margin: 0;
 }
 
@@ -219,25 +219,25 @@ code {
 }
 
 .btn-add {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #2563eb 0%, #06b6d4 100%);
   color: white;
 }
 
 .btn-add:hover {
   transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+  box-shadow: 0 6px 20px rgba(37, 99, 235, 0.4);
 }
 
 .btn-save {
-  background: #4caf50;
+  background: #10b981;
   color: white;
   margin-right: 10px;
 }
 
 .btn-save:hover {
-  background: #45a049;
+  background: #059669;
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(76, 175, 80, 0.4);
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.4);
 }
 
 .btn-cancel {
@@ -250,7 +250,7 @@ code {
 }
 
 .btn-edit {
-  background: #2196F3;
+  background: #06b6d4;
   color: white;
   padding: 6px 12px;
   font-size: 13px;
@@ -258,7 +258,7 @@ code {
 }
 
 .btn-edit:hover {
-  background: #0b7dda;
+  background: #0891b2;
   transform: scale(1.05);
 }
 
@@ -285,7 +285,7 @@ code {
 }
 
 .product-form-container h3 {
-  color: #667eea;
+  color: #2563eb;
   margin-bottom: 20px;
 }
 
@@ -346,7 +346,7 @@ code {
 }
 
 .product-table thead {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #2563eb 0%, #06b6d4 100%);
   color: white;
 }
 
@@ -401,7 +401,7 @@ code {
 .loading {
   text-align: center;
   padding: 40px;
-  color: #667eea;
+  color: #2563eb;
   font-size: 18px;
   animation: pulse 1.5s ease-in-out infinite;
 }
@@ -431,8 +431,8 @@ code {
 
 .product-item:hover {
   transform: translateY(-5px);
-  box-shadow: 0 8px 24px rgba(102, 126, 234, 0.3);
-  border-color: #667eea;
+  box-shadow: 0 8px 24px rgba(37, 99, 235, 0.3);
+  border-color: #2563eb;
 }
 
 .product-item h3 {
@@ -473,5 +473,217 @@ code {
 
   .btn-edit, .btn-delete {
     width: 100%;
+  }
+}
+
+/* Modal Styles */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  animation: fadeIn 0.3s ease-out;
+}
+
+.modal-content {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  max-width: 600px;
+  width: 90%;
+  max-height: 90vh;
+  animation: slideIn 0.3s ease-out;
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 25px;
+  border-bottom: 1px solid #e0e0e0;
+  background: linear-gradient(135deg, #2563eb 0%, #06b6d4 100%);
+  color: white;
+  border-radius: 12px 12px 0 0;
+}
+
+.modal-header h3 {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.modal-close {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 24px;
+  cursor: pointer;
+  padding: 0;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: all 0.3s ease;
+}
+
+.modal-close:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+/* Form Styles in Modal */
+.product-form {
+  padding: 25px;
+  display: grid;
+  gap: 20px;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group label {
+  margin-bottom: 8px;
+  color: #333;
+  font-weight: 500;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+  padding: 12px;
+  border: 2px solid #e0e0e0;
+  border-radius: 6px;
+  font-size: 14px;
+  font-family: inherit;
+  transition: all 0.3s ease;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+  border-color: #2563eb;
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+.form-group textarea {
+  resize: vertical;
+  min-height: 80px;
+}
+
+.form-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+  justify-content: flex-end;
+}
+
+/* Delete Modal Styles */
+.delete-modal {
+  max-width: 400px;
+}
+
+.delete-confirmation {
+  padding: 20px;
+  text-align: center;
+}
+
+.delete-icon {
+  font-size: 48px;
+  margin-bottom: 15px;
+}
+
+.delete-confirmation .delete-message {
+  margin-bottom: 10px;
+  color: #333;
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+.delete-confirmation .delete-message strong {
+  color: #2563eb;
+}
+
+.delete-warning {
+  color: #f44336;
+  font-weight: 500;
+  margin-bottom: 0;
+  font-size: 14px;
+}
+
+/* Delete Modal Actions */
+.delete-modal .form-actions {
+  gap: 20px;
+  justify-content: center;
+  padding: 20px 25px;
+}
+
+.btn-delete-confirm {
+  background: #f44336;
+  color: white;
+  padding: 12px 24px;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn-delete-confirm:hover {
+  background: #da190b;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(244, 67, 54, 0.4);
+}
+
+/* Responsive Modal */
+@media (max-width: 768px) {
+  .modal-content {
+    width: 95%;
+    margin: 20px;
+  }
+
+  .modal-header {
+    padding: 15px 20px;
+  }
+
+  .modal-header h3 {
+    font-size: 16px;
+  }
+
+  .product-form {
+    padding: 20px;
+  }
+
+  .form-row {
+    grid-template-columns: 1fr;
+    gap: 15px;
+  }
+
+  .form-actions {
+    flex-direction: column;
+  }
+
+  .btn-save, .btn-cancel, .btn-delete-confirm {
+    width: 100%;
+  }
+
+  .delete-confirmation {
+    padding: 20px;
   }
 }
