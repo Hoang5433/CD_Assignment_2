@@ -650,6 +650,9 @@ code {
   transform: translateY(-2px);
   box-shadow: 0 4px 12px rgba(244, 67, 54, 0.4);
 }
+.warning-login {
+  color: #da190b;
+}
 
 /* Responsive Modal */
 @media (max-width: 768px) {

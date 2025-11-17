@@ -7,9 +7,25 @@ import { useAuthStore } from "../stores/useAuthStore";
 
 function Login() {
   const loginSchema = z.object({
-    username: z.string().min(1, "Tên đăng nhập không được bỏ trống"),
-    password: z.string().min(1, "Mật khẩu không được bỏ trống"),
+    username: z
+        .string()
+        .min(3, "Tên đăng nhập chứa ít nhất 3 ký tự")
+        .max(50, "Tên đăng nhập chứa tối đa 50 ký tự")
+        .regex(
+            /^[a-zA-Z0-9._-]+$/,
+            "Tên đăng nhập chỉ được chứa chữ, số và các ký tự -, ., _"
+        ),
+
+    password: z
+        .string()
+        .min(6, "Mật khẩu chứa ít nhất 6 ký tự")
+        .max(100, "Mật khẩu chứa tối đa 100 ký tự")
+        .regex(
+            /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]+$/,
+            "Mật khẩu phải chứa cả chữ và số"
+        ),
   });
+
 
   const {
     register,
@@ -42,21 +58,21 @@ function Login() {
       <form onSubmit={handleSubmit(onSubmit)}>
         <div>
           <label htmlFor="username">Tên đăng nhập:</label>
-          <input id="username" type="text" {...register("username")} />
+          <input id="username" data-testid="username-input" type="text" {...register("username")} />
           {errors.username && (
-            <p className="warning-login">{errors.username.message}</p>
+            <p className="warning-login" data-testid="username-error">{errors.username.message}</p>
           )}
         </div>
 
         <div>
           <label htmlFor="password">Mật khẩu:</label>
-          <input id="password" type="password" {...register("password")} />
+          <input id="password" data-testid="password-input" type="password" {...register("password")} />
           {errors.password && (
             <p className="warning-login">{errors.password.message}</p>
           )}
         </div>
 
-        <button type="submit" disabled={isSubmitting}>
+        <button type="submit" data-testid="login-button" disabled={isSubmitting}>
           {isSubmitting ? "Đang đăng nhập..." : "Đăng nhập"}
         </button>
       </form>

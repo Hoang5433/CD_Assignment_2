@@ -40,11 +40,15 @@ export const useAuthStore = create((set, get) => ({
       setJWTtoCookie(accessToken);
       set({ accessToken });
 
-      toast.success("Đăng nhập thành công");
+      toast.success("Đăng nhập thành công", {
+        description: <span data-testid="login-success">Success</span>
+      });
       return true;
     } catch (error) {
       console.error(error);
-      toast.error("Đăng nhập không thành công");
+      toast.error("Đăng nhập không thành công", {
+        description: <span data-testid="login-error">Error</span>
+      });
       return false;
     } finally {
       set({ loading: false });
