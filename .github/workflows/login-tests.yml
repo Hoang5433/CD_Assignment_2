@@ -22,7 +22,7 @@ jobs:
       - name: Start Frontend
         run: |
           cd FloginFE_BE/frontend
-          npm start
+          npm start &
       - name: Run Login E2E Tests
         run: |
           cd FloginFE_BE/frontend
