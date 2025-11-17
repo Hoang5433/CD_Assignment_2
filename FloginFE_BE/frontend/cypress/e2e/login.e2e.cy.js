@@ -3,11 +3,13 @@ describe('Login E2E Tests', () => {
     cy.visit('http://localhost:3000');
   })
   it('Nen hien thi form login', () => {
+    cy.visit("/")
     cy.get('[data-testid="username-input"]').should('be.visible')
     cy.get('[data-testid="password-input"]').should('be.visible')
     cy.get('[data-testid="login-button"]').should('be.visible')
   })
   it('Nen login thanh cong voi credentials hop le', () => {
+    cy.visit("/")
     // chan mock do be goi db that
     cy.intercept('POST', 'auth/login', {
       statusCode: 200,
@@ -23,6 +25,7 @@ describe('Login E2E Tests', () => {
     cy.url().should('include', '/admin/products')
   })
   it('Nen hien thi loi voi credentials khong hop le', () => {
+    cy.visit("/")
     cy.get('[data-testid="username-input"]').type('ab')
     cy.get('[data-testid="password-input"]').type('1234')
     cy.get('[data-testid="login-button"]').click()
