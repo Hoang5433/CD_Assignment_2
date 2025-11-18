@@ -13,10 +13,18 @@ export const useAuthStore = create((set, get) => ({
   loading: false,
   initialized: false, 
 
-  init: () => {
+  init: async () => {
     const token = getJWTfromCookie();
     if (token) {
       set({ accessToken: token, initialized: true });
+      try {
+        const user = await authService.fetchUser();
+        console.log(user);
+        set({ user, initialized: true });
+      } catch (error) {
+        console.error(error);
+        set({ initialized: true });
+      }
     } else {
       set({ initialized: true });
     }

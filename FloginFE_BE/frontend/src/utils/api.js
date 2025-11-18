@@ -1,6 +1,22 @@
 import axios from 'axios'
+import {getJWTfromCookie} from "./cookie";
 
 export const api = axios.create({
     baseURL: "http://localhost:8080/",
     withCredentials: true,
 })
+export const apiWithAuth = axios.create({
+    baseURL: "http://localhost:8080/",
+    withCredentials: true,
+});
+
+apiWithAuth.interceptors.request.use(
+    (config) => {
+        const token = getJWTfromCookie();
+        if (token) {
+            config.headers.Authorization = `Bearer ${token}`;
+        }
+        return config;
+    },
+    (error) => Promise.reject(error)
+);

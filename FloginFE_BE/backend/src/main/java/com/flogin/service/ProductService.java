@@ -6,6 +6,7 @@ import com.flogin.entity.Category;
 import com.flogin.entity.Product;
 import com.flogin.repository.CategoryRepository;
 import com.flogin.repository.ProductRepository;
+import com.flogin.service.mapper.CategoryMapper;
 import com.flogin.service.mapper.ProductMapper;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -22,6 +23,7 @@ import java.util.List;
 public class ProductService {
     ProductRepository productRepository;
     CategoryRepository categoryRepository;
+    CategoryMapper categoryMapper;
     ProductMapper productMapper;
 
     public ProductResponseDTO createProduct(ProductRequestDTO productRequestDTO) {
@@ -34,11 +36,12 @@ public class ProductService {
                 category);
         productRepository.save(product);
         return new ProductResponseDTO(
+                product.getId(),
                 productRequestDTO.getProductName(),
                 productRequestDTO.getPrice(),
                 productRequestDTO.getQuantity(),
                 productRequestDTO.getDescription(),
-                category
+                categoryMapper.toCategoryDTO(category)
         );
     }
 
@@ -54,11 +57,12 @@ public class ProductService {
         product.setCategory(category);
         productRepository.save(product);
         return new ProductResponseDTO(
+                product.getId(),
                 product.getName(),
                 product.getPrice(),
                 product.getQuantity(),
                 product.getDescription(),
-                category
+                categoryMapper.toCategoryDTO(category)
         );
     }
     public ProductResponseDTO deleteProduct(Long id) {
@@ -66,11 +70,12 @@ public class ProductService {
                 .orElseThrow(() -> new RuntimeException("Product không tồn tại"));
         productRepository.delete(product);
         return new ProductResponseDTO(
+                product.getId(),
                 product.getName(),
                 product.getPrice(),
                 product.getQuantity(),
                 product.getDescription(),
-                product.getCategory()
+                categoryMapper.toCategoryDTO(product.getCategory())
         );
     }
     public ProductResponseDTO getProduct(Long id) {

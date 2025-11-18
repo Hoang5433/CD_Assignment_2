@@ -3,8 +3,7 @@ import { useAuthStore } from "../stores/useAuthStore";
 import { useNavigate } from "react-router-dom";
 
 const Navbar = () => {
-  const { accessToken, logOut } = useAuthStore();
-  console.log(accessToken);
+  const { user, logOut } = useAuthStore();
   const navigate = useNavigate();
   const handleSignOut = async () => {
     try {
@@ -20,7 +19,7 @@ const Navbar = () => {
       <div className="user-info">
         {
           <span>
-            Xin chào, <strong>User</strong>
+            Xin chào, <strong>{user?.fullName || "Loading..."}</strong>
           </span>
         }
       </div>

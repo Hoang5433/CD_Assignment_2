@@ -5,7 +5,7 @@ import com.flogin.entity.Product;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring", uses = CategoryMapper.class)
 public interface ProductMapper {
     @Mapping(source = "name", target = "productName")
     ProductResponseDTO toProductResponseDTO(Product product);

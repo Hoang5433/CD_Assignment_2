@@ -1,4 +1,5 @@
-import { api } from "../utils/api"
+import {api} from "../utils/api"
+import {getJWTfromCookie} from "../utils/cookie";
 
 export const authService = {
     logIn: async (username, password) => {
@@ -10,9 +11,13 @@ export const authService = {
         return res.data
     },
 
-    fetchUser: async (userId) => {
+    fetchUser: async () => {
+        const token = getJWTfromCookie();
       const res = await api.get(
-        '/profile'
+        '/auth/profile'
+          , {
+              headers: {Authorization: `Bearer ${token}`}
+          }
       )
 
       return res.data

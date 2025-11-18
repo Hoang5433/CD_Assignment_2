@@ -1,13 +1,9 @@
-import { api } from "../utils/api"
+import {apiWithAuth} from "../utils/api"
 
 export const productService = {
-    addCategory: async(category) => {
-        const res = await api.post('/categories', category)
+    getAllCategory: async () => {
+        const res = await apiWithAuth.get('/categories')
         return res.data
-    },
-
-    deleteCategory: async(categoryId) => {
-        const res = await api.delete(`/categories/${categoryId}`)
     }
 
 }
