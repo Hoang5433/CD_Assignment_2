@@ -12,13 +12,11 @@ const AdminLayout = () => {
   }, []);
 
   useEffect(() => {
-    // chỉ điều hướng sau khi init xong
     if (initialized && !accessToken) {
       navigate("/");
     }
-  }, [initialized, accessToken, navigate]);
+  }, [initialized, accessToken]);
 
-  // hiển thị tạm khi đang init
   if (!initialized) {
     return <div>Đang kiểm tra đăng nhập...</div>;
   }

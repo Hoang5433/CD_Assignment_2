@@ -11,7 +11,7 @@ export const useAuthStore = create((set, get) => ({
   accessToken: null,
   user: null,
   loading: false,
-  initialized: false, 
+  initialized: false,
 
   init: async () => {
     const token = getJWTfromCookie();
@@ -49,14 +49,35 @@ export const useAuthStore = create((set, get) => ({
       set({ accessToken });
 
       toast.success("Đăng nhập thành công", {
-        description: <span data-testid="login-success">Success</span>
+        description: <span data-testid="login-success">Success</span>,
       });
       return true;
     } catch (error) {
       console.error(error);
-      toast.error("Đăng nhập không thành công", {
-        description: <span data-testid="login-error">Error</span>
-      });
+      // TRƯỜNG HỢP 1: Server có trả về phản hồi (nhưng là lỗi 4xx, 5xx)
+      if (error.response) {
+        const status = error.response.status;
+
+        // 401: Unauthorized (Sai user/pass)
+        if (status === 401 || status === 403) {
+          toast.error("Tên đăng nhập hoặc mật khẩu không chính xác!");
+        }
+        // 500+: Lỗi Server
+        else if (status >= 500) {
+          toast.error("Máy chủ đang gặp sự cố, vui lòng thử lại sau!");
+        }
+        // Các lỗi 4xx khác (400 Bad Request, 404 Not Found...)
+        else {
+          console.error(error);
+          toast.error(error.response.data?.message || "Đã có lỗi xảy ra");
+        }
+      } else if (error.request) {
+        toast.error(
+          "Không thể kết nối đến máy chủ. Vui lòng kiểm tra đường truyền!"
+        );
+      } else {
+        toast.error("Lỗi không xác định: " + error.message);
+      }
       return false;
     } finally {
       set({ loading: false });

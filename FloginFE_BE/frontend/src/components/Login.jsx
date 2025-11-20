@@ -47,10 +47,10 @@ function Login() {
         navigate("/admin/products");
       }
     } catch (error) {
-      console.error("Đăng nhập thất bại:", error);
-      toast.error("Đăng nhập không thành công");
+      console.error("Chi tiết lỗi:", error);
     }
   };
+
 
   return (
     <div className="login-container">

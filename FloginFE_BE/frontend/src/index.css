@@ -497,8 +497,9 @@ code {
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
   max-width: 600px;
   width: 90%;
-  max-height: 90vh;
+  max-height: 95vh;
   animation: slideIn 0.3s ease-out;
+  overflow-y: auto;
 }
 
 .modal-header {
