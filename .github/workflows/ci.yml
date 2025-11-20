@@ -1,0 +1,59 @@
+name: Complete CI/CD Pipeline
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    services:
+      mysql:
+        image: mysql:latest
+        ports:
+          - 3306:3306
+        env:
+          MYSQL_DATABASE: login-product
+          MYSQL_PASSWORD: root
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Setup Java
+        uses: actions/setup-java@v2
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '24'
+
+      - name: Backend Tests
+        run: |
+          cd FloginFE_BE/backend
+          chmod +x ./mvnw
+          ./mvnw clean test
+
+      - name: Frontend Tests
+        run: |
+          cd FloginFE_BE/frontend
+          npm install
+          npm test -- --coverage
+
+      - name: E2E Tests
+        run: |
+          cd FloginFE_BE/frontend 
+          
+          npm run test:e2e
+
+      - name: Upload Coverage
+        uses: codecov/codecov-action@v2
+        with:
+          files: |
+            FloginFE_BE/frontend/coverage/lcov.info
+            FloginFE_BE/backend/target/site/jacoco/jacoco.xml
