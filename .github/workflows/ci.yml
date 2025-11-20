@@ -47,7 +47,8 @@ jobs:
 
       - name: E2E Tests
         run: |
-          cd FloginFE_BE/frontend
+          cd FloginFE_BE/frontend 
+          
           npm run test:e2e
 
       - name: Upload Coverage
