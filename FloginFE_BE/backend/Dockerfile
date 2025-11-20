@@ -2,9 +2,6 @@ FROM eclipse-temurin:21-jdk-jammy
 
 WORKDIR /app
 
-# Cài curl
-RUN apt-get update && apt-get install -y curl
-
 COPY pom.xml mvnw ./
 COPY .mvn .mvn
 RUN chmod +x mvnw

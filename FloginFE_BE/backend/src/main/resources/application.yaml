@@ -30,6 +30,7 @@ app:
 server:
   port: 8080
   address: 0.0.0.0
+
 management:
   endpoints:
     web:
@@ -37,4 +38,4 @@ management:
         include: health
   endpoint:
     health:
-      show-details: when_authorized
+      show-details: always
