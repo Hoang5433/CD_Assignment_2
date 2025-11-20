@@ -36,6 +36,7 @@ jobs:
       - name: Backend Tests
         run: |
           cd FloginFE_BE/backend
+          chmod +x ./mvnw
           ./mvnw clean test
 
       - name: Frontend Tests
