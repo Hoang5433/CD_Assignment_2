@@ -18,11 +18,11 @@ jobs:
         uses: docker/setup-buildx-action@v3
 
       - name: Start backend + services
-        working-directory: ./backend
         run: |
+          cd FloginFE_BE/backend
           docker-compose up -d
 
       - name: Check backend health
-        working-directory: ./backend
         run: |
+          cd FLoginFE_BE/backend
           curl -f http://localhost:8080/actuator/health || exit 1
