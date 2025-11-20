@@ -1,4 +1,4 @@
-name: Test Performance With K6
+name: Test Perfomance With K6
 
 on:
   push:
@@ -20,28 +20,18 @@ jobs:
       - name: Start backend + services
         run: |
           cd FloginFE_BE/backend
-          docker compose up -d --build
+          docker compose up -d
 
-      - name: Wait for services to be ready
+      - name: Wait for backend
         run: |
-          # Chờ MySQL
-          echo "Waiting for MySQL..."
-          timeout 60s bash -c 'until docker compose exec mysql mysqladmin ping -uroot -proot --silent; do sleep 2; done'
-          
-          # Chờ backend
-          echo "Waiting for backend..."
-          timeout 60s bash -c 'until curl -f http://localhost:8080/actuator/health; do sleep 5; done'
-
-      - name: Check service status
-        run: |
-          docker compose ps
-          curl -v http://localhost:8080/actuator/health
-
-      - name: Test database connection
-        run: |
-          docker compose exec mysql mysql -uroot -proot -e "SHOW DATABASES;"
-
-#      - name: Run performance tests with K6
-#        uses: grafana/k6-action@v0.3.1
-#        with:
-#          filename: scripts/test.js  # Thay bằng file test K6 của bạn
+          cd FloginFE_BE/backend
+          for i in {1..30}; do
+            if curl -f http://localhost:8080/actuator/health; then
+              echo "Backend ready!"
+              exit 0
+            fi
+            echo "Waiting for backend..."
+            sleep 2
+          done
+          echo "Backend did not start in time!"
+          exit 1
