@@ -138,7 +138,7 @@ const ProductManager = () => {
       <div className="product-container">
         <div className="product-header">
           <h2>Product Manager ({quantity})</h2>
-          <button className="btn-add" onClick={openAddModal}>+ Thêm sản phẩm</button>
+          <button className="btn-add" data-testid="add-product-btn" onClick={openAddModal}>+ Thêm sản phẩm</button>
         </div>
 
         {loading ? (
@@ -162,7 +162,7 @@ const ProductManager = () => {
                     </thead>
                     <tbody>
                       {products.map((p) => (
-                          <tr key={p.id}>
+                          <tr key={p.id} data-testid="product-item">
                             <td>{p.id}</td>
                             <td>{p.productName}</td>
                             <td>{p.category?.name || "-"}</td>
@@ -170,8 +170,8 @@ const ProductManager = () => {
                             <td>{p.quantity ?? 0}</td>
                             <td>{p.description || "-"}</td>
                             <td className="product-actions">
-                              <button className="btn-edit" onClick={() => openEditModal(p)}>✏️ Sửa</button>
-                              <button className="btn-delete" onClick={() => { setDeletingProduct(p); setShowDeleteModal(true); }}>🗑️ Xóa</button>
+                              <button className="btn-edit" data-testid={`edit-product-btn`} onClick={() => openEditModal(p)}>✏️ Sửa</button>
+                              <button className="btn-delete" data-testid={`delete-product-btn`} onClick={() => { setDeletingProduct(p); setShowDeleteModal(true); }}>🗑️ Xóa</button>
                             </td>
                           </tr>
                       ))}
@@ -193,19 +193,19 @@ const ProductManager = () => {
                 <form className="product-form" onSubmit={handleSubmit(onSubmit)}>
                   <div className="form-group">
                     <label htmlFor="productName">Tên sản phẩm</label>
-                    <input id="productName" type="text" {...register("productName")} />
+                    <input id="productName" data-testid="product-name" type="text" {...register("productName")} />
                     {errors.productName && <p className="field-error">{errors.productName.message}</p>}
                   </div>
 
                   <div className="form-group">
                     <label htmlFor="price">Giá</label>
-                    <input id="price" type="number" step="0.01" {...register("price")} />
+                    <input id="price" type="number" data-testid="product-price" step="1000" {...register("price")} />
                     {errors.price && <p className="field-error">{errors.price.message}</p>}
                   </div>
 
                   <div className="form-group">
                     <label htmlFor="quantity">Số lượng</label>
-                    <input id="quantity" type="number" {...register("quantity")} />
+                    <input id="quantity" data-testid="product-quantity" type="number"  {...register("quantity")} />
                     {errors.quantity && <p className="field-error">{errors.quantity.message}</p>}
                   </div>
 
@@ -215,7 +215,7 @@ const ProductManager = () => {
                         name="categoryId"
                         control={control}
                         render={({ field }) => (
-                            <select {...field}>
+                            <select {...field} data-testid="product-category">
                               <option value="">-- Chọn danh mục --</option>
                               {categories.map((cat) => (
                                   <option key={cat.id} value={(cat.id)}>
@@ -230,15 +230,15 @@ const ProductManager = () => {
 
                   <div className="form-group">
                     <label htmlFor="description">Mô tả</label>
-                    <textarea id="description" {...register("description")}></textarea>
+                    <textarea id="description" data-testid="product-description" {...register("description")}></textarea>
                     {errors.description && <p className="field-error">{errors.description.message}</p>}
                   </div>
 
                   <div className="form-actions">
-                    <button type="submit" className="btn-save" disabled={isSubmitting}>
+                    <button type="submit" className="btn-save" data-testid="submit-btn" disabled={isSubmitting}>
                       {editingProduct ? "Cập nhật" : "Thêm mới"}
                     </button>
-                    <button type="button" className="btn-cancel" onClick={() => setShowFormModal(false)}>Hủy</button>
+                    <button type="button"  className="btn-cancel" onClick={() => setShowFormModal(false)}>Hủy</button>
                   </div>
                 </form>
               </div>
@@ -262,7 +262,7 @@ const ProductManager = () => {
                 </div>
                 <div className="form-actions">
                   <button className="btn-cancel" onClick={() => setShowDeleteModal(false)}>Hủy</button>
-                  <button className="btn-delete-confirm" onClick={handleDeleteConfirm}>Xóa</button>
+                  <button className="btn-delete-confirm" data-testid="confirm-delete-btn" onClick={handleDeleteConfirm}>Xóa</button>
                 </div>
               </div>
             </div>
