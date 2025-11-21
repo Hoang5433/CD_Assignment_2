@@ -10,7 +10,7 @@ describe("Product E2E Tests", () => {
             productPage.products = [...data];
             productPage.productIdCounter = Math.max(...data.map(p => p.id)) + 1;
         });
-        productPage.setupInterceptsForOperations();
+        productPage.setupIntercepts();
     })
 
     it('Nen tao san pham moi thanh cong', () => {

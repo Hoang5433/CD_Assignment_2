@@ -6,8 +6,8 @@ class ProductPage {
         this.productIdCounter = 3;
     }
 
-    setupInterceptsForOperations() {
-        cy.intercept('GET', '/products', (req) => {
+    setupIntercepts() {
+        cy.intercept('GET', '/products',(req) => {
             req.reply({
                 statusCode: 200,
                 body: this.products
