@@ -352,16 +352,26 @@ code {
 
 .product-table th {
   padding: 15px;
+  text-align: center;
+  font-weight: 600;
+  font-size: 14px;
+  text-transform: uppercase;
+}
+.product-table th:last-child {
+  padding: 15px;
   text-align: left;
   font-weight: 600;
   font-size: 14px;
   text-transform: uppercase;
 }
 
+
 .product-table tbody tr {
   border-bottom: 1px solid #e0e0e0;
   transition: all 0.3s ease;
+  text-align: center;
 }
+
 
 .product-table tbody tr:hover {
   background: #f8f9fa;
@@ -855,4 +865,41 @@ code {
     gap: 8px;
     margin-top: 10px;
   }
+}
+
+.btn-submit {
+  padding: 10px 20px;
+  background-color: #059669; /* xanh emerald-600 */
+  color: #ffffff;
+  font-weight: 600;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-submit:hover {
+  background-color: #047857; /* xanh đậm hơn */
+}
+
+.btn-submit:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Nút cancel */
+.btn-cancel {
+  padding: 10px 20px;
+  background-color: #e5e7eb; /* gray-200 */
+  color: #374151; /* gray-700 */
+  font-weight: 600;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-cancel:hover {
+  background-color: #d1d5db; /* gray-300 */
+  color: #111827; /* gray-900 */
 }

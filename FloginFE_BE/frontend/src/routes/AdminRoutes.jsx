@@ -1,12 +1,12 @@
 import { Route, Routes } from "react-router-dom";
 import AdminLayout from "../layouts/AdminLayout";
-import ProductManager from "../components/Product";
+import ProductPage from "../pages/ProductPage";
 
 const AdminRoutes = () => {
   return (
     <Routes>
       <Route element={<AdminLayout />}>
-        <Route path="products" element={<ProductManager />} />
+        <Route path="products" element={<ProductPage />} />
       </Route>
     </Routes>
   );
