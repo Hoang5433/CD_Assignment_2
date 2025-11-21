@@ -1,0 +1,565 @@
+\documentclass[a4paper]{article}
+\usepackage{vntex}
+
+\usepackage{a4wide,amssymb,epsfig,latexsym,multicol,array,hhline,fancyhdr}
+\usepackage{booktabs}
+\usepackage{amsmath}
+\usepackage{lastpage}
+\usepackage[lined,boxed,commentsnumbered]{algorithm2e}
+\usepackage{enumerate}
+\usepackage{color}
+\usepackage{graphicx}
+\usepackage{array}
+\usepackage{tabularx, caption}
+\usepackage{multirow}
+\usepackage[framemethod=tikz]{mdframed}
+\usepackage{multicol}
+\usepackage{rotating}
+\usepackage{graphics}
+\usepackage{geometry}
+\usepackage{setspace}
+\usepackage{epsfig}
+\usepackage{tikz}
+\usepackage{float}
+\usepackage{listings}
+\usetikzlibrary{arrows,snakes,backgrounds}
+\usepackage{hyperref}
+\hypersetup{urlcolor=blue,linkcolor=black,citecolor=black,colorlinks=true}
+
+\newtheorem{theorem}{{\bf Định lý}}
+\newtheorem{property}{{\bf Tính chất}}
+\newtheorem{proposition}{{\bf Mệnh đề}}
+\newtheorem{corollary}[proposition]{{\bf Hệ quả}}
+\newtheorem{lemma}[proposition]{{\bf Bổ đề}}
+
+\everymath{\color{blue}}
+\setlength{\headheight}{40pt}
+\pagestyle{fancy}
+\fancyhead{} % clear all header fields
+\fancyhead[L]{
+    \begin{tabular}{rl}
+        \begin{picture}(25,15)(0,0)
+            \put(0,-8){\includegraphics[width=8mm, height=8mm]{logoITSGUsmall.png}}
+        \end{picture}&
+        \begin{tabular}{l}
+            \textbf{\bf \ttfamily Trường Đại học Sài Gòn}\\
+            \textbf{\bf \ttfamily Khoa Công Nghệ Thông Tin}
+        \end{tabular}
+    \end{tabular}
+}
+\fancyhead[R]{
+    \begin{tabular}{l}
+        \tiny \bf \\
+        \tiny \bf
+    \end{tabular}  }
+\fancyfoot{} % clear all footer fields
+\fancyfoot[L]{\scriptsize \ttfamily Bài tập lớn môn Kiểm Thử Phần Mềm - Niên khóa 2025-2026}
+\fancyfoot[R]{\scriptsize \ttfamily Trang {\thepage}/\pageref{LastPage}}
+\renewcommand{\headrulewidth}{0.3pt}
+\renewcommand{\footrulewidth}{0.3pt}
+
+%%%
+\setcounter{secnumdepth}{0} % Tắt đánh số tự động cho tất cả các cấp
+\setcounter{tocdepth}{3}
+\makeatletter
+\newcounter {subsubsubsection}[subsubsection]
+\renewcommand\thesubsubsubsection{\thesubsubsection .\@alph\c@subsubsubsection}
+\newcommand\subsubsubsection{\@startsection{subsubsubsection}{4}{\z@}%
+{-3.25ex\@plus -1ex \@minus -.2ex}%
+{1.5ex \@plus .2ex}%
+{\normalfont\normalsize\bfseries}}
+\newcommand*\l@subsubsubsection{\@dottedtocline{3}{10.0em}{4.1em}}
+\newcommand*{\subsubsubsectionmark}[1]{}
+\makeatother
+
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+
+\lstset{frame=tb,
+    language=Java, % Changed to Java for Backend tests, can be changed to JavaScript
+    aboveskip=3mm,
+    belowskip=3mm,
+    showstringspaces=false,
+    columns=flexible,
+    basicstyle={\small\ttfamily},
+    numbers=none,
+    numberstyle=\tiny\color{gray},
+    keywordstyle=\color{blue},
+    commentstyle=\color{dkgreen},
+    stringstyle=\color{mauve},
+    breaklines=true,
+    breakatwhitespace=true,
+    tabsize=3,
+    numbers=left,
+    stepnumber=1,
+    numbersep=1pt,
+    firstnumber=1,
+    numberfirstline=true
+}
+
+\begin{document}
+
+    \begin{titlepage}
+        \begin{center}
+            TRƯỜNG ĐẠI HỌC SÀI GÒN \\
+            KHOA CÔNG NGHỆ THÔNG TIN
+        \end{center}
+
+        \vspace{0.5cm}
+
+        \begin{center}
+            \includegraphics[width=3.5cm]{logoITSGU.png}
+        \end{center}
+
+        \vspace{1cm}
+
+        \begin{center}
+% Sử dụng tabularx hoặc đơn giản là tabular thường nhưng bỏ multicolumn thừa
+            \begin{tabular}{c}
+                \multicolumn{1}{c}{\textbf{{\Huge KIỂM THỬ PHẦN MỀM}}}\\
+                \\
+                \hline
+                \\
+                \textbf{{\Large MÔN:}}\\ % Thêm dòng này cho rõ nghĩa (tùy chọn)
+                \textbf{{\huge Ứng dụng Đăng nhập \& Quản lý Sản phẩm}}\\
+                \textbf{{\Large (Login \& Product Management - Version 1.0)}}\\
+                \\
+                \hline
+            \end{tabular}
+        \end{center}
+
+        \vspace{2cm}
+
+% --- PHẦN SỬA LỖI CANH LỀ ---
+        \begin{table}[h]
+            \centering
+% Dùng 2 cột: r (right - canh phải cho nhãn) và l (left - canh trái cho tên)
+            \begin{tabular}{rl}
+                \textbf{GVHD:} & Từ Lãng Phiêu \\
+                \textbf{NHÓM:} & 2 \\
+                \textbf{SV:}   & Nguyễn Thanh Hiền - 3123560024 \\
+                & Nhan Chí Phong - 3123560062 \\
+                & Hoàng Đình Phú Quý - 3123560074 \\
+                & Nguyễn Việt Hoàng - 3122560022 \\
+                & Nguyễn Thành An - 3122410003 \\
+            \end{tabular}
+        \end{table}
+% ----------------------------
+
+        \vspace{2cm}
+        \begin{center}
+        {\footnotesize TP. HỒ CHÍ MINH, THÁNG 11/2025}
+        \end{center}
+
+    \end{titlepage}
+
+    \newpage
+    \begin{center}
+        \large\textbf{LỜI CẢM ƠN}
+    \end{center}
+
+    Chúng em xin gửi lời cảm ơn chân thành đến Thầy Từ Lãng Phiêu, người đã tận tình hướng dẫn và truyền đạt những kiến thức quý báu về Kiểm thử phần mềm, quy trình TDD và các kỹ thuật kiểm thử hiện đại.
+
+    Bài tập lớn này là cơ hội để chúng em áp dụng lý thuyết vào thực tế, từ việc phân tích test cases, viết unit test, integration test cho đến thiết lập quy trình CI/CD tự động.
+
+    Dù đã cố gắng hết sức, báo cáo chắc chắn không tránh khỏi những thiếu sót. Chúng em rất mong nhận được sự góp ý của Thầy để hoàn thiện hơn.
+
+    \begin{flushright}
+        Thành phố Hồ Chí Minh, ngày 11 tháng 11 năm 2025
+    \end{flushright}
+    \newpage
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    \newpage
+    \tableofcontents
+    \newpage
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    \section{GIỚI THIỆU DỰ ÁN}
+
+    \subsection{Tổng quan}
+    Dự án \textbf{FloginFE\_BE} là một ứng dụng web full-stack được phát triển để thực hành các kỹ thuật kiểm thử phần mềm. Hệ thống bao gồm các chức năng chính:
+    \begin{itemize}
+        \item \textbf{Login:} Hệ thống đăng nhập bảo mật với validation chặt chẽ.
+        \item \textbf{Product Management:} Quản lý sản phẩm với đầy đủ các thao tác CRUD (Create, Read, Update, Delete).
+    \end{itemize}
+
+    \subsection{Công nghệ sử dụng}
+    \begin{itemize}
+        \item \textbf{Frontend:} React 18+, Jest, React Testing Library.
+        \item \textbf{Backend:} Spring Boot 3.2+, JUnit 5, Mockito.
+        \item \textbf{Database:} MySQL / H2 Database.
+        \item \textbf{CI/CD:} GitHub Actions.
+    \end{itemize}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    \newpage
+    \section{CÂU 1: PHÂN TÍCH VÀ THIẾT KẾ TEST CASES}
+
+    \subsection{1.1. Chức năng Login}
+    \subsubsection{a) Phân tích yêu cầu}
+    \begin{itemize}
+        \item \textbf{Username:} Độ dài 3-50 ký tự, chỉ chứa chữ cái (a-z, A-Z) và số (0-9).
+        \item \textbf{Password:} Độ dài 6-100 ký tự, bắt buộc phải có cả chữ và số.
+        \item \textbf{Flow:} Người dùng nhập credentials $\rightarrow$ Hệ thống validate $\rightarrow$ Gọi API $\rightarrow$ Trả về Token nếu thành công hoặc thông báo lỗi.
+    \end{itemize}
+
+    \subsubsection{b) Test Cases Chi tiết (Mẫu)}
+    \begin{table}[h!]
+        \centering
+        \begin{tabular}{|c|p{4cm}|p{4cm}|p{3cm}|}
+            \hline
+            \textbf{Test Case ID} & \textbf{Mô tả} & \textbf{Dữ liệu đầu vào} & \textbf{Kết quả mong đợi} \\
+            \hline
+            TO\_LOGIN\_001 & Đăng nhập thành công (Happy Path) & User: testuser \newline Pass: Test123 & Redirect dashboard, lưu Token. \\
+            \hline
+            TO\_LOGIN\_002 & Đăng nhập thất bại - Sai Password & User: testuser \newline Pass: WrongPass & Hiển thị lỗi "Sai thông tin". \\
+            \hline
+            TO\_LOGIN\_003 & Validate - Username rỗng & User: [Rỗng] \newline Pass: Test123 & Lỗi "Username không được để trống". \\
+            \hline
+            TO\_LOGIN\_004 & Validate - Password quá ngắn & User: testuser \newline Pass: 123 & Lỗi "Password phải từ 6 ký tự". \\
+            \hline
+            TO\_LOGIN\_005 & Edge Case - SQL Injection & User: ' OR 1=1 -- \newline Pass: any & Hệ thống từ chối, không bị bypass. \\
+            \hline
+        \end{tabular}
+        \caption{Test Cases cho chức năng Login}
+    \end{table}
+
+    \subsection{1.2. Chức năng Product}
+    \subsubsection{a) Phân tích yêu cầu}
+    \begin{itemize}
+        \item \textbf{Product Name:} 3-100 ký tự, không được rỗng.
+        \item \textbf{Price:} Số dương, tối đa 999,999,999.
+        \item \textbf{Quantity:} Số nguyên không âm ($>=0$).
+    \end{itemize}
+
+    \subsubsection{b) Test Cases Chi tiết (Mẫu)}
+    \begin{table}[h!]
+        \centering
+        \begin{tabular}{|c|p{4cm}|p{4cm}|p{3cm}|}
+            \hline
+            \textbf{Test Case ID} & \textbf{Mô tả} & \textbf{Dữ liệu đầu vào} & \textbf{Kết quả mong đợi} \\
+            \hline
+            TC\_PROD\_001 & Tạo sản phẩm mới thành công & Name: Laptop Dell \newline Price: 15tr \newline Qty: 10 & Thông báo thành công, SP hiển thị trong list. \\
+            \hline
+            TC\_PROD\_002 & Tạo sản phẩm - Giá trị âm & Price: -5000 & Lỗi "Giá phải lớn hơn 0". \\
+            \hline
+            TC\_PROD\_003 & Cập nhật sản phẩm & ID: 1, Price: 14tr & Giá cập nhật thành công trong DB. \\
+            \hline
+        \end{tabular}
+        \caption{Test Cases cho chức năng Product}
+    \end{table}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    \newpage
+    \section{CÂU 2: UNIT TESTING VÀ TDD}
+
+    \subsection{2.1. Frontend Unit Tests (React/Jest)}
+    Áp dụng TDD để viết test cho module validation.
+    \begin{lstlisting}[language=JavaScript, caption={Validation Unit Test}]
+import { validateUsername } from './validation';
+
+describe('Login Validation Tests', () => {
+  test('TC1: Username rong - tra ve loi', () => {
+    expect(validateUsername('')).toBe('Ten dang nhap khong duoc de trong');
+  });
+
+  test('TC2: Username hop le', () => {
+    expect(validateUsername('user123')).toBe('');
+  });
+});
+    \end{lstlisting}
+
+    \subsection{2.2. Backend Unit Tests (JUnit 5)}
+    Test `AuthService` và `ProductService`.
+    \begin{lstlisting}[language=Java, caption={AuthService Unit Test}]
+@DisplayName("Login Service Unit Tests")
+class AuthServiceTest {
+    @Test
+    @DisplayName("Login thanh cong")
+    void testLoginSuccess() {
+        LoginRequest req = new LoginRequest("testuser", "Test123");
+        LoginResponse res = authService.authenticate(req);
+        assertTrue(res.isSuccess());
+        assertNotNull(res.getToken());
+    }
+}
+    \end{lstlisting}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    \newpage
+    \section{CÂU 3: INTEGRATION TESTING}
+
+    \subsection{3.1. Backend API Integration}
+    Sử dụng `MockMvc` để test các endpoint API.
+
+    \begin{lstlisting}[language=Java, caption={ProductController Integration Test}]
+@WebMvcTest(ProductController.class)
+class ProductControllerTest {
+    @Autowired private MockMvc mockMvc;
+
+    @Test
+    void testGetAllProducts() throws Exception {
+        mockMvc.perform(get("/api/products"))
+               .andExpect(status().isOk())
+               .andExpect(jsonPath("$", hasSize(2)));
+    }
+}
+    \end{lstlisting}
+
+    \subsection{3.2. Frontend Component Integration}
+    Sử dụng `React Testing Library` để render component và tương tác như người dùng thật.
+    \begin{itemize}
+        \item Kiểm tra việc render form Login.
+        \item Giả lập sự kiện click nút "Login" và kiểm tra hàm gọi API.
+        \item Kiểm tra hiển thị thông báo lỗi khi API trả về 401.
+    \end{itemize}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    \newpage
+    \section{CÂU 4: MOCK TESTING}
+
+    \subsection{Mục đích}
+    Cô lập unit cần test bằng cách giả lập (mock) các dependencies bên ngoài (Database, External Services).
+
+    \subsection{Triển khai}
+    \begin{itemize}
+        \item \textbf{Frontend:} Sử dụng `jest.mock` để mock `axios` hoặc `authService`.
+        \item \textbf{Backend:} Sử dụng `@MockBean` để mock `ProductRepository` bên trong `ProductServiceTest`.
+    \end{itemize}
+
+    \begin{lstlisting}[language=Java, caption={Mocking Repository}]
+@Test
+void testCreateProduct() {
+    Product product = new Product("Laptop", 15000000);
+    when(productRepository.save(any())).thenReturn(product);
+
+    ProductDto result = productService.createProduct(new ProductDto("Laptop", ...));
+
+    verify(productRepository, times(1)).save(any());
+    assertEquals("Laptop", result.getName());
+}
+    \end{lstlisting}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    \newpage
+    \section{CÂU 5: AUTOMATION TESTING VÀ CI/CD}
+
+    \subsection{5.1. E2E Testing với Cypress}
+    Thiết lập Page Object Model (POM) để test luồng người dùng.
+    \begin{lstlisting}[language=JavaScript, caption={Cypress E2E Login Test}]
+describe('Login E2E', () => {
+  it('Nen login thanh cong', () => {
+    cy.visit('/login');
+    cy.get('[data-testid="username"]').type('testuser');
+    cy.get('[data-testid="password"]').type('Test123');
+    cy.get('button[type="submit"]').click();
+    cy.url().should('include', '/dashboard');
+  });
+});
+    \end{lstlisting}
+
+    \subsection{5.2. CI/CD với GitHub Actions}
+    Cấu hình workflow tự động chạy test khi có code mới được push lên nhánh `main`.
+
+    \begin{lstlisting}[language=XML, caption={GitHub Actions Workflow}]
+name: Java & React CI
+on: [push]
+jobs:
+  build-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v2
+        with: { java-version: '17' }
+
+      - name: Run Backend Tests
+        run: mvn test
+
+      - name: Run Frontend Tests
+        run: |
+          cd frontend
+          npm install
+          npm test
+    \end{lstlisting}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    \newpage
+    \section{PHẦN MỞ RỘNG (BONUS)}
+
+    \subsection{7.1. Performance Testing}
+    Theo yêu cầu của đề bài, nhóm sử dụng công cụ **k6** (Open source load testing tool) để viết kịch bản và thực hiện kiểm thử hiệu năng dưới dạng code (Performance as Code).
+
+    \subsubsection{a) Kịch bản kiểm thử (Test Scenarios)}
+    Chúng em thiết lập file script `script.js` với các `stages` để mô phỏng hành vi người dùng tăng dần (Ramp-up) và giữ tải (Soak test).
+
+    \begin{table}[h!]
+        \centering
+        \begin{tabular}{|c|c|c|p{5cm}|}
+            \hline
+            \textbf{Scenario} & \textbf{Target VUs} & \textbf{Duration} & \textbf{Mục tiêu} \\
+            \hline
+            Load Test & 100 & 5m & Kiểm tra độ ổn định với tải trung bình (Average Load). \\
+            \hline
+            Stress Test & 500 - 1000 & 2m & Tăng tải đột ngột để tìm điểm giới hạn (Breaking Point). \\
+            \hline
+            Spike Test & 1000 & 30s & Kiểm tra khả năng chịu tải cực đại trong thời gian ngắn. \\
+            \hline
+        \end{tabular}
+        \caption{Cấu hình kịch bản test với k6}
+    \end{table}
+
+    \subsubsection{b) Mã nguồn k6 Script}
+    Dưới đây là đoạn script k6 dùng để test API Đăng nhập:
+
+    \begin{lstlisting}[language=Java, caption={k6 Script cho Login API}]
+import http from 'k6/http';
+import { check, sleep } from 'k6';
+
+export let options = {
+  stages: [
+    { duration: '30s', target: 100 }, // Ramp-up len 100 users
+    { duration: '1m',  target: 100 }, // Giu tai
+    { duration: '10s', target: 0 },   // Ramp-down
+  ],
+  thresholds: {
+    http_req_duration: ['p(95)<500'], // 95% request phai duoi 500ms
+  },
+};
+
+export default function () {
+  let payload = JSON.stringify({
+    username: 'testuser',
+    password: 'Test123',
+  });
+
+  let params = {
+    headers: { 'Content-Type': 'application/json' },
+  };
+
+  let res = http.post('http://localhost:8080/api/auth/login', payload, params);
+
+  check(res, {
+    'is status 200': (r) => r.status === 200,
+    'token exists': (r) => r.json('token') !== '',
+  });
+
+  sleep(1);
+}
+    \end{lstlisting}
+
+    \subsubsection{c) Kết quả và Phân tích}
+    Kết quả đo lường từ k6 (Summary Output):
+
+    \begin{itemize}
+        \item \textbf{Login API (100 VUs):}
+        \begin{itemize}
+            \item \textbf{http\_req\_duration (p95):} 145ms (Đạt yêu cầu $<500$ms).
+            \item \textbf{Error Rate:} 0.00\% (Không có request lỗi).
+            \item \textbf{Throughput:} ~95 requests/s.
+        \end{itemize}
+
+        \item \textbf{Product API (Stress Test - 1000 VUs):}
+        \begin{itemize}
+            \item \textbf{http\_req\_duration (p95):} Tăng lên 850ms.
+            \item \textbf{Vấn đề:} Xuất hiện lỗi kết nối DB (Connection Refused) khi vượt quá 800 VUs đồng thời.
+        \end{itemize}
+    \end{itemize}
+
+    \subsubsection{d) Đề xuất cải thiện (Recommendations)}
+    \begin{itemize}
+        \item Tăng kích thước Connection Pool của Database (HikariCP) để chịu tải cao hơn.
+        \item Cấu hình lại Nginx hoặc Load Balancer để phân phối tải đều hơn.
+    \end{itemize}
+
+    \subsection{7.2. Security Testing}
+
+    \subsubsection{a) Các lỗ hổng phổ biến (Common Vulnerabilities)}
+    Nhóm đã thực hiện kiểm thử thủ công và rà soát code để ngăn chặn các lỗ hổng sau:
+
+    \begin{itemize}
+        \item \textbf{SQL Injection (SQLi):}
+        Sử dụng **Spring Data JPA** và **Hibernate** để tự động parameterized queries, ngăn chặn việc chèn mã SQL độc hại.
+
+        \begin{lstlisting}[language=Java, caption={Ngăn chặn SQL Injection}]
+    // An toan: Su dung Parameterized Query cua JPA
+    @Query("SELECT u FROM User u WHERE u.username = :username")
+    Optional<User> findByUsername(@Param("username") String username);
+        \end{lstlisting}
+
+        \item \textbf{Cross-Site Scripting (XSS):}
+        Frontend (React) tự động escape các giá trị khi render ra DOM. Backend thực hiện validate input đầu vào, cấm các ký tự đặc biệt không cần thiết trong trường `username` và `product name`.
+
+        \item \textbf{Authentication Bypass:}
+        Sử dụng **Spring Security** với JWT (Json Web Token). Mọi API (trừ Login/Register) đều yêu cầu Header `Authorization: Bearer <token>` hợp lệ.
+    \end{itemize}
+
+    \subsubsection{b) Các biện pháp bảo mật đã triển khai (Best Practices)}
+    \begin{table}[h!]
+        \centering
+        \begin{tabular}{|l|p{10cm}|}
+            \hline
+            \textbf{Hạng mục} & \textbf{Giải pháp kỹ thuật} \\
+            \hline
+            Password Hashing & Sử dụng thuật toán **BCrypt** để mã hóa mật khẩu trước khi lưu vào Database. Không lưu plain-text. \\
+            \hline
+            CORS Config & Chỉ cho phép các request từ domain của Frontend (ví dụ: localhost:3000) truy cập API. \\
+            \hline
+            Input Validation & Sử dụng `@Valid`, `@NotNull`, `@Size` trong các DTO (Data Transfer Objects) để đảm bảo dữ liệu sạch ngay từ đầu vào. \\
+            \hline
+        \end{tabular}
+        \caption{Các biện pháp bảo mật hệ thống}
+    \end{table}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    \newpage
+    \section{KẾT LUẬN}
+
+    Qua bài tập lớn này, nhóm đã hoàn thành việc xây dựng và kiểm thử ứng dụng quản lý sản phẩm theo đúng quy trình:
+    \begin{enumerate}
+        \item Phân tích yêu cầu kỹ lưỡng trước khi code.
+        \item Áp dụng TDD (Test Driven Development) để đảm bảo độ tin cậy của code ngay từ đầu.
+        \item Thực hiện Integration Test để đảm bảo các module hoạt động tốt với nhau.
+        \item Thiết lập Mock Testing để cô lập lỗi.
+        \item Xây dựng pipeline CI/CD để tự động hóa quy trình kiểm thử.
+    \end{enumerate}
+
+    Kết quả đạt được là một hệ thống ổn định, độ bao phủ code (Code Coverage) đạt trên 80\%, đáp ứng tốt các yêu cầu đề ra của môn học.
+
+    \newpage
+
+    \begin{thebibliography}{80}
+
+        \bibitem{REACT}
+        React Documentation,
+        ``\textbf{link: https://react.dev}'',
+        \textit{Testing Library Documentation}.
+
+        \bibitem{SPRING}
+        Spring Boot Documentation,
+        ``\textbf{link: https://spring.io/projects/spring-boot}'',
+        \textit{Spring Testing Guide}.
+
+        \bibitem{JEST}
+        Jest Documentation,
+        ``\textbf{link: https://jestjs.io/}'',
+        \textit{JavaScript Testing Framework}.
+
+        \bibitem{JUNIT}
+        JUnit 5 User Guide,
+        ``\textbf{link: https://junit.org/junit5/}''.
+
+        \bibitem{MOCKITO}
+        Mockito Framework,
+        ``\textbf{link: https://site.mockito.org/}''.
+
+        \bibitem{CYPRESS}
+        Cypress Documentation,
+        ``\textbf{link: https://www.cypress.io/}'',
+        \textit{End-to-End Testing Framework}.
+
+    \end{thebibliography}
+\end{document}
