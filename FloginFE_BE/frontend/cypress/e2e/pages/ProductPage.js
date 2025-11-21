@@ -32,7 +32,7 @@ class ProductPage {
                 cy.get('[data-testid="product-quantity"]').clear().type(product.quantity);
             }
             if (product.categoryId) {
-                cy.get('[data-testid="product-category"]').select(product.categoryId);
+                cy.get('[data-testid="product-category"]').should('be.visible').select(String(product.categoryId));
             }
             if (product.description) {
                 cy.get('[data-testid="product-description"]').clear().type(product.description);
@@ -41,7 +41,7 @@ class ProductPage {
             if (product.name) cy.get('[data-testid="product-name"]').type(product.name);
             if (product.price) cy.get('[data-testid="product-price"]').type(product.price);
             if (product.quantity) cy.get('[data-testid="product-quantity"]').type(product.quantity);
-            if (product.categoryId) cy.get('[data-testid="product-category"]').select(product.categoryId);
+            if (product.categoryId) cy.get('[data-testid="product-category"]').should('be.visible').select(String(product.categoryId));
             if (product.description) cy.get('[data-testid="product-description"]').type(product.description);
         }
     }

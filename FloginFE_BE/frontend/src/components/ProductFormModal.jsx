@@ -5,12 +5,37 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { getCategoryIdFromName } from "../utils/helper";
 
 const productSchema = z.object({
-  productName: z.string().min(3).max(100),
-  price: z.preprocess((v) => Number(v), z.number().positive()),
-  quantity: z.preprocess((v) => Number(v), z.number().int().min(0)),
-  categoryId: z.string().nonempty(),
-  description: z.string().max(500).optional().or(z.literal("")),
+  productName: z
+      .string()
+      .min(3, "Tên sản phẩm phải ít nhất 3 ký tự")
+      .max(100, "Tên sản phẩm không quá 100 ký tự"),
+
+  price: z.preprocess(
+      (val) => (typeof val === "string" ? Number(val) : val),
+      z
+          .number()
+          .positive("Giá phải lớn hơn 0")
+          .max(999_999_999, "Giá không vượt quá 999,999,999")
+  ),
+
+  quantity: z.preprocess(
+      (val) => (val === "" || val === undefined ? 0 : Number(val)),
+      z
+          .number()
+          .int("Số lượng phải là số nguyên")
+          .min(0, "Số lượng >= 0")
+          .max(99_999, "Số lượng không vượt quá 99,999")
+  ),
+
+  categoryId: z.coerce.number(),
+
+  description: z
+      .string()
+      .max(500, "Mô tả không quá 500 ký tự")
+      .optional()
+      .or(z.literal("")),
 });
+
 
 const ProductFormModal = ({ categories, product, onClose, onSubmit }) => {
   const {
@@ -39,7 +64,7 @@ const ProductFormModal = ({ categories, product, onClose, onSubmit }) => {
       categoryId: getCategoryIdFromName(product?.category?.name, categories) || "",
       description: product?.description || "",
     });
-  }, [product, reset]);
+  }, [product, reset, categories]);
 
   const submitHandler = async (data) => {
     await onSubmit({
@@ -72,7 +97,7 @@ const ProductFormModal = ({ categories, product, onClose, onSubmit }) => {
 
           <div className="form-group">
             <label>Giá</label>
-            <input type="number" step="1000" {...register("price")} />
+            <input type="number" step="1000" {...register("price")} data-testid="product-price" />
             {errors.price && (
               <p className="field-error">{errors.price.message}</p>
             )}
@@ -80,7 +105,7 @@ const ProductFormModal = ({ categories, product, onClose, onSubmit }) => {
 
           <div className="form-group">
             <label>Số lượng</label>
-            <input type="number" {...register("quantity")} />
+            <input type="number" {...register("quantity")} data-testid="product-quantity" />
             {errors.quantity && (
               <p className="field-error">{errors.quantity.message}</p>
             )}
@@ -92,7 +117,7 @@ const ProductFormModal = ({ categories, product, onClose, onSubmit }) => {
               name="categoryId"
               control={control}
               render={({ field }) => (
-                <select {...field}>
+                <select {...field} data-testid="product-category">
                   <option value="">-- Chọn danh mục --</option>
                   {categories.map((cat) => (
                     <option key={cat.id} value={cat.id}>
@@ -109,7 +134,7 @@ const ProductFormModal = ({ categories, product, onClose, onSubmit }) => {
 
           <div className="form-group">
             <label>Mô tả</label>
-            <textarea {...register("description")}></textarea>
+            <textarea {...register("description")} data-testid="product-description"></textarea>
           </div>
 
           <div className="form-actions">
