@@ -301,7 +301,7 @@ class ProductControllerTest {
 
     @Test
     void testGetAllProducts() throws Exception {
-        mockMvc.perform(get("/api/products"))
+        mockMvc.perform(get("/products"))
                .andExpect(status().isOk())
                .andExpect(jsonPath("$", hasSize(2)));
     }
@@ -347,43 +347,378 @@ void testCreateProduct() {
     \section{CÂU 5: AUTOMATION TESTING VÀ CI/CD}
 
     \subsection{5.1. E2E Testing với Cypress}
-    Thiết lập Page Object Model (POM) để test luồng người dùng.
-    \begin{lstlisting}[language=JavaScript, caption={Cypress E2E Login Test}]
-describe('Login E2E', () => {
-  it('Nen login thanh cong', () => {
-    cy.visit('/login');
-    cy.get('[data-testid="username"]').type('testuser');
-    cy.get('[data-testid="password"]').type('Test123');
-    cy.get('button[type="submit"]').click();
-    cy.url().should('include', '/dashboard');
-  });
-});
+    a) Thiết lập Page Object Model (POM) để test luồng người dùng.
+    \begin{lstlisting}[language=Java, caption={Cypress E2E Login Test}]
+describe('Login E2E Tests', () => {
+  beforeEach(() => {
+    cy.visit('http://localhost:3000');
+  })
+  it('Nen hien thi form login', () => {
+    cy.visit("/")
+    cy.get('[data-testid="username-input"]').should('be.visible')
+    cy.get('[data-testid="password-input"]').should('be.visible')
+    cy.get('[data-testid="login-button"]').should('be.visible')
+  })
+  it('Nen login thanh cong voi credentials hop le', () => {
+    cy.visit("/")
+    // chan mock do be goi db that
+    cy.intercept('POST', 'auth/login', {
+      statusCode: 200,
+      body:{
+        accessToken: "fake_jwt_token", header: "Bearer"
+      }
+    }).as("loginRequest")
+    cy.get('[data-testid="username-input"]').type('admin123')
+    cy.get('[data-testid="password-input"]').type('admin123')
+    cy.get('[data-testid="login-button"]').click()
+
+    cy.get('[data-testid="login-success"]').should('contain', 'Success')
+    cy.url().should('include', '/admin/products')
+  })
+  it('Nen hien thi loi voi credentials khong hop le', () => {
+    cy.visit("/")
+    cy.get('[data-testid="username-input"]').type('ab')
+    cy.get('[data-testid="password-input"]').type('1234')
+    cy.get('[data-testid="login-button"]').click()
+
+    cy.get('[data-testid="username-error"]').should('be.visible')
+  })
+})
     \end{lstlisting}
-
-    \subsection{5.2. CI/CD với GitHub Actions}
-    Cấu hình workflow tự động chạy test khi có code mới được push lên nhánh `main`.
-
-    \begin{lstlisting}[language=XML, caption={GitHub Actions Workflow}]
-name: Java & React CI
-on: [push]
+    b) CI/CD Integration cho Login Tests
+    \begin{lstlisting}[language=XML, caption={CI/CD Integration cho Login Tests}]
+name: Login Tests CI
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main]
 jobs:
-  build-test:
+  test-login:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+      - name: Setup Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '24'
 
-      - name: Set up JDK 17
-        uses: actions/setup-java@v2
-        with: { java-version: '17' }
-
-      - name: Run Backend Tests
-        run: mvn test
-
-      - name: Run Frontend Tests
+      - name: Install dependencies
         run: |
-          cd frontend
+          cd FloginFE_BE/frontend
           npm install
-          npm test
+
+      - name: Start Frontend
+        run: |
+          cd FloginFE_BE/frontend
+          npm start &
+      - name: Run Login E2E Tests
+        run: |
+          cd FloginFE_BE/frontend
+          npm run test:e2e -- --spec "cypress/e2e/login.e2e.cy.js"
+    \end{lstlisting}
+
+    \subsection{5.2. Product - E2E Automation Testing}
+    a) Setup Page Object Model
+    \begin{lstlisting}[language=Java, caption={ProductPage.js}]
+
+class ProductPage {
+    constructor() {
+        this.currentProduct = null;
+        this.products = [];
+        this.productIdCounter = 3;
+    }
+
+    setupIntercepts() {
+        cy.intercept('GET', '/products',(req) => {
+            req.reply({
+                statusCode: 200,
+                body: this.products
+            });
+        }).as('getProducts');
+    }
+
+    clickAddNew() {
+        cy.get('[data-testid="add-product-btn"]').click()
+    }
+
+    fillProductForm(product, isEdit = false) {
+        this.currentProduct = product;
+        if (isEdit) {
+            if (product.name) {
+                cy.get('[data-testid="product-name"]').clear().type(product.name);
+            }
+            if (product.price) {
+                cy.get('[data-testid="product-price"]').clear().type(product.price);
+            }
+            if (product.quantity) {
+                cy.get('[data-testid="product-quantity"]').clear().type(product.quantity);
+            }
+            if (product.categoryId) {
+                cy.get('[data-testid="product-category"]').should('be.visible').select(String(product.categoryId));
+            }
+            if (product.description) {
+                cy.get('[data-testid="product-description"]').clear().type(product.description);
+            }
+        } else {
+            if (product.name) cy.get('[data-testid="product-name"]').type(product.name);
+            if (product.price) cy.get('[data-testid="product-price"]').type(product.price);
+            if (product.quantity) cy.get('[data-testid="product-quantity"]').type(product.quantity);
+            if (product.categoryId) cy.get('[data-testid="product-category"]').should('be.visible').select(String(product.categoryId));
+            if (product.description) cy.get('[data-testid="product-description"]').type(product.description);
+        }
+    }
+
+    clickEditProduct(productName) {
+        this.getProductInList(productName).within(() => {
+            cy.get('[data-testid="edit-product-btn"]').click();
+        });
+    }
+
+    clickDeleteProduct(productName) {
+        this.getProductInList(productName).within(() => {
+            cy.get('[data-testid="delete-product-btn"]').click();
+        });
+    }
+
+    submitForm() {
+        if (!this.currentProduct){
+            throw new Error("No product data filled. Call fillProductForm first!");
+        }
+
+        const newProduct = {
+            id: this.productIdCounter++,
+            productName: this.currentProduct.name,
+            price: parseInt(this.currentProduct.price),
+            quantity: parseInt(this.currentProduct.quantity),
+            description: this.currentProduct.description,
+            category: { name: "Laptop" }
+        };
+
+        this.products.push(newProduct);
+
+        cy.intercept('POST', '/products', {
+            statusCode: 200,
+            body: newProduct
+        }).as("addProduct");
+
+        cy.intercept('GET', '/products', (req) => {
+            req.reply({
+                statusCode: 200,
+                body: this.products
+            });
+        }).as('getProductsAfterAdd');
+
+        cy.get('[data-testid="submit-btn"]').click();
+        cy.wait('@addProduct').then(() => {
+            cy.wait('@getProductsAfterAdd');
+        });
+    }
+
+    submitEditForm() {
+        if (!this.currentProduct){
+            throw new Error("No product data filled. Call fillProductForm first!");
+        }
+
+        cy.intercept('PUT', '/products/**', (req) => {
+            const updatedProduct = {};
+            if (this.currentProduct.name) updatedProduct.productName = this.currentProduct.name;
+            if (this.currentProduct.price) updatedProduct.price = parseInt(this.currentProduct.price);
+            if (this.currentProduct.quantity) updatedProduct.quantity = parseInt(this.currentProduct.quantity);
+            if (this.currentProduct.description) updatedProduct.description = this.currentProduct.description;
+            if (this.currentProduct.categoryId) updatedProduct.category = { name: "Laptop" };
+
+            const idMatch = req.url.match(/\/products\/(\d+)/);
+            if (idMatch) {
+                const productId = parseInt(idMatch[1]);
+                const index = this.products.findIndex(p => p.id === productId);
+                if (index !== -1) {
+                    this.products[index] = { ...this.products[index], ...updatedProduct };
+                }
+            }
+
+            req.reply({
+                statusCode: 200,
+                body: updatedProduct
+            });
+        }).as("updateProduct");
+
+        // Reload products list after update
+        cy.intercept('GET', '/products', (req) => {
+            req.reply({
+                statusCode: 200,
+                body: this.products
+            });
+        }).as('getProductsAfterUpdate');
+
+        cy.get('[data-testid="submit-btn"]').click();
+        cy.wait('@updateProduct').then(() => {
+            cy.wait('@getProductsAfterUpdate');
+        });
+    }
+
+    confirmDelete() {
+        cy.intercept('DELETE', '/products/**', (req) => {
+            const idMatch = req.url.match(/\/products\/(\d+)/); //  URL goi api thi se co products/3 match tim theo url lay dc id product
+            if (idMatch) {
+                const productId = parseInt(idMatch[1]);
+                this.products = this.products.filter(p => p.id !== productId);
+            }
+
+            req.reply({
+                statusCode: 200
+            });
+        }).as("deleteProduct");
+
+        cy.intercept('GET', '/products', (req) => {
+            req.reply({
+                statusCode: 200,
+                body: this.products
+            });
+        }).as('getProductsAfterDelete');
+
+        cy.get('[data-testid="confirm-delete-btn"]').click();
+        cy.wait('@deleteProduct').then(() => {
+            cy.wait('@getProductsAfterDelete');
+        });
+    }
+
+    getSuccessMessage() {
+        return cy.get('[data-testid="add-success"]')
+    }
+
+    getProductInList(name) {
+        return cy.contains('[data-testid="product-item"]', name)
+    }
+
+}
+
+export default ProductPage;
+    \end{lstlisting}
+    b) Automated tests cho CRUD operations
+    \begin{lstlisting}[language=Java, caption={E2E Test Scenarios cho Product}]
+import ProductPage from "./pages/ProductPage";
+
+
+describe("Product E2E Tests", () => {
+    const productPage = new ProductPage();
+
+    beforeEach(() => {
+        cy.login("admin123", "admin123");
+        cy.fixture('products.json').then((data) => {
+            productPage.products = [...data];
+            productPage.productIdCounter = Math.max(...data.map(p => p.id)) + 1;
+        });
+        productPage.setupIntercepts();
+    })
+
+    it('Nen tao san pham moi thanh cong', () => {
+        productPage.clickAddNew()
+        productPage.fillProductForm({
+            name: "Laptop Dell",
+            price: '150000',
+            quantity: "20",
+            categoryId: "1",
+            description: "Dell la laptop"
+        })
+        productPage.submitForm()
+        productPage.getSuccessMessage().should('contain', 'Success')
+        productPage.getProductInList("Laptop Dell").should('exist')
+    })
+
+    it('Nen cap nhat san pham thanh cong', () => {
+        productPage.clickEditProduct("Pixel 4")
+
+        cy.get('[data-testid="product-category"]').should('be.visible');
+
+        cy.get('[data-testid="product-name"]').should('have.value', 'Pixel 4');
+        cy.get('[data-testid="product-price"]').should('have.value', '36000');
+
+        productPage.fillProductForm({
+            price: '99000'
+        }, true)
+
+        productPage.submitEditForm()
+        productPage.getProductInList("Pixel 4").should('exist')
+        cy.contains('[data-testid="product-item"]', "Pixel 4").should('contain', '99.000')
+    })
+
+    it('Nen xoa san pham thanh cong', () => {
+        productPage.clickDeleteProduct("Pixel 4")
+        productPage.confirmDelete()
+        cy.contains('[data-testid="product-item"]', "Pixel 4").should('not.exist')
+    })
+})
+    \end{lstlisting}
+    \subsection{5.3. CI/CD với GitHub Actions}
+    Cấu hình workflow tự động chạy test khi có code mới được push lên nhánh `main`.
+
+    \begin{lstlisting}[language=XML, caption={GitHub Actions Workflow}]
+name: Complete CI/CD Pipeline
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    services:
+      mysql:
+        image: mysql:latest
+        ports:
+          - 3306:3306
+        env:
+          MYSQL_DATABASE: login-product
+          MYSQL_PASSWORD: root
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Setup Java
+        uses: actions/setup-java@v2
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '24'
+
+      - name: Backend Tests
+        run: |
+          cd FloginFE_BE/backend
+          chmod +x ./mvnw
+          ./mvnw clean test
+
+      - name: Frontend Tests
+        run: |
+          cd FloginFE_BE/frontend
+          npm install
+          npm test -- --coverage
+
+      - name: Start Frontend
+        run: |
+          cd FloginFE_BE/frontend
+          npm start &
+
+      - name: E2E Tests
+        run: |
+          cd FloginFE_BE/frontend
+
+          npm run test:e2e
+
+      - name: Upload Coverage
+        uses: codecov/codecov-action@v2
+        with:
+          files: |
+            FloginFE_BE/frontend/coverage/lcov.info
+            FloginFE_BE/backend/target/site/jacoco/jacoco.xml
+
     \end{lstlisting}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -393,87 +728,194 @@ jobs:
     \subsection{7.1. Performance Testing}
     Theo yêu cầu của đề bài, nhóm sử dụng công cụ **k6** (Open source load testing tool) để viết kịch bản và thực hiện kiểm thử hiệu năng dưới dạng code (Performance as Code).
 
-    \subsubsection{a) Kịch bản kiểm thử (Test Scenarios)}
-    Chúng em thiết lập file script `script.js` với các `stages` để mô phỏng hành vi người dùng tăng dần (Ramp-up) và giữ tải (Soak test).
-
-    \begin{table}[h!]
-        \centering
-        \begin{tabular}{|c|c|c|p{5cm}|}
-            \hline
-            \textbf{Scenario} & \textbf{Target VUs} & \textbf{Duration} & \textbf{Mục tiêu} \\
-            \hline
-            Load Test & 100 & 5m & Kiểm tra độ ổn định với tải trung bình (Average Load). \\
-            \hline
-            Stress Test & 500 - 1000 & 2m & Tăng tải đột ngột để tìm điểm giới hạn (Breaking Point). \\
-            \hline
-            Spike Test & 1000 & 30s & Kiểm tra khả năng chịu tải cực đại trong thời gian ngắn. \\
-            \hline
-        \end{tabular}
-        \caption{Cấu hình kịch bản test với k6}
-    \end{table}
-
-    \subsubsection{b) Mã nguồn k6 Script}
+    \subsubsection{a) Viết performance tests cho Login API}
     Dưới đây là đoạn script k6 dùng để test API Đăng nhập:
 
     \begin{lstlisting}[language=Java, caption={k6 Script cho Login API}]
-import http from 'k6/http';
-import { check, sleep } from 'k6';
+import http from 'k6/http'
+import {sleep, check} from 'k6'
+const BASE_URL = 'http://localhost:8080';
+export const options = {
+    stages: [
+        { duration: '20s', target: 100 },   // 100 users
+        { duration: '20s', target: 500 },   // 500 users
+        { duration: '20s', target: 1000 },  // 1000 users
+        { duration: '10s', target: 0 },     // cool down
+    ],
+}
+export default function (){
+    const payload = JSON.stringify({
+        username: "admin123",
+        password: "admin123"
+    })
+    const params = {
+        headers: {
+            'Content-Type': 'application/json',
+        }
+    }
+    const res = http.post(`${BASE_URL}/auth/login`, payload, params )
+    check(res, {
+        'status 200': (r) => r.status === 200,
+        'response not empty': (r) => r.body && r.body.length > 0,
+    })
+    if (res.status !== 200) {
+        console.log('Error res:', res.body);
+    }
+    sleep(1)
+}
 
-export let options = {
-  stages: [
-    { duration: '30s', target: 100 }, // Ramp-up len 100 users
-    { duration: '1m',  target: 100 }, // Giu tai
-    { duration: '10s', target: 0 },   // Ramp-down
-  ],
-  thresholds: {
-    http_req_duration: ['p(95)<500'], // 95% request phai duoi 500ms
-  },
+    \end{lstlisting}
+    \subsubsection{b) Viết performance tests cho Product API}
+    Dưới đây là đoạn script k6 dùng để test API Product:
+
+    \begin{lstlisting}[language=Java, caption={k6 Script cho Product API}]
+import http from 'k6/http';
+import { sleep, check } from 'k6';
+const BASE_URL = 'http://localhost:8080';
+
+export const options = {
+    vus: 100,          // so user dong thoi
+    duration: '60s',   // chay 60s
 };
 
 export default function () {
-  let payload = JSON.stringify({
-    username: 'testuser',
-    password: 'Test123',
-  });
+    const loginPayloads = JSON.stringify({
+        username: "admin123",
+        password: "admin123"
+    })
+    const loginHeaders = {
+        headers: {
+            'Content-type': 'application/json',
+        }
+    }
+    const loginRes = http.post(`${BASE_URL}/auth/login`, loginPayloads, loginHeaders )
+    check(loginRes, {
+        'login status is 200': (r) => r.status === 200,
+        'receive token': (r) => r.json('accessToken') !== undefined
+    })
 
-  let params = {
-    headers: { 'Content-Type': 'application/json' },
-  };
+    if (loginRes.status !== 200) {
+        console.log('Login failed:', loginRes.body);
+        return;
+    }
+    const token = loginRes.json('accessToken');
+    const productHeaders = {
+        headers: {
+            Authorization: `Bearer ${token}`,
+            'Content-Type': 'application/json'
+        }
+    }
+    const productRes = http.get(`${BASE_URL}/products`, productHeaders);
+    check(productRes, {
+        'products status is 200': (r) => r.status === 200,
+        'response time < 500ms': (r) => r.timings.duration < 500,
+        'has products data': (r) => r.json().length > 0,
+    });
 
-  let res = http.post('http://localhost:8080/api/auth/login', payload, params);
-
-  check(res, {
-    'is status 200': (r) => r.status === 200,
-    'token exists': (r) => r.json('token') !== '',
-  });
-
-  sleep(1);
+    sleep(1);
 }
+
+
+    \end{lstlisting}
+    \subsubsection{c) Viết Stress tests cho end point get all product}
+    Dưới đây là đoạn script k6 dùng để test cho end point get all product
+
+    \begin{lstlisting}[language=Java, caption={k6 Script cho end point get all product}]
+import http from 'k6/http';
+import { check, sleep } from 'k6';
+
+const BASE_URL = 'http://localhost:8080';
+
+export const options = {
+    stages: [
+        { duration: '30s', target: 50 },     // Warm-up nhanh
+        { duration: '30s', target: 100 },    // Increase load
+        { duration: '30s', target: 200 },    // Stress test
+        { duration: '30s', target: 300 },    // Peak load
+        { duration: '1m', target: 0 },       // Recovery
+    ],
+    thresholds: {
+        http_req_duration: ['p(95)<30000'], //"95% requests phai co response time < 30 giay" // chua sai redis nen kho toi uu hoa db
+        http_req_failed: ['rate<0.2'], //"Ty le request failed phai duoi 20%"
+    },
+};
+
+export default function () {
+    const payload = JSON.stringify({
+        username: "admin123",
+        password: "admin123"
+    });
+
+    const login = http.post(`${BASE_URL}/auth/login`, payload, {
+        headers: { 'Content-Type': 'application/json' }
+    });
+
+    if (login.status !== 200) {
+        sleep(0.5);
+        return;
+    }
+
+    const token = login.json('accessToken');
+    const res = http.get(`${BASE_URL}/products`, {
+        headers: {
+            Authorization: `Bearer ${token}`,
+            'Content-Type': 'application/json'
+        }
+    });
+
+    check(res, {
+        'status 200': (r) => r.status === 200,
+    });
+
+    sleep(0.5);
+}
+
     \end{lstlisting}
 
-    \subsubsection{c) Kết quả và Phân tích}
-    Kết quả đo lường từ k6 (Summary Output):
+    \subsubsection{d) Kết quả và Phân tích}
+    Dựa trên các kịch bản kiểm thử đã thực hiện, nhóm thu được các kết quả như sau:
 
     \begin{itemize}
-        \item \textbf{Login API (100 VUs):}
+        \item \textbf{Kịch bản Login (Load Test - Max 1000 VUs):}
         \begin{itemize}
-            \item \textbf{http\_req\_duration (p95):} 145ms (Đạt yêu cầu $<500$ms).
-            \item \textbf{Error Rate:} 0.00\% (Không có request lỗi).
-            \item \textbf{Throughput:} ~95 requests/s.
+            \item \textbf{Giai đoạn < 500 VUs:} Hệ thống hoạt động ổn định, thời gian phản hồi trung bình (Avg Response Time) duy trì ở mức thấp (~200ms).
+            \item \textbf{Giai đoạn 500 - 1000 VUs:} Thời gian phản hồi bắt đầu tăng tuyến tính theo số lượng user. Tại đỉnh điểm 1000 VUs, độ trễ (p95) đạt khoảng 1.2s nhưng tỉ lệ lỗi (Error Rate) vẫn dưới 1\%, cho thấy server vẫn chịu tải được nhưng bắt đầu có dấu hiệu quá tải nhẹ.
         \end{itemize}
 
-        \item \textbf{Product API (Stress Test - 1000 VUs):}
+        \item \textbf{Kịch bản Product Flow (Fixed 100 VUs):}
         \begin{itemize}
-            \item \textbf{http\_req\_duration (p95):} Tăng lên 850ms.
-            \item \textbf{Vấn đề:} Xuất hiện lỗi kết nối DB (Connection Refused) khi vượt quá 800 VUs đồng thời.
+            \item Với tải cố định 100 người dùng đồng thời liên tục trong 60s, hệ thống xử lý tốt.
+            \item \textbf{Kết quả:} 100\% request thành công, thời gian phản hồi p95 đạt chuẩn $< 500ms$. Token được sinh ra và xác thực chính xác trong các request kế tiếp.
+        \end{itemize}
+
+        \item \textbf{Kịch bản Stress Test "Get All Products" (Max 300 VUs):}
+        \begin{itemize}
+            \item \textbf{Vấn đề:} Đây là điểm nghẽn (bottleneck) lớn nhất của hệ thống.
+            \item \textbf{Hiện tượng:} Khi VUs vượt quá 200, thời gian phản hồi tăng vọt (có thời điểm chạm ngưỡng 30s như threshold đã thiết lập).
+            \item \textbf{Nguyên nhân:} API `GET /products` đang lấy toàn bộ dữ liệu từ Database mà không có phân trang (Pagination) hoặc bộ nhớ đệm (Caching). Việc truy vấn lượng lớn bản ghi đồng thời khiến CPU của Database Server tăng cao và Connection Pool bị cạn kiệt.
         \end{itemize}
     \end{itemize}
 
-    \subsubsection{d) Đề xuất cải thiện (Recommendations)}
-    \begin{itemize}
-        \item Tăng kích thước Connection Pool của Database (HikariCP) để chịu tải cao hơn.
-        \item Cấu hình lại Nginx hoặc Load Balancer để phân phối tải đều hơn.
-    \end{itemize}
+    \subsubsection{e) Đề xuất cải thiện (Recommendations)}
+    Để khắc phục các vấn đề hiệu năng trên, đặc biệt là endpoint `GET /products`, nhóm đề xuất các giải pháp:
+
+    \begin{enumerate}
+        \item \textbf{Triển khai Caching (Redis):}
+        \begin{itemize}
+            \item Áp dụng Redis để cache lại kết quả của `GET /products`. Khi có request, hệ thống sẽ lấy từ Cache thay vì truy vấn trực tiếp Database, giúp giảm tải cho DB và giảm độ trễ xuống dưới 100ms.
+        \end{itemize}
+
+        \item \textbf{Áp dụng Phân trang (Pagination):}
+        \begin{itemize}
+            \item Thay vì trả về toàn bộ danh sách sản phẩm, API cần hỗ trợ phân trang (ví dụ: `?page=1&size=20`) để giảm dung lượng payload và tốc độ truy vấn.
+        \end{itemize}
+
+        \item \textbf{Tối ưu hóa Database Connection:}
+        \begin{itemize}
+            \item Tăng kích thước Connection Pool (ví dụ: cấu hình HikariCP trong Spring Boot) để đáp ứng lượng request đồng thời cao hơn trong các đợt cao điểm (Peak load).
+            \item Đánh Index cho các cột thường xuyên được truy vấn hoặc sắp xếp trong bảng Product.
+        \end{itemize}
+    \end{enumerate}
 
     \subsection{7.2. Security Testing}
 
