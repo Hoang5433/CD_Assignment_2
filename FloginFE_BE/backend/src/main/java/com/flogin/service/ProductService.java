@@ -41,7 +41,7 @@ public class ProductService {
                 productRequestDTO.getPrice(),
                 productRequestDTO.getQuantity(),
                 productRequestDTO.getDescription(),
-                categoryMapper.toCategoryDTO(category)
+                category
         );
     }
 
@@ -62,7 +62,7 @@ public class ProductService {
                 product.getPrice(),
                 product.getQuantity(),
                 product.getDescription(),
-                categoryMapper.toCategoryDTO(category)
+                category
         );
     }
     public ProductResponseDTO deleteProduct(Long id) {
@@ -75,7 +75,7 @@ public class ProductService {
                 product.getPrice(),
                 product.getQuantity(),
                 product.getDescription(),
-                categoryMapper.toCategoryDTO(product.getCategory())
+                product.getCategory()
         );
     }
     public ProductResponseDTO getProduct(Long id) {

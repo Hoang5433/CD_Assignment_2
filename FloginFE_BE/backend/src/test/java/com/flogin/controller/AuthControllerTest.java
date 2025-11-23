@@ -1,4 +1,4 @@
-package com.flogin.integration.controller;
+package com.flogin.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.flogin.controller.AuthController;
