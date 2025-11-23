@@ -23,12 +23,11 @@ import java.util.List;
 public class ProductService {
     ProductRepository productRepository;
     CategoryRepository categoryRepository;
-    CategoryMapper categoryMapper;
     ProductMapper productMapper;
 
     public ProductResponseDTO createProduct(ProductRequestDTO productRequestDTO) {
         Category category = categoryRepository.findById(productRequestDTO.getCategory_id())
-                .orElseThrow(() -> new BadCredentialsException("Category không tồn tại"));
+                .orElseThrow(() -> new RuntimeException("Category không tồn tại"));
         Product product = new Product(productRequestDTO.getProductName(),
                 productRequestDTO.getPrice(),
                 productRequestDTO.getQuantity(),
