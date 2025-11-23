@@ -1,11 +1,13 @@
 package com.flogin.dto.product;
 
 import jakarta.validation.constraints.*;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import java.math.BigDecimal;
 
 @Data
+@AllArgsConstructor
 public class ProductRequestDTO {
     @NotBlank(message = "Tên sản phẩm không được để trống")
     @Size(min = 3, message = "Tên sản phẩm chứa ít nhất 3 kí tự")

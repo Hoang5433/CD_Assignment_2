@@ -1,6 +1,7 @@
 package com.flogin.dto.product;
 
 import com.flogin.dto.category.CategoryResponseDTO;
+import com.flogin.entity.Category;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
@@ -14,5 +15,5 @@ public class ProductResponseDTO {
     private BigDecimal price;
     private int quantity;
     private String description;
-    private CategoryResponseDTO category;
+    private Category category;
 }
