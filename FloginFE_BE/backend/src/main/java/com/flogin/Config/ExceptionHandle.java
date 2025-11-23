@@ -16,7 +16,7 @@ public class ExceptionHandle {
 
     @ExceptionHandler(UsernameNotFoundException.class)
     public ResponseEntity<Map<String, Object>> handleUsernameNotFound(UsernameNotFoundException ex) {
-        return buildResponse(HttpStatus.NOT_FOUND, ex.getMessage());
+        return buildResponse(HttpStatus.NOT_FOUND, ex.getMessage()); //404
     }
 
     @ExceptionHandler(BadCredentialsException.class)
