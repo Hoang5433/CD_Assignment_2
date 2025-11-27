@@ -11,6 +11,9 @@ import com.flogin.mapper.ProductMapper;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.stereotype.Service;
 
@@ -97,6 +100,20 @@ public class ProductService {
             responseDTOList.add(productMapper.toProductResponseDTO(product));
         }
         return responseDTOList;
+    }
+    public Page<ProductResponseDTO> getAllProduct(int page, int size) {
+        // 1. Tạo đối tượng Pageable (trang số mấy, lấy bao nhiêu)
+        Pageable pageable = PageRequest.of(page, size);
+
+        // 2. Gọi Repository lấy dữ liệu phân trang
+        Page<Product> productPage = productRepository.findAll(pageable);
+
+        // 3. Map từ Page<Product> sang Page<ProductResponseDTO>
+        // Hàm map() sẽ tự động chạy qua từng phần tử và convert giúp bạn
+        return productPage.map(product -> productMapper.toProductResponseDTO(product));
+
+        // Hoặc viết ngắn gọn hơn bằng Method Reference:
+        // return productPage.map(productMapper::toProductResponseDTO);
     }
 
     // Vulnerable method for SQL Injection testing

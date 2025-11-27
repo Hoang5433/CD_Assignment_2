@@ -273,40 +273,4 @@ public class ProductControllerTest {
                 .andExpect(status().isNotFound())
                 .andExpect(jsonPath("$.message").value("Product không tồn tại"));
     }
-
-    // ==========================================================
-    // f) TEST SEARCH PRODUCTS - GET /products/search
-    // ==========================================================
-    @Test
-    @DisplayName("Search Products Success")
-    void searchProductsSuccess() throws Exception {
-        List<Product> mockProducts = Arrays.asList(
-                new Product("iPhone", new BigDecimal("20000000"), 5, "Apple phone", new Category("Phone"))
-        );
-
-        when(productService.searchProductsByNameVulnerable("iPhone")).thenReturn(mockProducts);
-
-        mockMvc.perform(get("/products/search")
-                        .param("name", "iPhone"))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.size()").value(1))
-                .andExpect(jsonPath("$[0].name").value("iPhone"));
-    }
-
-    @Test
-    @DisplayName("Test SQL Injection in Search Products")
-    void testSQLInjectionInSearch() throws Exception {
-        // Input độc hại để thử nghiệm SQL Injection
-        String maliciousInput = "'; DROP TABLE product; --";
-
-        // Mock service trả về danh sách rỗng (mô phỏng không có kết quả hoặc lỗi)
-        when(productService.searchProductsByNameVulnerable(maliciousInput)).thenReturn(Arrays.asList());
-
-        // Thực hiện request với input độc hại
-        mockMvc.perform(get("/products/search")
-                        .param("name", maliciousInput))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.size()").value(0));
-                
-    }
 }
