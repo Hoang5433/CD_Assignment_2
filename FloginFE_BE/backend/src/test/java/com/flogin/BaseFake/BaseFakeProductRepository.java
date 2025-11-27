@@ -1,4 +1,4 @@
-package com.flogin.UnitTest;
+package com.flogin.BaseFake;
 
 import com.flogin.entity.Product;
 import com.flogin.repository.ProductRepository;

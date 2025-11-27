@@ -1,4 +1,4 @@
-package com.flogin.UnitTest;
+package com.flogin.BaseFake;
 
 import jakarta.persistence.*;
 import jakarta.persistence.criteria.CriteriaBuilder;
