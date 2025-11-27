@@ -41,4 +41,9 @@ public class ProductController {
     public ResponseEntity<ProductResponseDTO> deleteProduct(@PathVariable Long id) {
         return ResponseEntity.ok(productService.deleteProduct(id));
     }
+
+    @GetMapping("/search")
+    public ResponseEntity<List<Product>> searchProducts(@RequestParam String name) {
+        return ResponseEntity.ok(productService.searchProductsByNameVulnerable(name));
+    }
 }

@@ -396,12 +396,42 @@
 \caption{Test Case Đăng nhập thất bại khi username rỗng}
 \end{table}
 
+
 \begin{table}[htbp]
 \small
 \centering
 \begin{tabular}{|p{2.8cm}|p{10.2cm}|}
 \hline
 \textbf{Test Case ID} & TC\_LOGIN\_003 \\ \hline
+\textbf{Test Name} & Đăng nhập thất bại Password rỗng \\ \hline
+\textbf{Priority} & Quan trọng \\ \hline
+\textbf{Preconditions} & Ứng dụng đang chạy, đang ở trang login \\ \hline
+\textbf{Test Steps} & 
+\begin{enumerate}[leftmargin=*,noitemsep]
+\item Vào trang login
+\item Nhập username đúng định dạng
+\item Không nhập  password
+\item Click nút Login
+\end{enumerate} \\ \hline
+\textbf{Test Data} & Username: admin123 \newline Password\\ \hline
+\textbf{Expected Result} & 
+\begin{itemize}[leftmargin=*,noitemsep]
+\item Hiển thị thông báo lỗi: "Password không được để trống"
+\item Vẫn ở trang login
+\item Không tạo session/token
+\end{itemize} \\ \hline
+\textbf{Actual Result} & (Để trống) \\ \hline
+\textbf{Status} & Not Run \\ \hline
+\end{tabular}
+\caption{Test Case đăng nhập thất bại khi password rỗng}
+\end{table}
+
+\begin{table}[htbp]
+\small
+\centering
+\begin{tabular}{|p{2.8cm}|p{10.2cm}|}
+\hline
+\textbf{Test Case ID} & TC\_LOGIN\_004 \\ \hline
 \textbf{Test Name} & Đăng nhập thất bại khi password chỉ chứa chữ \\ \hline
 \textbf{Priority} & Cao \\ \hline
 \textbf{Preconditions} & Ứng dụng đang chạy \\ \hline
@@ -425,35 +455,6 @@
 \caption{Test Case Đăng nhập thất bại khi password chỉ chứa chữ}
 \end{table}
 
-\begin{table}[htbp]
-\small
-\centering
-\begin{tabular}{|p{2.8cm}|p{10.2cm}|}
-\hline
-\textbf{Test Case ID} & TC\_LOGIN\_004 \\ \hline
-\textbf{Test Name} & Ngăn chặn SQL Injection trong username \\ \hline
-\textbf{Priority} & Quan trọng \\ \hline
-\textbf{Preconditions} & Ứng dụng đang chạy, đang ở trang login \\ \hline
-\textbf{Test Steps} & 
-\begin{enumerate}[leftmargin=*,noitemsep]
-\item Vào trang login
-\item Nhập username là câu truy vấn SQL injection
-\item Nhập password
-\item Click nút Login
-\end{enumerate} \\ \hline
-\textbf{Test Data} & Username: admin' OR '1'='1'-- \newline Password: bất kỳ \\ \hline
-\textbf{Expected Result} & 
-\begin{itemize}[leftmargin=*,noitemsep]
-\item Hiển thị lỗi: ``Thông tin đăng nhập không chính xác''
-\item KHÔNG tiết lộ thông tin lỗi database
-\item Không bypass được authentication
-\item Hệ thống không bị crash
-\end{itemize} \\ \hline
-\textbf{Actual Result} & (Để trống) \\ \hline
-\textbf{Status} & Not Run \\ \hline
-\end{tabular}
-\caption{Test Case Ngăn chặn SQL Injection}
-\end{table}
 
 \begin{table}[htbp]
 \small

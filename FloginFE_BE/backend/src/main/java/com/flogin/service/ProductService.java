@@ -14,6 +14,10 @@ import lombok.experimental.FieldDefaults;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.stereotype.Service;
 
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
+import jakarta.persistence.Query;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,6 +28,9 @@ public class ProductService {
     ProductRepository productRepository;
     CategoryRepository categoryRepository;
     ProductMapper productMapper;
+
+    @PersistenceContext
+    EntityManager entityManager;
 
     public ProductResponseDTO createProduct(ProductRequestDTO productRequestDTO) {
         Category category = categoryRepository.findById(productRequestDTO.getCategory_id())
@@ -90,5 +97,12 @@ public class ProductService {
             responseDTOList.add(productMapper.toProductResponseDTO(product));
         }
         return responseDTOList;
+    }
+
+    // Vulnerable method for SQL Injection testing
+    public List<Product> searchProductsByNameVulnerable(String name) {
+        String sql = "SELECT * FROM product WHERE name LIKE '%" + name + "%'";
+        Query query = entityManager.createNativeQuery(sql, Product.class);
+        return query.getResultList();
     }
 }
