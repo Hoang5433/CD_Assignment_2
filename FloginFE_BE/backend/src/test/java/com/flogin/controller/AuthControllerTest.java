@@ -1,7 +1,6 @@
 package com.flogin.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.flogin.controller.AuthController;
 import com.flogin.dto.login.LoginRequestDTO;
 import com.flogin.dto.login.LoginResponseDTO;
 import com.flogin.service.AuthService;
@@ -9,8 +8,9 @@ import com.flogin.service.JwtService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
@@ -96,7 +96,7 @@ class AuthControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(loginRequestDTO)))
                 .andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.messages.username").exists()); // Just check that validation error exists
+                .andExpect(jsonPath("$.messages.username").exists()); 
     }
 
     // test password rỗng 
@@ -157,4 +157,24 @@ class AuthControllerTest {
 
     }
 
+    // Test SQL Injection trong đăng nhập
+    @Test
+    void TC_LOGIN_SQL_INJECTION() throws Exception {
+        // Payload SQL Injection phổ biến: 1' OR '1'='1
+        LoginRequestDTO sqlInjectionRequest = new LoginRequestDTO(
+                "1' OR '1'='1",  // username với SQL injection
+                "password123"
+        );
+
+        // Với ứng dụng có validation, payload SQL injection sẽ bị reject với 400 Bad Request
+        // vì chứa ký tự đặc biệt không hợp lệ
+        mockMvc.perform(post("/auth/login")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(sqlInjectionRequest)))
+                .andExpect(status().isBadRequest()) // Expect 400 Bad Request - validation tốt!
+                .andExpect(jsonPath("$.messages.username").exists()); // Validation error cho username
+
+        // Service không được gọi vì validation fail
+        // verify(authService, times(0)).login(any(LoginRequestDTO.class));
+    }
 }
