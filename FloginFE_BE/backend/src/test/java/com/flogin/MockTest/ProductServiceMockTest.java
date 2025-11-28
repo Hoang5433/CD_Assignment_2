@@ -145,7 +145,7 @@ class ProductServiceMockTest {
     @Test
     @DisplayName("Get Product By ID Fail - Not Found")
     void testGetProductByIdFail_NotFound() {
-       
+
         Long productId = 99L;
         when(productRepository.findById(productId)).thenReturn(Optional.empty());
 
@@ -214,7 +214,7 @@ class ProductServiceMockTest {
     @Test
     @DisplayName("Update Product Success - Mock Repository")
     void testUpdateProductSuccess() {
-  
+
         Long productId = 1L;
         ProductRequestDTO updateRequest = new ProductRequestDTO(
                 "iPhone 15 Pro",
@@ -237,7 +237,7 @@ class ProductServiceMockTest {
             return p;
         });
 
-  
+
         ProductResponseDTO result = productService.updateProduct(productId, updateRequest);
 
         assertNotNull(result);

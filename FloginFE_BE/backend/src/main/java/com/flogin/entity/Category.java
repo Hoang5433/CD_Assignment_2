@@ -15,7 +15,6 @@ import lombok.experimental.SuperBuilder;
 @Entity
 @Table(name = "categories")
 @FieldDefaults(level = AccessLevel.PRIVATE)
-@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Category extends BaseEntity{
     @Column(nullable = false, unique = true)
     private String name;
