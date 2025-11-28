@@ -149,8 +149,6 @@ class AuthControllerTest {
                         .header("Access-Control-Request-Headers", "content-type")
                         .content(objectMapper.writeValueAsString(new LoginRequestDTO("admin123", "admin123"))))
                 .andExpect(status().isOk());
-
-        
         verify(authService, times(1)).login(any(LoginRequestDTO.class));
 
     }

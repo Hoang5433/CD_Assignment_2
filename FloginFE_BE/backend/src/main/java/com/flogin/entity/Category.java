@@ -11,6 +11,7 @@ import lombok.experimental.SuperBuilder;
 @Getter
 @Setter
 @SuperBuilder
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"}) // <--- Thêm dòng này
 @Entity
 @Table(name = "categories")
 @FieldDefaults(level = AccessLevel.PRIVATE)
