@@ -8,11 +8,7 @@ export const authService = {
           { username, password },
           { withCredentials: true }
         )
-        return {
-            success: true,
-            token: res.data.accessToken,
-            user: { username }
-        }
+        return res.data
     },
 
     fetchUser: async () => {
@@ -27,4 +23,3 @@ export const authService = {
       return res.data
     },
 }
-

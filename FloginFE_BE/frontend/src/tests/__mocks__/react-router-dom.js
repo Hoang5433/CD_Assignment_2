@@ -1,5 +1,4 @@
-export const useNavigate = jest.fn();
-export const useLocation = jest.fn(() => ({ pathname: '/' }));
-export const useParams = jest.fn(() => ({}));
 
-export * from 'react-router-dom';
+export const mockNavigate = jest.fn();
+export const useNavigate = () => mockNavigate;
+
