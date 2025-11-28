@@ -1,13 +1,12 @@
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useNavigate } from "react-router";
-import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { useAuthStore } from "../stores/useAuthStore";
 
 function Login() {
-  const [successMessage, setSuccessMessage] = useState("");
-  const [errorMessage, setErrorMessage] = useState("");
+  // const [successMessage, setSuccessMessage] = useState("");
+  // const [errorMessage, setErrorMessage] = useState("");
   const loginSchema = z.object({
     username: z
         .string()
@@ -46,10 +45,7 @@ function Login() {
     try {
       const success = await logIn(username, password);
       if (success) {
-        setSuccessMessage("Đăng nhập thành công");
         navigate("/admin/products");
-      } else {
-        setErrorMessage("Đăng nhập thất bại");
       }
     } catch (error) {
       console.error("Chi tiết lỗi:", error);
@@ -81,8 +77,6 @@ function Login() {
           {isSubmitting ? "Đang đăng nhập..." : "Đăng nhập"}
         </button>
       </form>
-      {successMessage && <p data-testid="success-message">{successMessage}</p>}
-      {errorMessage && <p data-testid="error-message">{errorMessage}</p>}
     </div>
   );
 }
