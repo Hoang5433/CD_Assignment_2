@@ -33,9 +33,6 @@ public class ProductServiceTest {
     private ProductRepository productRepository;
     private CategoryRepository categoryRepository;
     private ProductMapper productMapper;
-
-    private EntityManager entityManager;
-
     private List<Product> dbProducts;
     private List<Category> dbCategories;
 
