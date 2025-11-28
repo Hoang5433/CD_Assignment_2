@@ -1,7 +1,7 @@
 package com.flogin.services;
 
 import com.flogin.BaseFake.BaseFakeCategoryRepository;
-import com.flogin.BaseFake.BaseFakeEntityManager;
+
 import com.flogin.BaseFake.BaseFakeProductRepository;
 import com.flogin.dto.product.ProductRequestDTO;
 import com.flogin.dto.product.ProductResponseDTO;
@@ -24,8 +24,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 
 @DisplayName("Product Service Unit tests")
 public class ProductServiceTest {
@@ -100,6 +99,10 @@ public class ProductServiceTest {
                 }
                 return new PageImpl<>(list, pageable, dbProducts.size());
             }
+            @Override
+            public List<Product> findAll() {
+                return dbProducts;
+            }
 
             @Override
             public void delete(Product entity) {
@@ -125,8 +128,7 @@ public class ProductServiceTest {
                 );
             }
         };
-        entityManager = new BaseFakeEntityManager();
-        productService = new ProductService(productRepository, categoryRepository, productMapper, entityManager);
+        productService = new ProductService(productRepository, categoryRepository, productMapper);
     }
 
     @Test
@@ -218,5 +220,84 @@ public class ProductServiceTest {
         Page<ProductResponseDTO> pageNext = productService.getAllProduct(1, 1);
         assertEquals(1, pageNext.getContent().size());
         assertEquals("Iphone 15", pageNext.getContent().get(0).getProductName());
+    }
+
+    @Test
+    @DisplayName("TC6: Tao san pham that bai - Category khong ton tai")
+    void testCreateProduct_CategoryNotFound() {
+        ProductRequestDTO productRequestDTO = new ProductRequestDTO(
+                "New Product",
+                BigDecimal.valueOf(10000000),
+                1,
+                "desc",
+                999L);
+        RuntimeException ex = assertThrows(RuntimeException.class, () -> productService.createProduct(productRequestDTO));
+        assertEquals("Category không tồn tại", ex.getMessage());
+    }
+
+    @Test
+    @DisplayName("TC7: Cap nhat san pham that bai - Product khong ton tai")
+    void testUpdateProduct_ProductNotFound() {
+        ProductRequestDTO productRequestDTO = new ProductRequestDTO(
+                "New Product",
+                BigDecimal.valueOf(10000000),
+                1,
+                "desc",
+                1L);
+        RuntimeException ex = assertThrows(RuntimeException.class, () -> productService.updateProduct(999L, productRequestDTO));
+        assertEquals("Product không tồn tại", ex.getMessage());
+    }
+
+    @Test
+    @DisplayName("TC8: Cap nhat san pham that bai - Category khong ton tai")
+    void testUpdateProduct_CategoryNotFound() {
+        ProductRequestDTO productRequestDTO = new ProductRequestDTO(
+                "New Product",
+                BigDecimal.valueOf(10000000),
+                1,
+                "desc",
+                999L);
+        RuntimeException ex = assertThrows(RuntimeException.class, () -> productService.updateProduct(1L, productRequestDTO));
+        assertEquals("Category không tồn tại", ex.getMessage());
+    }
+
+    @Test
+    @DisplayName("TC9: Xoa san pham that bai - Product khong ton tai")
+    void testDeleteProduct_ProductNotFound() {
+        RuntimeException ex = assertThrows(RuntimeException.class, () -> productService.deleteProduct(999L));
+        assertEquals("Product không tồn tại", ex.getMessage());
+    }
+
+    @Test
+    @DisplayName("TC10: Lay san pham that bai - Product khong ton tai")
+    void testGetProduct_ProductNotFound(){
+        RuntimeException ex = assertThrows(RuntimeException.class, () -> productService.getProduct(999L));
+        assertEquals("Product không tồn tại", ex.getMessage());
+    }
+
+    @Test
+    @DisplayName("TC11: Lay danh sach san pham - Danh sach rong")
+    void testGetAllProduct_EmptyList(){
+        dbProducts.clear();
+        Page<ProductResponseDTO> pageResult = productService.getAllProduct(0, 10);
+        assertNotNull(pageResult);
+        assertEquals(0, pageResult.getTotalElements());
+    }
+
+    @Test
+    @DisplayName("TC12: Lay danh sach san pham khong pagination")
+    void testGetAllProduct_NoPagination(){
+        List<ProductResponseDTO> products = productService.getAllProduct();
+        assertNotNull(products);
+        assertEquals(2, products.size());
+    }
+
+    @Test
+    @DisplayName("TC13: Lay danh sach san pham khong pagination - Danh sach rong")
+    void testGetAllProduct_NoPagination_EmptyList(){
+        dbProducts.clear();
+        List<ProductResponseDTO> products = productService.getAllProduct();
+        assertNull(products);
+        assertEquals(0, dbProducts.size());
     }
 }
