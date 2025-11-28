@@ -1,4 +1,4 @@
-import { validateUsername, validatePassword } from '../../utils/validation';
+import { validateUsername, validatePassword } from '../../utils/LoginValidation';
 
 describe('Login Validation Tests', () => {
   describe('validateUsername', () => {
@@ -7,11 +7,11 @@ describe('Login Validation Tests', () => {
     });
 
     test('TC2: Username quá ngắn - nên trả về lỗi', () => {
-      expect(validateUsername('ab')).toBe('Ten dang nhap phai co it nhat 3 ky tu');
+      expect(validateUsername('ab')).toBe('Ten dang nhap phai co tu 3-50 ky tu');
     });
 
     test('TC3: Username quá dài - nên trả về lỗi', () => {
-      expect(validateUsername('a'.repeat(51))).toBe('Ten dang nhap khong duoc qua 50 ky tu');
+      expect(validateUsername('a'.repeat(51))).toBe('Ten dang nhap phai co tu 3-50 ky tu');
     });
 
     test('TC4: Username chứa ký tự đặc biệt không hợp lệ - nên trả về lỗi', () => {
@@ -37,11 +37,11 @@ describe('Login Validation Tests', () => {
     });
 
     test('TC9: Password quá ngắn - nên trả về lỗi', () => {
-      expect(validatePassword('12345')).toBe('Mat khau phai co it nhat 6 ky tu');
+      expect(validatePassword('12345')).toBe('Mat khau phai co tu 6-100 ky tu');
     });
 
     test('TC10: Password quá dài - nên trả về lỗi', () => {
-      expect(validatePassword('a'.repeat(101))).toBe('Mat khau khong duoc qua 100 ky tu');
+      expect(validatePassword('a'.repeat(101))).toBe('Mat khau phai co tu 6-100 ky tu');
     });
 
     test('TC11: Password không có chữ - nên trả về lỗi', () => {
