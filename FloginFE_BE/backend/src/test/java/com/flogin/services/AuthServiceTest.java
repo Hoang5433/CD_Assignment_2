@@ -3,6 +3,8 @@ package com.flogin.services;
 import com.flogin.BaseFake.BaseFakeUserRepository;
 import com.flogin.dto.login.LoginRequestDTO;
 import com.flogin.dto.login.LoginResponseDTO;
+import com.flogin.dto.login.RegisterRequestDTO;
+import com.flogin.dto.login.RegisterResponseDTO;
 import com.flogin.entity.User;
 import com.flogin.repository.UserRepository;
 import com.flogin.service.AuthService;
@@ -78,6 +80,14 @@ public class AuthServiceTest {
                 }
                 return Optional.empty();
             }
+            @Override
+            public boolean existsByUsername(String username) {
+                return "admin123".equals(username);
+            }
+            @Override
+            public <S extends User> S save(S entity) {
+                return entity;
+            }
         };
         authService = new AuthService(fakeEncoder, fakeRepository, fakeJwtService, fakeAuthManager, fakeUserDetailsService);
     }
@@ -108,4 +118,35 @@ public class AuthServiceTest {
                 () -> authService.login(loginRequestDTO));
         assertEquals("Mật khẩu không đúng", ex.getMessage());
     }
+    @Test
+    @DisplayName("TC4: Register thanh cong")
+    void testRegister_Success(){
+        RegisterRequestDTO registerRequestDTO = new RegisterRequestDTO(
+                "Hoang Quy",
+                "hoang123",
+                "hoang123"
+        );
+        RegisterResponseDTO result = authService.register(registerRequestDTO);
+        assertNotNull(result);
+    }
+    @Test
+    @DisplayName("TC5: Register that bai voi username da ton tai")
+    void testRegister_UsernameExists(){
+        RegisterRequestDTO registerRequestDTO = new RegisterRequestDTO(
+                "Hoang Quy",
+                "admin123",
+                "hoang123"
+        );
+        RuntimeException ex = assertThrows(RuntimeException.class,
+                () -> authService.register(registerRequestDTO));
+        assertEquals("Tên đăng nhập đã tồn tại", ex.getMessage());
+    }
+
+    @Test
+    @DisplayName("TC6: Lay user bang username thanh cong")
+    void testGetUserByUsername(){
+        User user = authService.getUserByUsername("admin123");
+        assertNotNull(user);
+    }
+
 }
