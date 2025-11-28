@@ -70,10 +70,10 @@ public class AuthServiceTest {
         fakeRepository = new BaseFakeUserRepository() {
             @Override
             public Optional<User> findByUsername(String username) {
-                if ("admin".equals(username)) {
+                if ("admin123".equals(username)) {
                     User u = new User();
-                    u.setUsername("admin");
-                    u.setPassword("123456_encoded");
+                    u.setUsername("admin123");
+                    u.setPassword("admin123_encoded");
                     return Optional.of(u);
                 }
                 return Optional.empty();
@@ -84,7 +84,7 @@ public class AuthServiceTest {
     @Test
     @DisplayName("TC1: Login thanh cong voi credentials hop le")
     void testLoginSuccess(){
-        LoginRequestDTO loginRequestDTO = new LoginRequestDTO("admin", "123456");
+        LoginRequestDTO loginRequestDTO = new LoginRequestDTO("admin123", "admin123");
         LoginResponseDTO loginResponseDTO = authService.login(loginRequestDTO);
         assertNotNull(loginResponseDTO.getAccessToken());
         assertEquals("Bearer Token", loginResponseDTO.getHeader());
@@ -93,7 +93,7 @@ public class AuthServiceTest {
     @Test
     @DisplayName("TC2: Login that bai voi username khong ton tai")
     void testLoginFailure(){
-        LoginRequestDTO loginRequestDTO = new LoginRequestDTO("notFoundUser", "123456");
+        LoginRequestDTO loginRequestDTO = new LoginRequestDTO("notFoundUser", "admin123");
         UsernameNotFoundException ex = assertThrows(
                 UsernameNotFoundException.class,
                 () -> authService.login(loginRequestDTO)
@@ -103,7 +103,7 @@ public class AuthServiceTest {
     @Test
     @DisplayName("TC3: Login that bai voi password sai")
     void testLoginFailure_WrongPassword(){
-        LoginRequestDTO loginRequestDTO = new LoginRequestDTO("admin", "wrongPassword");
+        LoginRequestDTO loginRequestDTO = new LoginRequestDTO("admin123", "wrongPassword123");
         BadCredentialsException ex = assertThrows(BadCredentialsException.class,
                 () -> authService.login(loginRequestDTO));
         assertEquals("Mật khẩu không đúng", ex.getMessage());

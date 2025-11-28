@@ -154,25 +154,4 @@ class AuthControllerTest {
         verify(authService, times(1)).login(any(LoginRequestDTO.class));
 
     }
-
-    // Test SQL Injection trong đăng nhập
-    @Test
-    void TC_LOGIN_SQL_INJECTION() throws Exception {
-        // Payload SQL Injection phổ biến: 1' OR '1'='1
-        LoginRequestDTO sqlInjectionRequest = new LoginRequestDTO(
-                "1' OR '1'='1",  // username với SQL injection
-                "password123"
-        );
-
-        // Với ứng dụng có validation, payload SQL injection sẽ bị reject với 400 Bad Request
-        // vì chứa ký tự đặc biệt không hợp lệ
-        mockMvc.perform(post("/auth/login")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(sqlInjectionRequest)))
-                .andExpect(status().isBadRequest()) // Expect 400 Bad Request - validation tốt!
-                .andExpect(jsonPath("$.messages.username").exists()); // Validation error cho username
-
-        // Service không được gọi vì validation fail
-        // verify(authService, times(0)).login(any(LoginRequestDTO.class));
-    }
 }

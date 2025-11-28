@@ -32,9 +32,6 @@ public class ProductService {
     CategoryRepository categoryRepository;
     ProductMapper productMapper;
 
-    @PersistenceContext
-    EntityManager entityManager;
-
     public ProductResponseDTO createProduct(ProductRequestDTO productRequestDTO) {
         Category category = categoryRepository.findById(productRequestDTO.getCategory_id())
                 .orElseThrow(() -> new RuntimeException("Category không tồn tại"));
@@ -102,24 +99,8 @@ public class ProductService {
         return responseDTOList;
     }
     public Page<ProductResponseDTO> getAllProduct(int page, int size) {
-        // 1. Tạo đối tượng Pageable (trang số mấy, lấy bao nhiêu)
         Pageable pageable = PageRequest.of(page, size);
-
-        // 2. Gọi Repository lấy dữ liệu phân trang
         Page<Product> productPage = productRepository.findAll(pageable);
-
-        // 3. Map từ Page<Product> sang Page<ProductResponseDTO>
-        // Hàm map() sẽ tự động chạy qua từng phần tử và convert giúp bạn
         return productPage.map(product -> productMapper.toProductResponseDTO(product));
-
-        // Hoặc viết ngắn gọn hơn bằng Method Reference:
-        // return productPage.map(productMapper::toProductResponseDTO);
-    }
-
-    // Vulnerable method for SQL Injection testing
-    public List<Product> searchProductsByNameVulnerable(String name) {
-        String sql = "SELECT * FROM product WHERE name LIKE '%" + name + "%'";
-        Query query = entityManager.createNativeQuery(sql, Product.class);
-        return query.getResultList();
     }
 }

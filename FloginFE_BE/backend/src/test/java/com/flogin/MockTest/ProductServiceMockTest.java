@@ -1,4 +1,4 @@
-package com.flogin.services;
+package com.flogin.MockTest;
 
 import com.flogin.dto.product.ProductRequestDTO;
 import com.flogin.dto.product.ProductResponseDTO;
@@ -312,31 +312,5 @@ class ProductServiceMockTest {
 
         verify(productRepository, times(1)).findById(productId);
         verify(productRepository, never()).delete(any(Product.class));
-    }
-
-    // TEST SQL INJECTION VULNERABILITY
-    @Test
-    @DisplayName("Test SQL Injection Vulnerability in searchProductsByNameVulnerable")
-    void testSQLInjectionVulnerability() {
-        // Input độc hại để thử nghiệm SQL Injection
-        String maliciousInput = "'; DROP TABLE product; --";
-
-        // SQL query mong đợi sẽ được tạo (dễ bị tấn công)
-        String expectedSQL = "SELECT * FROM product WHERE name LIKE '%" + maliciousInput + "%'";
-
-        // Mock Query object
-        Query mockQuery = mock(Query.class);
-        when(entityManager.createNativeQuery(expectedSQL, Product.class)).thenReturn(mockQuery);
-        when(mockQuery.getResultList()).thenReturn(Arrays.asList()); // Trả về danh sách rỗng
-
-        // Gọi phương thức dễ bị tấn công
-        List<Product> result = productService.searchProductsByNameVulnerable(maliciousInput);
-
-        // Xác minh rằng SQL độc hại đã được tạo và thực thi
-        verify(entityManager, times(1)).createNativeQuery(expectedSQL, Product.class);
-        verify(mockQuery, times(1)).getResultList();
-
-        // Trong ứng dụng thực tế, điều này có thể xóa bảng, nhưng ở đây chỉ kiểm tra việc gọi
-        assertNotNull(result);
     }
 }
