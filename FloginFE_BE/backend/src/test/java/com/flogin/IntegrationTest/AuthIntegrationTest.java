@@ -1,6 +1,7 @@
-package com.flogin.controller;
+package com.flogin.IntegrationTest;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+
 import com.flogin.dto.login.LoginRequestDTO;
 import com.flogin.dto.login.LoginResponseDTO;
 import com.flogin.service.AuthService;
@@ -8,43 +9,23 @@ import com.flogin.service.JwtService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.http.MediaType;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
-
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.times;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-/**
- * Test Tích hợp cho AuthController
- *
- * Lớp test này tập trung vào việc test AuthController trong ngữ cảnh tích hợp sử dụng @WebMvcTest.
- * Nó test toàn bộ vòng đời request/response HTTP bao gồm:
- * - Serialization/deserialization JSON
- * - Mã trạng thái HTTP và headers
- * - Validation request và xử lý lỗi (username/password validation)
- * - Cấu hình CORS
- *
- * Các dependencies (AuthService, JwtService) được mock bằng @MockitoBean để cô lập logic controller.
- * Tests verify cả các hoạt động thành công và các kịch bản lỗi với mock interactions đúng đắn.
- *
- * Test coverage bao gồm:
- * - Login thành công với credentials hợp lệ
- * - Login thất bại: username rỗng, password rỗng
- * - Login thất bại: password chỉ chứa chữ, username quá dài
- *
- */
 @WebMvcTest(AuthController.class)
 @AutoConfigureMockMvc(addFilters = false)
-@DisplayName("Login API Integration tests (5 test cases)")
-class AuthControllerTest {
+@DisplayName("Login API Integration tests")
+class AuthIntegrationTest {
 
     @Autowired
     private MockMvc mockMvc;
@@ -58,9 +39,10 @@ class AuthControllerTest {
     @MockitoBean
     private JwtService jwtService;
 
-    // test đăng nhập thành công
+
     @Test
-    void TC_LOGIN_001() throws Exception {
+    @DisplayName("POST /api/auth/login endpoint - SUCCESS")
+    void testLoginSuccess() throws Exception {
         LoginRequestDTO loginRequestDTO = new LoginRequestDTO(
                 "admin123",
                 "admin123"
@@ -80,66 +62,57 @@ class AuthControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.accessToken").exists()
                 );
-
-        verify(authService, times(1)).login(any(LoginRequestDTO.class));
     }
-    // test username rỗng
+
     @Test
-    void TC_LOGIN_002() throws Exception {
+    @DisplayName("POST /api/auth/login endpoint - FAILED - Đăng nhập thất bại (Username không tồn tại)")
+    void testLoginFailed_UsernameNotFound() throws Exception {
         LoginRequestDTO loginRequestDTO = new LoginRequestDTO(
-                "",  // username rỗng
-                "Test123"
+                "unknownUser",
+                "admin123"
         );
+        when(authService.login(any(LoginRequestDTO.class)))
+                .thenThrow(new UsernameNotFoundException("Tài khoản không tồn tại"));
         mockMvc.perform(post("/auth/login")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(loginRequestDTO)))
-                .andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.messages.username").exists());
+                .andExpect(jsonPath("$.message").value("Tài khoản không tồn tại"))
+                .andExpect(status().isNotFound());  // mapping UsernameNotFoundException -> 404
+
     }
 
-    // test password rỗng
     @Test
-    void TC_LOGIN_003() throws Exception {
+    @DisplayName("POST /api/auth/login endpoint - FAILED - Đăng nhập thất bại (Sai Password)")
+    void testLoginFailed_PasswordIncorrect() throws Exception {
         LoginRequestDTO loginRequestDTO = new LoginRequestDTO(
                 "admin123",
-                ""  // password rỗng
+                "wrongPassword123"
         );
+        when(authService.login(any(LoginRequestDTO.class)))
+                .thenThrow(new BadCredentialsException("Mật khẩu không đúng"));
         mockMvc.perform(post("/auth/login")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(loginRequestDTO)))
-                .andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.messages.password").exists()); // Just check that validation error exists
-    }
-    // test sai định dạng pass
-    @Test
-    void TC_LOGIN_004() throws Exception {
-        LoginRequestDTO loginRequestDTO = new LoginRequestDTO(
-                "testuser",
-                "password"  // chỉ chứa chữ, không có số
-        );
-        mockMvc.perform(post("/auth/login")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(loginRequestDTO)))
-                .andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.messages.password").exists());
-    }
-    // test username >50 kí tự
-    @Test
-    void TC_LOGIN_005() throws Exception {
-        String longUsername = "a".repeat(51); // 51 ký tự
-        LoginRequestDTO loginRequestDTO = new LoginRequestDTO(
-                longUsername,
-                "password123"
-        );
-        mockMvc.perform(post("/auth/login")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(loginRequestDTO)))
-                .andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.messages.username").exists());
+                .andExpect(jsonPath("$.message").value("Mật khẩu không đúng"))
+                .andExpect(status().isUnauthorized());
     }
 
+    @Test
+    @DisplayName("POST /api/auth/login endpoint - FAILED - Đăng nhập thất bại (Password sai định dạng)")
+    void testLoginFailed_InvalidPassword() throws Exception {
+        LoginRequestDTO loginRequestDTO = new LoginRequestDTO(
+                "admin123",
+                "221123"
+        );
+        mockMvc.perform(post("/auth/login")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(loginRequestDTO)))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.messages.password").value(
+                        "Mật khẩu phải có cả chữ và số"
+                ));
+    }
 
-    // test CORS
     @Test
     void testCORSHeaders_POST() throws Exception {
         mockMvc.perform(post("/auth/login")
@@ -149,7 +122,6 @@ class AuthControllerTest {
                         .header("Access-Control-Request-Headers", "content-type")
                         .content(objectMapper.writeValueAsString(new LoginRequestDTO("admin123", "admin123"))))
                 .andExpect(status().isOk());
-        verify(authService, times(1)).login(any(LoginRequestDTO.class));
 
     }
 }

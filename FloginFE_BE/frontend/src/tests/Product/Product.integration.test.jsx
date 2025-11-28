@@ -36,11 +36,8 @@ const mockCategories = [
   { id: 3, name: "Xiaomi" },
 ];
 
-// Flow : UI -> Store -> Service -> Store
-// 1. Component ProductTable gọi useProductStore.getAllProducts() trong useEffect.
-// 2. getAllProducts() gọi service (mock) → trả về mock data.
-// 3. set(...) trong store update state thật.
-// 4. Component re-render → hiển thị dữ liệu từ store thật.
+describe("Product Components Integration Test", () => {
+
 
 describe("a) Test ProductTable component với API", () => {
   let originalState;
@@ -616,3 +613,4 @@ describe("c) Test ProductTable component - Hiển thị chi tiết sản phẩm 
     });
   });
 });
+})

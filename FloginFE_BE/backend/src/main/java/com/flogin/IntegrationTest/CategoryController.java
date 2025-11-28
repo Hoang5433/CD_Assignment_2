@@ -1,7 +1,6 @@
-package com.flogin.controller;
+package com.flogin.IntegrationTest;
 
 import com.flogin.dto.category.CategoryRequestDTO;
-import com.flogin.dto.category.CategoryResponseDTO;
 import com.flogin.entity.Category;
 import com.flogin.service.CategoryService;
 import lombok.AccessLevel;
@@ -11,7 +10,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RequestMapping("/categories")
 @RequiredArgsConstructor

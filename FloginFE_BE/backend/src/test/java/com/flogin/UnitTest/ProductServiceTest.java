@@ -1,4 +1,4 @@
-package com.flogin.services;
+package com.flogin.UnitTest;
 
 import com.flogin.BaseFake.BaseFakeCategoryRepository;
 

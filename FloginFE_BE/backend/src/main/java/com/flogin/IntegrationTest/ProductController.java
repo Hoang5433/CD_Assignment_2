@@ -1,16 +1,13 @@
-package com.flogin.controller;
+package com.flogin.IntegrationTest;
 
 import com.flogin.dto.product.ProductRequestDTO;
 import com.flogin.dto.product.ProductResponseDTO;
-import com.flogin.entity.Product;
 import com.flogin.service.ProductService;
 import jakarta.validation.Valid;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;

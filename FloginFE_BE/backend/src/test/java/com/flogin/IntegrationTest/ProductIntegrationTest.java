@@ -1,10 +1,8 @@
-package com.flogin.controller;
+package com.flogin.IntegrationTest;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.flogin.dto.product.ProductRequestDTO;
 import com.flogin.dto.product.ProductResponseDTO;
-import com.flogin.entity.Category;
-import com.flogin.entity.Product;
 import com.flogin.entity.Category;
 import com.flogin.service.CategoryService;
 import com.flogin.service.JwtService;
@@ -29,8 +27,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @WebMvcTest(ProductController.class)
 @AutoConfigureMockMvc(addFilters = false)
-@DisplayName("Product API Integration Tests")
-public class ProductControllerTest {
+@DisplayName("Product API Endpoint Tests")
+public class ProductIntegrationTest {
 
     @Autowired
     private MockMvc mockMvc;
@@ -51,7 +49,7 @@ public class ProductControllerTest {
     // a) TEST CREATE PRODUCT - POST /products
     // ==========================================================
     @Test
-    @DisplayName("Create Product Success")
+    @DisplayName("POST /api/products - SUCCESS - Tạo sản phẩm mới thành công")
     void createProductSuccess() throws Exception {
 
         ProductRequestDTO productRequestDTO = new ProductRequestDTO(
@@ -83,7 +81,7 @@ public class ProductControllerTest {
     }
 
     @Test
-    @DisplayName("Create Product Fail - Category Not Found")
+    @DisplayName("POST /api/products - FAILED - Tạo sản phẩm mới thất bại (Category không tồn tại)")
     void createProductFail_CategoryNotFound() throws Exception {
         ProductRequestDTO request = new ProductRequestDTO(
                 "Laptop DELL XPS",
@@ -93,14 +91,10 @@ public class ProductControllerTest {
                 99L
         );
 
-        // Giả lập category không tồn tại
         when(categoryService.existsById(99L)).thenReturn(false);
-
-        // Khi service tạo product thì ném lỗi
         when(productService.createProduct(any()))
                 .thenThrow(new RuntimeException("Category không tồn tại"));
 
-        // Gửi request và kiểm tra response
         mockMvc.perform(post("/products")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(request)))
@@ -108,13 +102,11 @@ public class ProductControllerTest {
                 .andExpect(jsonPath("$.message").value("Category không tồn tại"));
     }
 
-
-
     // ==========================================================
     // b) TEST GET ALL PRODUCTS - GET /products
     // ==========================================================
     @Test
-    @DisplayName("Get All Products Success")
+    @DisplayName("GET /api/products - SUCCESS - Lấy danh sách tất cả sản phẩm thành công")
     void getAllProducts() throws Exception {
 
         List<ProductResponseDTO> mockList = Arrays.asList(
@@ -131,12 +123,11 @@ public class ProductControllerTest {
                 .andExpect(jsonPath("$[1].productName").value("MacBook"));
     }
 
-
     // ==========================================================
     // c) TEST GET PRODUCT - GET /products/{id}
     // ==========================================================
     @Test
-    @DisplayName("Get Product By ID Success")
+    @DisplayName("GET /api/products/{id} - SUCCESS - Lấy sản phẩm theo ID thành công")
     void getProductById() throws Exception {
 
         ProductResponseDTO mockProduct = new ProductResponseDTO(
@@ -157,7 +148,7 @@ public class ProductControllerTest {
     }
 
     @Test
-    @DisplayName("Get Product By ID Fail - Not Found")
+    @DisplayName("GET /api/products/{id} - FAILED - Lấy sản phẩm theo ID thất bại (id không tồn tại)")
     void getProductByIdFail_NotFound() throws Exception {
 
         when(productService.getProduct(99L))
@@ -168,12 +159,11 @@ public class ProductControllerTest {
                 .andExpect(jsonPath("$.message").value("Product không tồn tại"));
     }
 
-
     // ==========================================================
     // d) TEST UPDATE PRODUCT - PUT /products/{id}
     // ==========================================================
     @Test
-    @DisplayName("Update Product Success")
+    @DisplayName("PUT /api/products/{id} - SUCCESS - Cập nhật sản phẩm thành công")
     void updateProductSuccess() throws Exception {
 
         ProductRequestDTO updateRequest = new ProductRequestDTO(
@@ -204,7 +194,7 @@ public class ProductControllerTest {
     }
 
     @Test
-    @DisplayName("Update Product Fail - Category Not Found")
+    @DisplayName("PUT /api/products/{id} - FAILED - Cập nhật sản phẩm thất bại (Category không tồn tại)")
     void updateProductFail_CategoryNotFound() throws Exception {
 
         ProductRequestDTO request = new ProductRequestDTO(
@@ -215,10 +205,7 @@ public class ProductControllerTest {
                 99L
         );
 
-        // Category không tồn tại
         when(categoryService.existsById(99L)).thenReturn(false);
-
-        // Service ném lỗi
         when(productService.updateProduct(anyLong(), any(ProductRequestDTO.class)))
                 .thenThrow(new RuntimeException("Category không tồn tại"));
 
@@ -229,15 +216,11 @@ public class ProductControllerTest {
                 .andExpect(jsonPath("$.message").value("Category không tồn tại"));
     }
 
-
-
-
     // ==========================================================
     // e) TEST DELETE PRODUCT - DELETE /products/{id}
     // ==========================================================
-
     @Test
-    @DisplayName("Delete Product Success")
+    @DisplayName("DELETE /api/products/{id} - SUCCESS - Xóa sản phẩm thành công")
     void deleteProduct() throws Exception {
 
         ProductResponseDTO deletedProduct = new ProductResponseDTO(
@@ -261,9 +244,8 @@ public class ProductControllerTest {
                 .andExpect(jsonPath("$.category.name").value("Phone"));
     }
 
-
     @Test
-    @DisplayName("Delete Product Not Found")
+    @DisplayName("DELETE /api/products/{id} - FAILED - Xóa sản phẩm thất bại (id Không tồn tại)")
     void deleteProductNotFound() throws Exception {
 
         when(productService.deleteProduct(99L))
