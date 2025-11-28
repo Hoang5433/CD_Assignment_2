@@ -6,13 +6,20 @@ import com.flogin.entity.Category;
 import com.flogin.entity.Product;
 import com.flogin.repository.CategoryRepository;
 import com.flogin.repository.ProductRepository;
-import com.flogin.service.mapper.CategoryMapper;
-import com.flogin.service.mapper.ProductMapper;
+import com.flogin.mapper.CategoryMapper;
+import com.flogin.mapper.ProductMapper;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.stereotype.Service;
+
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
+import jakarta.persistence.Query;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,12 +30,11 @@ import java.util.List;
 public class ProductService {
     ProductRepository productRepository;
     CategoryRepository categoryRepository;
-    CategoryMapper categoryMapper;
     ProductMapper productMapper;
 
     public ProductResponseDTO createProduct(ProductRequestDTO productRequestDTO) {
         Category category = categoryRepository.findById(productRequestDTO.getCategory_id())
-                .orElseThrow(() -> new BadCredentialsException("Category không tồn tại"));
+                .orElseThrow(() -> new RuntimeException("Category không tồn tại"));
         Product product = new Product(productRequestDTO.getProductName(),
                 productRequestDTO.getPrice(),
                 productRequestDTO.getQuantity(),
@@ -41,7 +47,7 @@ public class ProductService {
                 productRequestDTO.getPrice(),
                 productRequestDTO.getQuantity(),
                 productRequestDTO.getDescription(),
-                categoryMapper.toCategoryDTO(category)
+                category
         );
     }
 
@@ -62,7 +68,7 @@ public class ProductService {
                 product.getPrice(),
                 product.getQuantity(),
                 product.getDescription(),
-                categoryMapper.toCategoryDTO(category)
+                category
         );
     }
     public ProductResponseDTO deleteProduct(Long id) {
@@ -75,7 +81,7 @@ public class ProductService {
                 product.getPrice(),
                 product.getQuantity(),
                 product.getDescription(),
-                categoryMapper.toCategoryDTO(product.getCategory())
+                product.getCategory()
         );
     }
     public ProductResponseDTO getProduct(Long id) {
@@ -91,5 +97,10 @@ public class ProductService {
             responseDTOList.add(productMapper.toProductResponseDTO(product));
         }
         return responseDTOList;
+    }
+    public Page<ProductResponseDTO> getAllProduct(int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        Page<Product> productPage = productRepository.findAll(pageable);
+        return productPage.map(product -> productMapper.toProductResponseDTO(product));
     }
 }

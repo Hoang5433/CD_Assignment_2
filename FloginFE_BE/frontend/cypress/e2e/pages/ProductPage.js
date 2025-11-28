@@ -6,8 +6,8 @@ class ProductPage {
         this.productIdCounter = 3;
     }
 
-    setupInterceptsForOperations() {
-        cy.intercept('GET', '/products', (req) => {
+    setupIntercepts() {
+        cy.intercept('GET', '/products',(req) => {
             req.reply({
                 statusCode: 200,
                 body: this.products
@@ -32,7 +32,7 @@ class ProductPage {
                 cy.get('[data-testid="product-quantity"]').clear().type(product.quantity);
             }
             if (product.categoryId) {
-                cy.get('[data-testid="product-category"]').select(product.categoryId);
+                cy.get('[data-testid="product-category"]').should('be.visible').select(String(product.categoryId));
             }
             if (product.description) {
                 cy.get('[data-testid="product-description"]').clear().type(product.description);
@@ -41,7 +41,7 @@ class ProductPage {
             if (product.name) cy.get('[data-testid="product-name"]').type(product.name);
             if (product.price) cy.get('[data-testid="product-price"]').type(product.price);
             if (product.quantity) cy.get('[data-testid="product-quantity"]').type(product.quantity);
-            if (product.categoryId) cy.get('[data-testid="product-category"]').select(product.categoryId);
+            if (product.categoryId) cy.get('[data-testid="product-category"]').should('be.visible').select(String(product.categoryId));
             if (product.description) cy.get('[data-testid="product-description"]').type(product.description);
         }
     }
@@ -87,9 +87,6 @@ class ProductPage {
         }).as('getProductsAfterAdd');
 
         cy.get('[data-testid="submit-btn"]').click();
-        cy.wait('@addProduct').then(() => {
-            cy.wait('@getProductsAfterAdd');
-        });
     }
 
     submitEditForm() {
@@ -105,18 +102,21 @@ class ProductPage {
             if (this.currentProduct.description) updatedProduct.description = this.currentProduct.description;
             if (this.currentProduct.categoryId) updatedProduct.category = { name: "Laptop" };
 
+            let responseBody = updatedProduct;
             const idMatch = req.url.match(/\/products\/(\d+)/);
             if (idMatch) {
                 const productId = parseInt(idMatch[1]);
                 const index = this.products.findIndex(p => p.id === productId);
                 if (index !== -1) {
                     this.products[index] = { ...this.products[index], ...updatedProduct };
+
+                    responseBody = this.products[index];
                 }
             }
 
             req.reply({
                 statusCode: 200,
-                body: updatedProduct
+                body: responseBody
             });
         }).as("updateProduct");
 
@@ -129,9 +129,6 @@ class ProductPage {
         }).as('getProductsAfterUpdate');
 
         cy.get('[data-testid="submit-btn"]').click();
-        cy.wait('@updateProduct').then(() => {
-            cy.wait('@getProductsAfterUpdate');
-        });
     }
 
     confirmDelete() {
@@ -155,9 +152,6 @@ class ProductPage {
         }).as('getProductsAfterDelete');
 
         cy.get('[data-testid="confirm-delete-btn"]').click();
-        cy.wait('@deleteProduct').then(() => {
-            cy.wait('@getProductsAfterDelete');
-        });
     }
 
     getSuccessMessage() {

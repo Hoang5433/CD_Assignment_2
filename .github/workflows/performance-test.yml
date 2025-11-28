@@ -1,4 +1,4 @@
-name: Test Perfomance With K6
+name: Test Performance With K6
 
 on:
   push:
@@ -14,15 +14,78 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v3
 
-      - name: Set up Docker
+      - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
-      - name: Start backend + services
-        working-directory: ./backend
+      - name: Stop & remove old containers
         run: |
-          docker-compose up -d
+          cd FloginFE_BE/backend
+          docker compose down --remove-orphans
 
-      - name: Check backend health
-        working-directory: ./backend
+      - name: Build and start backend + MySQL
         run: |
-          curl -f http://localhost:8080/actuator/health || exit 1
+          cd FloginFE_BE/backend
+          docker compose build --no-cache
+          docker compose up -d
+
+      - name: Wait for MySQL to be ready
+        run: |
+          cd FloginFE_BE/backend
+          echo "Waiting for MySQL to be ready..."
+          for i in {1..30}; do
+            if docker compose exec -T mysql mysqladmin ping -h localhost -uroot -proot &>/dev/null; then
+              echo "MySQL is ready!"
+              break
+            fi
+            echo "Waiting for MySQL... ($i/30)"
+            sleep 2
+          done
+
+      - name: Wait for backend to be ready
+        run: |
+          cd FloginFE_BE/backend
+          echo "Waiting for backend to be ready..."
+          for i in {1..60}; do
+            if docker compose exec -T backend curl -sSf http://localhost:8080/actuator/health >/dev/null; then
+              echo "Backend is ready!"
+              exit 0
+            fi
+            echo "Waiting for backend... ($i/60)"
+            sleep 2
+          done
+          echo "Backend did not start in time!"
+          docker compose logs backend
+          exit 1
+
+      - name: Setup k6
+        uses: grafana/setup-k6-action@v1
+
+      - name: Run Login Test
+        run: |
+          cd FloginFE_BE/k6-tests
+          k6 run scripts/login-tests.js
+
+      - name: Run Product Test
+        run: |
+          cd FloginFE_BE/k6-tests
+          k6 run scripts/product-tests.js
+
+      - name: Stress Test End Point Get All Product
+        run: |
+          cd FloginFE_BE/k6-tests
+          k6 run scripts/stress-tests.js
+
+      - name: Upload tests results
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: k6-results
+          path: |
+            FloginFE_BE/k6-tests/results/
+          retention-days: 7
+
+      - name: Stop containers
+        if: always()
+        run: |
+          cd FloginFE_BE/backend
+          docker compose down

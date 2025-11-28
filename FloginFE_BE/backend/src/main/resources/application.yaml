@@ -3,14 +3,20 @@ spring:
     name: login-product
 
   datasource:
-    url: jdbc:mysql://localhost:3306/login_product
+    url: jdbc:mysql://localhost:3306/login-product
     username: root
     password: root
     driver-class-name: com.mysql.cj.jdbc.Driver
+    hikari:
+      connection-timeout: 30000
+      maximum-pool-size: 20
+      minimum-idle: 10
+      max-lifetime: 1800000
+      idle-timeout: 600000
 
   docker:
     compose:
-      file: FloginFE_BE/backend/compose.yaml
+      file: FloginFE_BE/backend/docker-compose.yml
 
   jpa:
     hibernate:
@@ -19,8 +25,25 @@ spring:
     properties:
       hibernate:
         dialect: org.hibernate.dialect.MySQLDialect
+        jdbc:
+          batch_size: 50
+          fetch_size: 100
+        connection:
+          pool_size: 20
 
 app:
   jwt:
     secret: H3l1Y3dOqMvz71IGsTtRJo+z6ZJbBDezA1clo0uWpvmVa2TqZZIfWFlTCXAbA1XZ+ZkRX0GG1VoPZkAEXmNvNg==
     expiration: 3636363636
+server:
+  port: 8080
+  address: 0.0.0.0
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health
+  endpoint:
+    health:
+      show-details: always

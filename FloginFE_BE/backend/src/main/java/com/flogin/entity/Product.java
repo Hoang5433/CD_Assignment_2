@@ -3,6 +3,7 @@ package com.flogin.entity;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
+import lombok.experimental.SuperBuilder;
 
 import java.math.BigDecimal;
 
@@ -12,6 +13,7 @@ import java.math.BigDecimal;
 @Setter
 @Entity
 @Table(name = "products")
+@SuperBuilder
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class Product extends BaseEntity {
     @Column(nullable = false)

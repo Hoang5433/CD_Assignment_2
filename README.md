@@ -115,7 +115,7 @@ FloginFE_BE/
 │   │   ├── utils/                        # Utility Functions
 │   │   │   ├── api.js
 │   │   │   ├── cookie.js
-│   │   │   └── validation.js
+│   │   │   └── LoginValidation.js
 │   │   ├── tests/                        # Test Files
 │   │   │   └── Login/
 │   │   └── App.js

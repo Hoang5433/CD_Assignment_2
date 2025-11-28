@@ -1,18 +1,16 @@
 package com.flogin.service;
 
 import com.flogin.dto.category.CategoryRequestDTO;
-import com.flogin.dto.category.CategoryResponseDTO;
 import com.flogin.entity.Category;
 import com.flogin.repository.CategoryRepository;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
+
 
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
@@ -33,4 +31,6 @@ public class CategoryService {
     public void deleteCategory(Long id) {
         categoryRepository.deleteById(id);
     }
+
+    public boolean existsById(Long id) { return categoryRepository.existsById(id); }
 }

@@ -10,7 +10,7 @@ describe("Product E2E Tests", () => {
             productPage.products = [...data];
             productPage.productIdCounter = Math.max(...data.map(p => p.id)) + 1;
         });
-        productPage.setupInterceptsForOperations();
+        productPage.setupIntercepts();
     })
 
     it('Nen tao san pham moi thanh cong', () => {
@@ -29,12 +29,19 @@ describe("Product E2E Tests", () => {
 
     it('Nen cap nhat san pham thanh cong', () => {
         productPage.clickEditProduct("Pixel 4")
+
+        cy.get('[data-testid="product-category"]').should('be.visible');
+
+        cy.get('[data-testid="product-name"]').should('have.value', 'Pixel 4');
+        cy.get('[data-testid="product-price"]').should('have.value', '36000');
+
         productPage.fillProductForm({
             price: '99000'
-        }, true)  // isEdit = true, so only specified fields are updated
+        }, true)
+
         productPage.submitEditForm()
         productPage.getProductInList("Pixel 4").should('exist')
-        cy.contains('[data-testid="product-item"]', "Pixel 4").should('contain', '99000')
+        cy.contains('[data-testid="product-item"]', "Pixel 4").should('contain', '99.000')
     })
 
     it('Nen xoa san pham thanh cong', () => {

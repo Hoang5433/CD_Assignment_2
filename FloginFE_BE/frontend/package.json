@@ -51,5 +51,10 @@
     "rules": {
       "react-hooks/exhaustive-deps": "off"
     }
+  },
+  "msw": {
+    "workerDirectory": [
+      "public"
+    ]
   }
 }

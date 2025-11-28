@@ -45,6 +45,11 @@ jobs:
           npm install
           npm test -- --coverage
 
+      - name: Start Frontend
+        run: |
+          cd FloginFE_BE/frontend
+          npm start &
+
       - name: E2E Tests
         run: |
           cd FloginFE_BE/frontend 
