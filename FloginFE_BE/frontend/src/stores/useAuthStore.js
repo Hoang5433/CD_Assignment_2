@@ -42,11 +42,11 @@ export const useAuthStore = create((set, get) => ({
   logIn: async (username, password) => {
     try {
       set({ loading: true });
-      const { accessToken } = await authService.logIn(username, password);
+      const { token: accessToken, user } = await authService.logIn(username, password);
       if (!accessToken) throw new Error("No token received");
 
       setJWTtoCookie(accessToken);
-      set({ accessToken });
+      set({ accessToken, user });
 
       toast.success("Đăng nhập thành công", {
         description: <span data-testid="login-success">Success</span>,

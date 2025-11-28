@@ -36,13 +36,13 @@ const mockCategories = [
   { id: 3, name: "Xiaomi" },
 ];
 
-// Flow : UI -> Store -> Service -> Store
+// Test flow : UI -> Store -> Service -> Store
 // 1. Component ProductTable gọi useProductStore.getAllProducts() trong useEffect.
 // 2. getAllProducts() gọi service (mock) → trả về mock data.
 // 3. set(...) trong store update state thật.
 // 4. Component re-render → hiển thị dữ liệu từ store thật.
 
-describe("a) Test ProductTable component với API", () => {
+describe("a) Test ProductList component với API", () => {
   let originalState;
   const mockOnEdit = jest.fn();
   const mockOnDelete = jest.fn();
@@ -113,7 +113,7 @@ describe("a) Test ProductTable component với API", () => {
     });
   });
 
-  test("Callback được gọi khi click Edit và Delete", async () => {
+  test("Gọi callback khi click Edit và Delete", async () => {
     render(<ProductTable onEdit={mockOnEdit} onDelete={mockOnDelete} />);
 
     await waitFor(() => {
@@ -493,7 +493,7 @@ describe("b) Test ProductForm component (create/edit)", () => {
       category: { id: 1, name: "iPhone" },
     };
 
-    productService.updateProduct.mockRejectedValue(new Error("Network Error"));
+    productService.updateProduct.mockRejectedValue(new Error("Network Error"))
 
     useProductStore.setState((state) => ({
       ...state,

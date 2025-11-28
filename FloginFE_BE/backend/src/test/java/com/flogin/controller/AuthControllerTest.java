@@ -58,7 +58,7 @@ class AuthControllerTest {
     @MockitoBean
     private JwtService jwtService;
 
-    // test đăng nhập thành công
+// test đăng nhập thành công 
     @Test
     void TC_LOGIN_001() throws Exception {
         LoginRequestDTO loginRequestDTO = new LoginRequestDTO(
@@ -83,7 +83,7 @@ class AuthControllerTest {
 
         verify(authService, times(1)).login(any(LoginRequestDTO.class));
     }
-    // test username rỗng
+// test username rỗng 
     @Test
     void TC_LOGIN_002() throws Exception {
         LoginRequestDTO loginRequestDTO = new LoginRequestDTO(
@@ -94,10 +94,10 @@ class AuthControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(loginRequestDTO)))
                 .andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.messages.username").exists());
+                .andExpect(jsonPath("$.messages.username").exists()); 
     }
 
-    // test password rỗng
+    // test password rỗng 
     @Test
     void TC_LOGIN_003() throws Exception {
         LoginRequestDTO loginRequestDTO = new LoginRequestDTO(
@@ -110,7 +110,7 @@ class AuthControllerTest {
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.messages.password").exists()); // Just check that validation error exists
     }
-    // test sai định dạng pass
+// test sai định dạng pass
     @Test
     void TC_LOGIN_004() throws Exception {
         LoginRequestDTO loginRequestDTO = new LoginRequestDTO(
@@ -123,7 +123,7 @@ class AuthControllerTest {
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.messages.password").exists());
     }
-    // test username >50 kí tự
+// test username >50 kí tự
     @Test
     void TC_LOGIN_005() throws Exception {
         String longUsername = "a".repeat(51); // 51 ký tự
@@ -139,7 +139,7 @@ class AuthControllerTest {
     }
 
 
-    // test CORS
+// test CORS
     @Test
     void testCORSHeaders_POST() throws Exception {
         mockMvc.perform(post("/auth/login")
