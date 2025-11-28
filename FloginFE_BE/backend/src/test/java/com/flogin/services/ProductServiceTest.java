@@ -11,7 +11,6 @@ import com.flogin.mapper.ProductMapper;
 import com.flogin.repository.CategoryRepository;
 import com.flogin.repository.ProductRepository;
 import com.flogin.service.ProductService;
-import jakarta.persistence.EntityManager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
