@@ -60,12 +60,14 @@ class AuthIntegrationTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(loginRequestDTO)))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.accessToken").exists()
-                );
+                .andExpect(jsonPath("$.accessToken").exists())
+                .andExpect(jsonPath("$.user.password").doesNotExist())
+        ;
+
     }
 
     @Test
-    @DisplayName("POST /api/auth/login endpoint - FAILED - Đăng nhập thất bại (Username không tồn tại)")
+    @DisplayName("POST /api/auth/login endpoint - FAILED - Username không tồn tại")
     void testLoginFailed_UsernameNotFound() throws Exception {
         LoginRequestDTO loginRequestDTO = new LoginRequestDTO(
                 "unknownUser",
@@ -82,7 +84,7 @@ class AuthIntegrationTest {
     }
 
     @Test
-    @DisplayName("POST /api/auth/login endpoint - FAILED - Đăng nhập thất bại (Sai Password)")
+    @DisplayName("POST /api/auth/login endpoint - FAILED - Sai Password")
     void testLoginFailed_PasswordIncorrect() throws Exception {
         LoginRequestDTO loginRequestDTO = new LoginRequestDTO(
                 "admin123",
@@ -98,7 +100,7 @@ class AuthIntegrationTest {
     }
 
     @Test
-    @DisplayName("POST /api/auth/login endpoint - FAILED - Đăng nhập thất bại (Password sai định dạng)")
+    @DisplayName("POST /api/auth/login endpoint - FAILED - Password sai định dạng")
     void testLoginFailed_InvalidPassword() throws Exception {
         LoginRequestDTO loginRequestDTO = new LoginRequestDTO(
                 "admin123",

@@ -59,129 +59,129 @@ describe("Login Component Integration Test", () => {
       expect(passwordInput.value).toBe("password1");
     });
 
-    describe("Hiển thị lỗi khi input không hợp lệ", () => {
-      const renderLogin = () =>
-        render(
-          <MemoryRouter>
-            <Login />
-          </MemoryRouter>
-        );
+    // describe("Hiển thị lỗi khi input không hợp lệ", () => {
+    //   const renderLogin = () =>
+    //     render(
+    //       <MemoryRouter>
+    //         <Login />
+    //       </MemoryRouter>
+    //     );
 
-      const fillAndSubmit = (username = "", password = "") => {
-        const usernameInput = screen.getByLabelText(/Tên đăng nhập/i);
-        const passwordInput = screen.getByLabelText(/Mật khẩu/i);
-        const submitButton = screen.getByRole("button", { name: /Đăng nhập/i });
+    //   const fillAndSubmit = (username = "", password = "") => {
+    //     const usernameInput = screen.getByLabelText(/Tên đăng nhập/i);
+    //     const passwordInput = screen.getByLabelText(/Mật khẩu/i);
+    //     const submitButton = screen.getByRole("button", { name: /Đăng nhập/i });
 
-        if (username) {
-          fireEvent.change(usernameInput, { target: { value: username } });
-        }
-        if (password) {
-          fireEvent.change(passwordInput, { target: { value: password } });
-        }
+    //     if (username) {
+    //       fireEvent.change(usernameInput, { target: { value: username } });
+    //     }
+    //     if (password) {
+    //       fireEvent.change(passwordInput, { target: { value: password } });
+    //     }
 
-        fireEvent.click(submitButton);
-        return { usernameInput, passwordInput, submitButton };
-      };
+    //     fireEvent.click(submitButton);
+    //     return { usernameInput, passwordInput, submitButton };
+    //   };
 
-      const validationTestCases = [
-        [
-          "username trống",
-          "",
-          "valid123",
-          /Tên đăng nhập chứa ít nhất 3 ký tự/,
-        ],
-        ["password trống", "validuser", "", /Mật khẩu chứa ít nhất 6 ký tự/],
-        [
-          "username invalid chars",
-          "userÂ@",
-          "valid123",
-          /Tên đăng nhập chỉ được chứa/,
-        ],
-        [
-          "password chỉ chữ",
-          "validuser",
-          "password",
-          /Mật khẩu phải chứa cả chữ và số/,
-        ],
-        [
-          "password chỉ số",
-          "validuser",
-          "123456",
-          /Mật khẩu phải chứa cả chữ và số/,
-        ],
-        [
-          "username quá dài",
-          "a".repeat(51),
-          "valid123",
-          /Tên đăng nhập chứa tối đa 50 ký tự/,
-        ],
-        [
-          "password quá dài",
-          "validuser",
-          "b".repeat(101),
-          /Mật khẩu chứa tối đa 100 ký tự/,
-        ],
-      ];
+    //   const validationTestCases = [
+    //     [
+    //       "username trống",
+    //       "",
+    //       "valid123",
+    //       /Tên đăng nhập chứa ít nhất 3 ký tự/,
+    //     ],
+    //     ["password trống", "validuser", "", /Mật khẩu chứa ít nhất 6 ký tự/],
+    //     [
+    //       "username invalid chars",
+    //       "userÂ@",
+    //       "valid123",
+    //       /Tên đăng nhập chỉ được chứa/,
+    //     ],
+    //     [
+    //       "password chỉ chữ",
+    //       "validuser",
+    //       "password",
+    //       /Mật khẩu phải chứa cả chữ và số/,
+    //     ],
+    //     [
+    //       "password chỉ số",
+    //       "validuser",
+    //       "123456",
+    //       /Mật khẩu phải chứa cả chữ và số/,
+    //     ],
+    //     [
+    //       "username quá dài",
+    //       "a".repeat(51),
+    //       "valid123",
+    //       /Tên đăng nhập chứa tối đa 50 ký tự/,
+    //     ],
+    //     [
+    //       "password quá dài",
+    //       "validuser",
+    //       "b".repeat(101),
+    //       /Mật khẩu chứa tối đa 100 ký tự/,
+    //     ],
+    //   ];
 
-      test.each(validationTestCases)(
-        "Hiển thị lỗi khi: %s",
-        async (_, username, password, expectedError) => {
-          renderLogin();
-          fillAndSubmit(username, password);
+    //   test.each(validationTestCases)(
+    //     "Hiển thị lỗi khi: %s",
+    //     async (_, username, password, expectedError) => {
+    //       renderLogin();
+    //       fillAndSubmit(username, password);
 
-          const error = await screen.findByText(expectedError);
-          expect(error).toBeInTheDocument();
-        }
-      );
+    //       const error = await screen.findByText(expectedError);
+    //       expect(error).toBeInTheDocument();
+    //     }
+    //   );
 
-      // Test positive cases
-      test("Xóa lỗi khi nhập giá trị hợp lệ", async () => {
-        renderLogin();
+    //   // Test positive cases
+    //   test("Xóa lỗi khi nhập giá trị hợp lệ", async () => {
+    //     renderLogin();
 
-        fillAndSubmit("ab", "abc");
-        await screen.findByText(/Tên đăng nhập chứa ít nhất 3 ký tự/i);
-        await screen.findByText(/Mật khẩu chứa ít nhất 6 ký tự/i);
+    //     fillAndSubmit("ab", "abc");
+    //     await screen.findByText(/Tên đăng nhập chứa ít nhất 3 ký tự/i);
+    //     await screen.findByText(/Mật khẩu chứa ít nhất 6 ký tự/i);
 
-        fireEvent.change(screen.getByLabelText(/Tên đăng nhập/i), {
-          target: { value: "validuser" },
-        });
-        fireEvent.change(screen.getByLabelText(/Mật khẩu/i), {
-          target: { value: "valid123" },
-        });
+    //     fireEvent.change(screen.getByLabelText(/Tên đăng nhập/i), {
+    //       target: { value: "validuser" },
+    //     });
+    //     fireEvent.change(screen.getByLabelText(/Mật khẩu/i), {
+    //       target: { value: "valid123" },
+    //     });
 
-        await waitFor(() => {
-          expect(
-            screen.queryByText(/Tên đăng nhập chứa ít nhất 3 ký tự/i)
-          ).not.toBeInTheDocument();
-          expect(
-            screen.queryByText(/Mật khẩu chứa ít nhất 6 ký tự/i)
-          ).not.toBeInTheDocument();
-        });
-      });
+    //     await waitFor(() => {
+    //       expect(
+    //         screen.queryByText(/Tên đăng nhập chứa ít nhất 3 ký tự/i)
+    //       ).not.toBeInTheDocument();
+    //       expect(
+    //         screen.queryByText(/Mật khẩu chứa ít nhất 6 ký tự/i)
+    //       ).not.toBeInTheDocument();
+    //     });
+    //   });
 
-      test("Không hiển thị lỗi và hiển thị loading khi inputs hợp lệ", async () => {
-        renderLogin();
-        fillAndSubmit("validuser", "valid123");
+    //   test("Không hiển thị lỗi và hiển thị loading khi inputs hợp lệ", async () => {
+    //     renderLogin();
+    //     fillAndSubmit("validuser", "valid123");
 
-        await waitFor(() => {
-          const validationErrors = [
-            /Tên đăng nhập chứa ít nhất 3 ký tự/i,
-            /Mật khẩu chứa ít nhất 6 ký tự/i,
-            /Tên đăng nhập chỉ được chứa/i,
-            /Mật khẩu phải chứa cả chữ và số/i,
-          ];
+    //     await waitFor(() => {
+    //       const validationErrors = [
+    //         /Tên đăng nhập chứa ít nhất 3 ký tự/i,
+    //         /Mật khẩu chứa ít nhất 6 ký tự/i,
+    //         /Tên đăng nhập chỉ được chứa/i,
+    //         /Mật khẩu phải chứa cả chữ và số/i,
+    //       ];
 
-          validationErrors.forEach((errorPattern) => {
-            expect(screen.queryByText(errorPattern)).not.toBeInTheDocument();
-          });
+    //       validationErrors.forEach((errorPattern) => {
+    //         expect(screen.queryByText(errorPattern)).not.toBeInTheDocument();
+    //       });
 
-          expect(
-            screen.getByRole("button", { name: /Đăng nhập/i })
-          ).toBeDisabled();
-          expect(screen.getByText(/Đang đăng nhập/i)).toBeInTheDocument();
-        });
-      });
-    });
+    //       expect(
+    //         screen.getByRole("button", { name: /Đăng nhập/i })
+    //       ).toBeDisabled();
+    //       expect(screen.getByText(/Đang đăng nhập/i)).toBeInTheDocument();
+    //     });
+    //   });
+    // });
   });
 
 

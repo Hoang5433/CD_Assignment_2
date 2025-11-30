@@ -81,7 +81,7 @@ public class ProductIntegrationTest {
     }
 
     @Test
-    @DisplayName("POST /api/products - FAILED - Tạo sản phẩm mới thất bại (Category không tồn tại)")
+    @DisplayName("POST /api/products - FAILED - Category không tồn tại")
     void createProductFail_CategoryNotFound() throws Exception {
         ProductRequestDTO request = new ProductRequestDTO(
                 "Laptop DELL XPS",
@@ -148,7 +148,7 @@ public class ProductIntegrationTest {
     }
 
     @Test
-    @DisplayName("GET /api/products/{id} - FAILED - Lấy sản phẩm theo ID thất bại (id không tồn tại)")
+    @DisplayName("GET /api/products/{id} - FAILED - id không tồn tại")
     void getProductByIdFail_NotFound() throws Exception {
 
         when(productService.getProduct(99L))
@@ -194,7 +194,7 @@ public class ProductIntegrationTest {
     }
 
     @Test
-    @DisplayName("PUT /api/products/{id} - FAILED - Cập nhật sản phẩm thất bại (Category không tồn tại)")
+    @DisplayName("PUT /api/products/{id} - FAILED - Category không tồn tại")
     void updateProductFail_CategoryNotFound() throws Exception {
 
         ProductRequestDTO request = new ProductRequestDTO(
@@ -245,7 +245,7 @@ public class ProductIntegrationTest {
     }
 
     @Test
-    @DisplayName("DELETE /api/products/{id} - FAILED - Xóa sản phẩm thất bại (id Không tồn tại)")
+    @DisplayName("DELETE /api/products/{id} - FAILED - id Không tồn tại")
     void deleteProductNotFound() throws Exception {
 
         when(productService.deleteProduct(99L))
