@@ -20,7 +20,7 @@ describe("Login Component Integration Test", () => {
   // a) Test rendering và user interactions (2 điểm)
   //===============================================
   describe("a) Test rendering và user interactions", () => {
-    test("Hiển thị đúng giao diện và nhập liệu", async () => {
+    test("Render UI and allow user input", async () => {
       render(
         <MemoryRouter>
           <Login />
@@ -189,7 +189,7 @@ describe("Login Component Integration Test", () => {
   // b) Test form submission và API calls (2 điểm)
   //===============================================
   describe("b) Test form submission và API calls", () => {
-    test("Không gọi API nếu submit form không hợp lệ", async () => {
+    test("Not calling API if submit invalid form", async () => {
       render(
         <MemoryRouter>
           <Login />
@@ -208,7 +208,7 @@ describe("Login Component Integration Test", () => {
       });
     });
 
-    test("Gọi API khi submit form hợp lệ ", async () => {
+    test("Verify API is called when submit valid form", async () => {
       render(
         <MemoryRouter>
           <Login />
@@ -239,7 +239,7 @@ describe("Login Component Integration Test", () => {
       removeJWTfromCookie();
       jest.clearAllMocks();
     });
-    test("Submit form hợp lệ -> gọi API thành công -> set Token vào state -> Chuyển trang", async () => {
+    test("API response success -> set Token to state -> navigate", async () => {
       authService.logIn.mockResolvedValue({
         status: 200,
         accessToken: "mockAccessToken",
@@ -286,7 +286,7 @@ describe("Login Component Integration Test", () => {
       });
     });
 
-    test("API báo lỗi -> Hiển thị thông báo lỗi -> Không chuyển trang", async () => {
+    test("API response FAIL -> Show error notification -> not navigate", async () => {
       authService.logIn.mockRejectedValue(new Error("API Login Error"));
 
       render(
