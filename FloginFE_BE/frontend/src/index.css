@@ -1,3 +1,46 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 0 0% 3.6%;
+    --card: 0 0% 100%;
+    --card-foreground: 0 0% 3.6%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 0 0% 3.6%;
+    --muted: 0 0% 96.1%;
+    --muted-foreground: 0 0% 45.1%;
+    --accent: 0 0% 9.0%;
+    --accent-foreground: 0 0% 100%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 0 0% 89.8%;
+    --input: 0 0% 89.8%;
+    --ring: 0 0% 3.6%;
+    --radius: 0.5rem;
+  }
+
+  .dark {
+    --background: 0 0% 3.6%;
+    --foreground: 0 0% 98.2%;
+    --card: 0 0% 3.6%;
+    --card-foreground: 0 0% 98.2%;
+    --popover: 0 0% 3.6%;
+    --popover-foreground: 0 0% 98.2%;
+    --muted: 0 0% 14.9%;
+    --muted-foreground: 0 0% 63.9%;
+    --accent: 0 0% 98.2%;
+    --accent-foreground: 0 0% 9%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 0% 98.2%;
+    --border: 0 0% 14.9%;
+    --input: 0 0% 14.9%;
+    --ring: 0 0% 83.1%;
+  }
+}
+
 * {
   margin: 0;
   padding: 0;
@@ -69,6 +112,7 @@ code {
     opacity: 0;
     transform: translateY(-20px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -80,6 +124,7 @@ code {
     opacity: 0;
     transform: translateX(-30px);
   }
+
   to {
     opacity: 1;
     transform: translateX(0);
@@ -87,9 +132,12 @@ code {
 }
 
 @keyframes pulse {
-  0%, 100% {
+
+  0%,
+  100% {
     transform: scale(1);
   }
+
   50% {
     transform: scale(1.05);
   }
@@ -208,7 +256,11 @@ code {
 }
 
 /* Buttons */
-.btn-add, .btn-save, .btn-cancel, .btn-edit, .btn-delete {
+.btn-add,
+.btn-save,
+.btn-cancel,
+.btn-edit,
+.btn-delete {
   padding: 10px 20px;
   border: none;
   border-radius: 6px;
@@ -357,6 +409,7 @@ code {
   font-size: 14px;
   text-transform: uppercase;
 }
+
 .product-table th:last-child {
   padding: 15px;
   text-align: left;
@@ -481,7 +534,8 @@ code {
     gap: 5px;
   }
 
-  .btn-edit, .btn-delete {
+  .btn-edit,
+  .btn-delete {
     width: 100%;
   }
 }
@@ -661,12 +715,15 @@ code {
   transform: translateY(-2px);
   box-shadow: 0 4px 12px rgba(244, 67, 54, 0.4);
 }
-.warning-login{
+
+.warning-login {
   color: #da190b;
 }
+
 .field-error {
   color: #da190b;
 }
+
 /* Responsive Modal */
 @media (max-width: 768px) {
   .modal-content {
@@ -695,7 +752,9 @@ code {
     flex-direction: column;
   }
 
-  .btn-save, .btn-cancel, .btn-delete-confirm {
+  .btn-save,
+  .btn-cancel,
+  .btn-delete-confirm {
     width: 100%;
   }
 
@@ -703,15 +762,18 @@ code {
     padding: 20px;
   }
 }
+
 .product-table-container {
   overflow-x: auto;
 }
 
 .product-table {
-  min-width: 600px; /* đảm bảo table không bị co quá nhỏ */
+  min-width: 600px;
+  /* đảm bảo table không bị co quá nhỏ */
 }
 
 @media (max-width: 1024px) {
+
   .product-table th,
   .product-table td {
     padding: 10px 8px;
@@ -869,7 +931,8 @@ code {
 
 .btn-submit {
   padding: 10px 20px;
-  background-color: #059669; /* xanh emerald-600 */
+  background-color: #059669;
+  /* xanh emerald-600 */
   color: #ffffff;
   font-weight: 600;
   border: none;
@@ -879,7 +942,8 @@ code {
 }
 
 .btn-submit:hover {
-  background-color: #047857; /* xanh đậm hơn */
+  background-color: #047857;
+  /* xanh đậm hơn */
 }
 
 .btn-submit:disabled {
@@ -890,8 +954,10 @@ code {
 /* Nút cancel */
 .btn-cancel {
   padding: 10px 20px;
-  background-color: #e5e7eb; /* gray-200 */
-  color: #374151; /* gray-700 */
+  background-color: #e5e7eb;
+  /* gray-200 */
+  color: #374151;
+  /* gray-700 */
   font-weight: 600;
   border: none;
   border-radius: 8px;
@@ -900,6 +966,8 @@ code {
 }
 
 .btn-cancel:hover {
-  background-color: #d1d5db; /* gray-300 */
-  color: #111827; /* gray-900 */
+  background-color: #d1d5db;
+  /* gray-300 */
+  color: #111827;
+  /* gray-900 */
 }
