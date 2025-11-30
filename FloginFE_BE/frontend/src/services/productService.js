@@ -11,7 +11,7 @@ export const productService = {
   getAllProducts: async (page = 0, size = 10) => {
     try {
       const res = await apiWithAuth.get(
-          `/products?page=${page}&size=${size}`
+          `/products?page=${page}&size=${size}&sort=id,desc`
       );
       return res.data;
     } catch (e) {

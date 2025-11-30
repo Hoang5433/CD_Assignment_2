@@ -38,7 +38,7 @@ export const useProductStore = create((set, get) => ({
       toast.success("Thêm mới thành công", {
         description: <span data-testid="add-success">Success</span>,
       });
-      await get().getAllProducts(get().currentPage);
+      await get().getAllProducts(0);
     } catch (error) {
       console.error("Failed to add product:", error);
       toast.error("Thêm mới thất bại", {

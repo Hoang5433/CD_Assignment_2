@@ -61,7 +61,7 @@ const ProductFormModal = ({ categories, product, onClose }) => {
       productName: product?.productName || "",
       price: product?.price || "",
       quantity: product?.quantity ?? 1,
-      categoryId: product?.category?.id || "",
+      categoryId: product?.category?.id ? String(product.category.id) : "",
       description: product?.description || "",
     });
   }, [product, reset, categories]);
@@ -73,7 +73,7 @@ const ProductFormModal = ({ categories, product, onClose }) => {
           productName: formData.productName,
           price: Number(formData.price),
           quantity: Number(formData.quantity),
-          category_id: formData.categoryId,
+          category_id: Number(formData.categoryId),
           description: formData.description || "",
         });
       } else {
