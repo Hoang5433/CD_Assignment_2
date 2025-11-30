@@ -7,8 +7,8 @@ describe("Product E2E Tests", () => {
     beforeEach(() => {
         cy.login("admin123", "admin123");
         cy.fixture('products.json').then((data) => {
-            productPage.products = [...data];
-            productPage.productIdCounter = Math.max(...data.map(p => p.id)) + 1;
+            productPage.products = [...data.content];
+            productPage.productIdCounter = Math.max(...data.content.map(p => p.id)) + 1;
         });
         productPage.setupIntercepts();
     })
@@ -36,17 +36,36 @@ describe("Product E2E Tests", () => {
         cy.get('[data-testid="product-price"]').should('have.value', '36000');
 
         productPage.fillProductForm({
-            price: '99000'
+            price: '99000',
+            categoryId: "1"
         }, true)
 
         productPage.submitEditForm()
-        productPage.getProductInList("Pixel 4").should('exist')
-        cy.contains('[data-testid="product-item"]', "Pixel 4").should('contain', '99.000')
+        
+        productPage.getProductInList("Pixel 4").within(() => {
+            cy.get('td').filter(':contains("99")').should('exist')
+        })
     })
 
     it('Nen xoa san pham thanh cong', () => {
         productPage.clickDeleteProduct("Pixel 4")
         productPage.confirmDelete()
         cy.contains('[data-testid="product-item"]', "Pixel 4").should('not.exist')
+    })
+
+    it('Nen tim kiem san pham theo ten', () => {
+        cy.get('[data-testid="search-product-input"]').type('Lenovo', { delay: 100 })
+        
+        cy.wait(1000)
+        
+        productPage.getProductInList("Lenovo LOQ APH18").should('exist')
+        
+        cy.contains('[data-testid="product-item"]', "Pixel 4").should('not.exist')
+        
+        cy.get('[data-testid="search-product-input"]').clear()
+        cy.wait(1000)
+        
+        productPage.getProductInList("Lenovo LOQ APH18").should('exist')
+        productPage.getProductInList("Pixel 4").should('exist')
     })
 })

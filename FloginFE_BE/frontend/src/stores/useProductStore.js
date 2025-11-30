@@ -9,10 +9,10 @@ export const useProductStore = create((set, get) => ({
   totalPages: 0,
   currentPage: 0,
 
-  getAllProducts: async (page = 0) => {
+  getAllProducts: async (page = 0, size = 10, search = '') => {
     set({ loading: true });
     try {
-      const data = await productService.getAllProducts(page, 10); // nếu trả về res.data
+      const data = await productService.getAllProducts(page, size, search);
       set({
         products: data.content,
         quantity: data.totalElements,

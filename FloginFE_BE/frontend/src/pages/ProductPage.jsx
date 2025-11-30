@@ -4,9 +4,9 @@ import { useCategoryStore } from "../stores/useCategoryStore";
 import ProductTable from "../components/ProductTable";
 import ProductFormModal from "../components/ProductFormModal";
 import DeleteProductModal from "../components/DeleteProductModal";
-import { Button } from "../components/ui/button";
-import { Card, CardContent } from "../components/ui/card";
-import { Plus, Search, ChevronLeft, ChevronRight } from "lucide-react";
+import { Button } from "../components/ui";
+import { Card, CardContent } from "../components/ui";
+import { Plus, Search, ChevronLeft, ChevronRight, ChevronsRight, ChevronsLeft } from "lucide-react";
 
 const ProductPage = () => {
   const {
@@ -24,13 +24,20 @@ const ProductPage = () => {
   const [searchTerm, setSearchTerm] = useState("");
 
   useEffect(() => {
-    getAllProducts(0)
     getAllCategory();
-  }, [getAllCategory, getAllProducts]);
+  }, [getAllCategory]);
+
+  useEffect(() => {
+    const delayDebounceFn = setTimeout(() => {
+      getAllProducts(0, 10, searchTerm);
+    }, 500);
+
+    return () => clearTimeout(delayDebounceFn);
+  }, [searchTerm, getAllProducts]);
 
   const handlePageChange = (newPage) => {
     if (newPage >= 0 && newPage < totalPages) {
-      getAllProducts(newPage);
+      getAllProducts(newPage, 10, searchTerm);
     }
   };
 
@@ -56,6 +63,8 @@ const ProductPage = () => {
       await deleteProduct(deletingProduct.id);
       setShowDeleteModal(false);
       setDeletingProduct(null);
+      // Load lại trang hiện tại sau khi xóa
+      getAllProducts(currentPage, 10, searchTerm);
     } catch (error) {
       console.error("Error deleting product:", error);
     }
@@ -64,6 +73,8 @@ const ProductPage = () => {
   const handleCloseFormModal = () => {
     setShowFormModal(false);
     setEditingProduct(null);
+    // Load lại sau khi thêm/sửa
+    getAllProducts(currentPage, 10, searchTerm);
   };
 
   const handleCloseDeleteModal = () => {
@@ -97,6 +108,7 @@ const ProductPage = () => {
                     placeholder="Tìm kiếm sản phẩm..."
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
+                    data-testid="search-product-input"
                     className="w-full pl-10 pr-4 py-2 border border-slate-300 rounded-lg bg-white text-slate-900 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
                   />
                 </div>
@@ -123,31 +135,62 @@ const ProductPage = () => {
               onDelete={handleDeleteClick}
             />
 
-            {/* Pagination Controls */}
-            <div className="flex gap-4 justify-center items-center mt-8 pt-6 border-t border-slate-200">
+            {/* --- PHẦN PHÂN TRANG (UPDATED) --- */}
+            <div className="flex gap-2 justify-center items-center mt-8 pt-6 border-t border-slate-200">
+
+              {/* 1. Nút Về trang đầu (Optional - Để cân đối) */}
+              <Button
+                onClick={() => handlePageChange(0)}
+                disabled={currentPage === 0}
+                variant="outline" size="icon" title="Trang đầu"
+              >
+                <ChevronsLeft className="h-4 w-4" />
+              </Button>
+
+              {/* 2. Nút Prev */}
               <Button
                 onClick={() => handlePageChange(currentPage - 1)}
                 disabled={currentPage === 0}
-                variant="outline"
-                size="icon"
-                className="gap-2"
+                variant="outline" size="icon" title="Trang trước"
               >
                 <ChevronLeft className="h-4 w-4" />
               </Button>
 
-              <span className="text-sm font-medium text-slate-700 min-w-32 text-center">
-                Trang <strong className="text-slate-900">{currentPage + 1}</strong> / <strong>{totalPages}</strong>
+              {/* Thông tin trang */}
+              <span className="text-sm font-medium text-slate-700 min-w-32 text-center select-none">
+                Trang <strong className="text-slate-900">{currentPage + 1}</strong> / <strong>{totalPages > 0 ? totalPages : 1}</strong>
               </span>
 
+              {/* 3. Nút Next */}
               <Button
                 onClick={() => handlePageChange(currentPage + 1)}
                 disabled={currentPage + 1 >= totalPages}
-                variant="outline"
-                size="icon"
-                className="gap-2"
+                variant="outline" size="icon" title="Trang sau"
               >
                 <ChevronRight className="h-4 w-4" />
               </Button>
+
+              {/* 4. Nút Qua 5 trang (+5) */}
+              <Button
+                onClick={() => handlePageChange(currentPage + 5)}
+                // Disable nếu nhảy 5 trang vượt quá tổng số trang
+                disabled={currentPage + 5 >= totalPages}
+                variant="outline"
+                className="px-3 text-xs font-semibold min-w-[3rem]" // Style riêng để hiện chữ +5
+                title="Nhảy 5 trang"
+              >
+                +5
+              </Button>
+
+              {/* 5. Nút Về trang cuối */}
+              <Button
+                onClick={() => handlePageChange(totalPages - 1)}
+                disabled={currentPage === totalPages - 1 || totalPages === 0}
+                variant="outline" size="icon" title="Trang cuối"
+              >
+                <ChevronsRight className="h-4 w-4" />
+              </Button>
+
             </div>
           </CardContent>
         </Card>

@@ -13,10 +13,6 @@ import java.util.Optional;
 import java.util.function.Function;
 
 public class BaseFakeProductRepository implements ProductRepository {
-    @Override
-    public List<Product> findByNameContaining(String name) {
-        return List.of();
-    }
 
     @Override
     public void flush() {
@@ -161,6 +157,11 @@ public class BaseFakeProductRepository implements ProductRepository {
     @Override
     public List<Product> findAll(Sort sort) {
         return List.of();
+    }
+
+    @Override
+    public Page<Product> findByNameContainingIgnoreCase(String name, Pageable pageable) {
+        return null;
     }
 
     @Override

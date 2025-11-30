@@ -196,7 +196,7 @@ public class ProductServiceTest {
         assertEquals(2, dbProducts.size());
 
         // --- KỊCH BẢN 1: Lấy trang 0, Size 10 (Lấy hết)
-        Page<ProductResponseDTO> pageResult = productService.getAllProduct(0, 10);
+        Page<ProductResponseDTO> pageResult = productService.getAllProduct(0, 10, "");
 
         // Assert
         assertNotNull(pageResult);
@@ -206,14 +206,14 @@ public class ProductServiceTest {
         assertEquals("Dell Xenos 3000", pageResult.getContent().get(0).getProductName());
 
         // --- KỊCH BẢN 2: Lấy trang 0, Size 1 (Chỉ lấy 1 cái đầu tiên) ---
-        Page<ProductResponseDTO> pageSmall = productService.getAllProduct(0, 1);
+        Page<ProductResponseDTO> pageSmall = productService.getAllProduct(0, 1, "");
         assertEquals(2, pageSmall.getTotalElements()); // Tổng vẫn là 2
         assertEquals(2, pageSmall.getTotalPages());    // 2 sản phẩm / size 1 = 2 trang
         assertEquals(1, pageSmall.getContent().size()); // Trang này chỉ chứa 1 cái
         assertEquals("Dell Xenos 3000", pageSmall.getContent().get(0).getProductName());
 
         // --- KỊCH BẢN 3: Lấy trang 1, Size 1 (Lấy cái thứ 2) ---
-        Page<ProductResponseDTO> pageNext = productService.getAllProduct(1, 1);
+        Page<ProductResponseDTO> pageNext = productService.getAllProduct(1, 1, "");
         assertEquals(1, pageNext.getContent().size());
         assertEquals("Iphone 15", pageNext.getContent().get(0).getProductName());
     }
@@ -275,7 +275,7 @@ public class ProductServiceTest {
     @DisplayName("TC11: Lay danh sach san pham - Danh sach rong")
     void testGetAllProduct_EmptyList(){
         dbProducts.clear();
-        Page<ProductResponseDTO> pageResult = productService.getAllProduct(0, 10);
+        Page<ProductResponseDTO> pageResult = productService.getAllProduct(0, 10, "");
         assertNotNull(pageResult);
         assertEquals(0, pageResult.getTotalElements());
     }
