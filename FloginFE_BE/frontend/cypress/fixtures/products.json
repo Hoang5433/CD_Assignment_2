@@ -1,22 +1,28 @@
-[
-  {
-    "id": 1,
-    "productName": "Lenovo LOQ APH18",
-    "price": 63000,
-    "quantity": 99,
-    "description": "Lenovo",
-    "category": {
-      "name": "Laptop"
+{
+  "content": [
+    {
+      "id": 1,
+      "productName": "Lenovo LOQ APH18",
+      "price": 63000,
+      "quantity": 99,
+      "description": "Lenovo",
+      "category": {
+        "name": "Laptop"
+      }
+    },
+    {
+      "id": 2,
+      "productName": "Pixel 4",
+      "price": 36000,
+      "quantity": 66,
+      "description": "Google Pixel 4",
+      "category": {
+        "name": "Dien Thoai"
+      }
     }
-  },
-  {
-    "id": 2,
-    "productName": "Pixel 4",
-    "price": 36000,
-    "quantity": 66,
-    "description": "Google Pixel 4",
-    "category": {
-      "name": "Dien Thoai"
-    }
-  }
-]
+  ],
+  "totalElements": 2,
+  "totalPages": 1,
+  "number": 0,
+  "size": 10
+}

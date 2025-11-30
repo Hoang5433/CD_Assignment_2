@@ -17,7 +17,7 @@ Cypress.Commands.add('login', (username, password) => {
     });
 
     cy.intercept('GET', '/categories', {fixture: 'categories.json'}).as('getCategories');
-    cy.intercept('GET', '/products', {fixture: 'products.json'}).as('getProducts');
+    cy.intercept('GET', /\/products\?page=.*&size=.*/, {fixture: 'products.json'}).as('getProducts');
 
     cy.get('[data-testid="username-input"]').type(username);
     cy.get('[data-testid="password-input"]').type(password);
@@ -29,6 +29,6 @@ Cypress.Commands.add('login', (username, password) => {
     cy.wait('@loginRequest');
     cy.wait('@getCategories');
     cy.wait('@getProducts').then((interception) => {
-        expect(interception.response.body).to.have.length(2);
+        expect(interception.response.body.content).to.have.length(2);
     });
 });

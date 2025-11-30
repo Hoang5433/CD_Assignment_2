@@ -7,12 +7,16 @@ export const productService = {
     return res.data;
   },
 
-  // GET ALL PRODUCTS
-  getAllProducts: async (page = 0, size = 10) => {
+  getAllProducts: async (page = 0, size = 10, search = '') => {
     try {
-      const res = await apiWithAuth.get(
-          `/products?page=${page}&size=${size}&sort=id,desc`
-      );
+      const res = await apiWithAuth.get('/products', {
+        params: {
+          page: page,
+          size: size,
+          sort: 'id,desc',
+          search: search || undefined 
+        }
+      });
       return res.data;
     } catch (e) {
       console.error('Error getting all products:', e);

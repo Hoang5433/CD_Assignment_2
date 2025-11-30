@@ -1,5 +1,5 @@
 import {create} from "zustand/index";
-import {productService as categoryService} from "../services/categoryService";
+import {categoryService} from "../services/categoryService";
 
 
 export const useCategoryStore = create((set, get) => ({

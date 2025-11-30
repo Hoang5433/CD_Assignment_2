@@ -110,34 +110,21 @@ public class ProductIntegrationTest {
     // ==========================================================
 
     @Test
-    @DisplayName("GET /api/products - SUCCESS - Lấy danh sách sản phẩm")
+    @DisplayName("GET /api/products - SUCCESS - Lấy danh sách sản phẩm (Mặc định)")
     void getAllProducts() throws Exception {
-
-        // 1. Chuẩn bị dữ liệu giả (List)
         List<ProductResponseDTO> mockList = Arrays.asList(
                 new ProductResponseDTO(1L, "iPhone", new BigDecimal("20000000"), 5, "Apple phone", new Category("Phone")),
                 new ProductResponseDTO(2L, "MacBook", new BigDecimal("30000000"), 3, "Apple laptop", new Category("Laptop"))
         );
-
-        // 2. Wrap List vào đối tượng Page (Giả lập trang đầu tiên, size 10)
         Page<ProductResponseDTO> mockPage = new PageImpl<>(mockList);
-
-        // 3. Mock hành vi của Service (Lưu ý: Service giờ nhận tham số page, size)
-        when(productService.getAllProduct(anyInt(), anyInt())).thenReturn(mockPage);
-
-        // 4. Gọi test và kiểm tra
+        when(productService.getAllProduct(anyInt(), anyInt(), any())).thenReturn(mockPage);
         mockMvc.perform(get("/products")
-                        .param("page", "0")  // Giả lập truyền param ?page=0
-                        .param("size", "10")) // Giả lập truyền param &size=10
+                        .param("page", "0")
+                        .param("size", "10"))
                 .andExpect(status().isOk())
-
-                // QUAN TRỌNG: Cấu trúc JSON của Page là { content: [ ... ], ... }
-                // Nên phải thêm .content vào đường dẫn jsonPath
                 .andExpect(jsonPath("$.content.size()").value(2))
                 .andExpect(jsonPath("$.content[0].productName").value("iPhone"))
                 .andExpect(jsonPath("$.content[1].productName").value("MacBook"))
-
-                // Kiểm tra thêm các metadata của Page (nếu muốn)
                 .andExpect(jsonPath("$.totalElements").value(2));
     }
 
