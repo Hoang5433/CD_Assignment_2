@@ -25,10 +25,9 @@
 \usepackage{listings}
 \usetikzlibrary{arrows,snakes,backgrounds}
 \usepackage{hyperref}
-\hypersetup{urlcolor=blue,linkcolor=black,citecolor=black,colorlinks=true
+\hypersetup{urlcolor=blue,linkcolor=black,citecolor=black,colorlinks=true }
 \usepackage{array}
 \usepackage{enumitem}  % để dùng [noitemsep,leftmargin=*]
-}
 
 \newtheorem{theorem}{{\bf Định lý}}
 \newtheorem{property}{{\bf Tính chất}}
@@ -125,7 +124,7 @@
                 \\
                 \hline
                 \\
-                \textbf{{\Large MÔN:}}\\ % Thêm dòng này cho rõ nghĩa (tùy chọn)
+                \textbf{{\Large ĐỀ TÀI :}}\\ % Thêm dòng này cho rõ nghĩa (tùy chọn)
                 \textbf{{\huge Ứng dụng Đăng nhập \& Quản lý Sản phẩm}}\\
                 \textbf{{\Large (Login \& Product Management - Version 1.0)}}\\
                 \\
@@ -140,9 +139,9 @@
             \centering
 % Dùng 2 cột: r (right - canh phải cho nhãn) và l (left - canh trái cho tên)
             \begin{tabular}{rl}
-                \textbf{GVHD:} & Từ Lãng Phiêu \\
+                \textbf{GIẢNG VIÊN:} & Từ Lãng Phiêu \\
                 \textbf{NHÓM:} & 18 \\
-                \textbf{SV:}   & Nguyễn Thanh Phú- 3123410269 \\
+                \textbf{SINH VIÊN:}   & Nguyễn Thanh Phú- 3123410269 \\
                 & Nhan Chí Phong - 3123560062 \\
                 & Hoàng Đình Phú Quý - 3123560074 \\
                 & Nguyễn Thành Long - 3121410298\\
@@ -159,27 +158,40 @@
     \end{titlepage}
 
     \newpage
-    \begin{center}
-        \large\textbf{LỜI CẢM ƠN}
-    \end{center}
-
-    Chúng em xin gửi lời cảm ơn chân thành đến Thầy Từ Lãng Phiêu, người đã tận tình hướng dẫn và truyền đạt những kiến thức quý báu về Kiểm thử phần mềm, quy trình TDD và các kỹ thuật kiểm thử hiện đại.
-
-    Bài tập lớn này là cơ hội để chúng em áp dụng lý thuyết vào thực tế, từ việc phân tích test cases, viết unit test, integration test cho đến thiết lập quy trình CI/CD tự động.
-
-    Dù đã cố gắng hết sức, báo cáo chắc chắn không tránh khỏi những thiếu sót. Chúng em rất mong nhận được sự góp ý của Thầy để hoàn thiện hơn.
-
-    \begin{flushright}
-        Thành phố Hồ Chí Minh, ngày 11 tháng 11 năm 2025
-    \end{flushright}
-    \newpage
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     \newpage
     \tableofcontents
     \newpage
 
+
+    \newpage
+    \section{Đóng Góp Của Nhóm}
+
+\begin{table}[h!]
+\centering
+\begin{tabular}{|p{0.3\textwidth}|p{0.25\textwidth}|p{0.15\textwidth}|p{0.3\textwidth}|}
+\hline
+\textbf{Thành viên} & \textbf{Chức vụ} & \textbf{Phần trăm} & \textbf{Đóng góp} \\
+\hline
+Nguyễn Thanh Phú & Trưởng nhóm & 25\% & Câu 1, viết báo cáo , cover câu 4  \\
+\hline
+Hoàng Đình Phú Quý  & Thành viên & 30\% & Câu 5,Mở rộng , cover câu 2, viết báo cáo \\
+\hline
+Nhan Chí Phong & Thành viên & 25\% & Câu 3 , viết báo cáo , cover team \\
+\hline
+Võ Văn Tài & Thành viên & 10\% & Câu 4 \\
+\hline
+Nguyễn Thành Long & Thành viên & 10\% & Câu 2 \\
+\hline
+\end{tabular}
+\end{table}
+    
+
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    \newpage
+    
     \section{GIỚI THIỆU DỰ ÁN}
 
     \subsection{Tổng quan}
@@ -193,630 +205,630 @@
     \begin{itemize}
         \item \textbf{Frontend:} React 18+, Jest, React Testing Library.
         \item \textbf{Backend:} Spring Boot 3.2+, JUnit 5, Mockito.
-        \item \textbf{Database:} MySQL / H2 Database.
+        \item \textbf{Database:} MySQL.
         \item \textbf{CI/CD:} GitHub Actions.
     \end{itemize}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     \newpage
 
-    \section{CÂU 1: PHÂN TÍCH VÀ THIẾT KẾ TEST CASES}
+\section{CÂU 1: PHÂN TÍCH VÀ THIẾT KẾ TEST CASES}
 
-    \subsection{Câu 1.1: Login - Phân tích và Test Scenarios (10 điểm)}
+\subsection{Câu 1.1: Login - Phân tích và Test Scenarios (10 điểm)}
 
-    \subsubsection{Yêu cầu (5 điểm)}
+\subsubsection{Yêu cầu (5 điểm)}
 
-    \paragraph{a) Phân tích yêu cầu chức năng Login (2 điểm)}
+\paragraph{a) Phân tích yêu cầu chức năng Login (2 điểm)}
 
-    \textbf{Validation rules cho username:}
-    \begin{itemize}
-        \item Độ dài: 3-50 ký tự
-        \item Định dạng cho phép: chữ cái (a-z, A-Z), số (0-9), và các ký tự -, ., \_
-        \item Không chấp nhận: khoảng trắng, kí tự đặc biệt khác, icon
-    \end{itemize}
+\textbf{Validation rules cho username:}
+\begin{itemize}
+\item Độ dài: 3-50 ký tự
+\item Định dạng cho phép: chữ cái (a-z, A-Z), số (0-9), và các ký tự -, ., \_
+\item Không chấp nhận: khoảng trắng, kí tự đặc biệt khác, icon
+\end{itemize}
 
-    \textbf{Validation rules cho password:}
-    \begin{itemize}
-        \item Độ dài: 6-100 ký tự
-        \item Phải chứa ít nhất 1 chữ cái và 1 số
-        \item Có thể chứa ký tự đặc biệt (không được quy định cấm)
-    \end{itemize}
+\textbf{Validation rules cho password:}
+\begin{itemize}
+\item Độ dài: 6-100 ký tự
+\item Phải chứa ít nhất 1 chữ cái và 1 số
+\item Có thể chứa ký tự đặc biệt (không được quy định cấm)
+\end{itemize}
 
-    \textbf{Authentication flow:}
-    \begin{itemize}
-        \item Người dùng nhập username và password
-        \item Hệ thống validate định dạng input
-        \item Nếu validation thất bại → hiển thị thông báo định dạng đúng
-        \item Nếu validation thành công → kiểm tra thông tin trong database
-        \item Nếu thông tin khớp → tạo session/chuyển hướng đến trang chủ
-        \item Nếu không khớp → hiển thị thông báo lỗi
-    \end{itemize}
+\textbf{Authentication flow:}
+\begin{itemize}
+\item Người dùng nhập username và password
+\item Hệ thống validate định dạng input
+\item Nếu validation thất bại → hiển thị thông báo định dạng đúng
+\item Nếu validation thành công → kiểm tra thông tin trong database
+\item Nếu thông tin khớp → tạo session/chuyển hướng đến trang chủ
+\item Nếu không khớp → hiển thị thông báo lỗi
+\end{itemize}
 
-    \textbf{Error handling:}
-    \begin{itemize}
-        \item Hiển thị thông báo lỗi cụ thể cho từng trường hợp (server phản hồi)
-        \item Giữ nguyên giá trị đã nhập (trừ password)
-        \item Log lỗi cho mục đích bảo mật và debugging
-    \end{itemize}
+\textbf{Error handling:}
+\begin{itemize}
+\item Hiển thị thông báo lỗi cụ thể cho từng trường hợp (server phản hồi)
+\item Giữ nguyên giá trị đã nhập (trừ password)
+\item Log lỗi cho mục đích bảo mật và debugging
+\end{itemize}
 
-    \paragraph{b) Test Scenarios cho Login (2 điểm)}
+\paragraph{b) Test Scenarios cho Login (2 điểm)}
 
-    \begin{enumerate}
-        \item \textbf{Happy Path:} Đăng nhập thành công
-        \begin{itemize}
-            \item Input: Username: "user123", Password: "pass123"
-            \item Expected: Đăng nhập thành công, chuyển hướng đến trang chủ
-        \end{itemize}
+\begin{enumerate}
+\item \textbf{Happy Path:} Đăng nhập thành công
+  \begin{itemize}
+  \item Input: Username: "admin123", Password: "admin123"
+  \item Expected: Đăng nhập thành công, chuyển hướng đến trang chủ
+  \end{itemize}
 
-        \item \textbf{Negative Test:} Username rỗng
-        \begin{itemize}
-            \item Input: Username: "", Password: "123@sgu\_testing"
-            \item Expected: Hiển thị lỗi "Username không được để trống"
-        \end{itemize}
+\item \textbf{Negative Test:} Username rỗng
+  \begin{itemize}
+  \item Input: Username: "", Password: "admin123"
+  \item Expected: Hiển thị lỗi "Username không được để trống"
+  \end{itemize}
 
-        \item \textbf{Negative Test:} Password rỗng
-        \begin{itemize}
-            \item Input: Username: "user123", Password: ""
-            \item Expected: Hiển thị lỗi "Mật khẩu không được để trống"
-        \end{itemize}
+\item \textbf{Negative Test:} Password rỗng
+  \begin{itemize}
+  \item Input: Username: "admin123", Password: ""
+  \item Expected: Hiển thị lỗi "Mật khẩu không được để trống"
+  \end{itemize}
 
-        \item \textbf{Negative Test:} Sai username/password
-        \begin{itemize}
-            \item Input: Username: "wronguser", Password: "wrongpass"
-            \item Expected: Hiển thị lỗi "Thông tin đăng nhập không chính xác"
-        \end{itemize}
+\item \textbf{Negative Test:} Sai username/password
+  \begin{itemize}
+  \item Input: Username: "wronguser", Password: "wrongpass"
+  \item Expected: Hiển thị lỗi "Thông tin đăng nhập không chính xác"
+  \end{itemize}
 
-        \item \textbf{Boundary Test:} Username đạt min length
-        \begin{itemize}
-            \item Input: Username: "abc", Password: "pass123"
-            \item Expected: Đăng nhập thành công
-        \end{itemize}
+\item \textbf{Boundary Test:} Username đạt min length
+  \begin{itemize}
+  \item Input: Username: "abc", Password: "pass123"
+  \item Expected: Đăng nhập thành công
+  \end{itemize}
 
-        \item \textbf{Boundary Test:} Username đạt max length
-        \begin{itemize}
-            \item Input: Username: "a"*50, Password: "pass123"
-            \item Expected: Đăng nhập thành công
-        \end{itemize}
+\item \textbf{Boundary Test:} Username đạt max length
+  \begin{itemize}
+  \item Input: Username: "a"*50, Password: "pass123"
+  \item Expected: Đăng nhập thành công
+  \end{itemize}
 
-        \item \textbf{Boundary Test:} Password đạt min length
-        \begin{itemize}
-            \item Input: Username: "user123", Password: "abc123"
-            \item Expected: Đăng nhập thành công
-        \end{itemize}
+\item \textbf{Boundary Test:} Password đạt min length
+  \begin{itemize}
+  \item Input: Username: "user123", Password: "abc123"
+  \item Expected: Đăng nhập thành công
+  \end{itemize}
 
-        \item \textbf{Boundary Test:} Password đạt max length
-        \begin{itemize}
-            \item Input: Username: "user123", Password: "a"*99 + "1"
-            \item Expected: Đăng nhập thành công
-        \end{itemize}
+\item \textbf{Boundary Test:} Password đạt max length
+  \begin{itemize}
+  \item Input: Username: "user123", Password: "a"*99 + "1"
+  \item Expected: Đăng nhập thành công
+  \end{itemize}
 
-        \item \textbf{Edge Case:} Username chứa ký tự không hợp lệ
-        \begin{itemize}
-            \item Input: Username: "user@123!", Password: "pass123"
-            \item Expected: Hiển thị lỗi "Username chỉ được chứa chữ cái, số và ký tự -.\_"
-        \end{itemize}
+\item \textbf{Edge Case:} Username chứa ký tự không hợp lệ
+  \begin{itemize}
+  \item Input: Username: "user@123!", Password: "pass123"
+  \item Expected: Hiển thị lỗi "Username chỉ được chứa chữ cái, số và ký tự -.\_"
+  \end{itemize}
 
-        \item \textbf{Edge Case:} Password chỉ chứa chữ (thiếu số)
-        \begin{itemize}
-            \item Input: Username: "user123", Password: "test"
-            \item Expected: Hiển thị lỗi "Mật khẩu phải chứa ít nhất 1 chữ cái và 1 số"
-        \end{itemize}
+\item \textbf{Edge Case:} Password chỉ chứa chữ (thiếu số)
+  \begin{itemize}
+  \item Input: Username: "user123", Password: "test"
+  \item Expected: Hiển thị lỗi "Mật khẩu phải chứa ít nhất 1 chữ cái và 1 số"
+  \end{itemize}
 
-        \item \textbf{Security Test:} SQL Injection attack
-        \begin{itemize}
-            \item Input: Username: admin' OR '1'='1'--, Password: anything
-            \item Expected: Hiển thị thông báo lỗi "Thông tin đăng nhập không chính xác", KHÔNG tiết lộ thông tin lỗi database, hệ thống không bị crash hoặc bypass authentication
-        \end{itemize}
+\item \textbf{Security Test:} SQL Injection attack
+  \begin{itemize}
+  \item Input: Username: admin' OR '1'='1'--, Password: anything
+  \item Expected: Hiển thị thông báo lỗi "Thông tin đăng nhập không chính xác", KHÔNG tiết lộ thông tin lỗi database, hệ thống không bị crash hoặc bypass authentication
+  \end{itemize}
 
-        \item \textbf{Security Test:} XSS Script Injection
-        \begin{itemize}
-            \item Input: Username: <script>alert('hello')</script>, Password: password123
-            \item Expected: Hiển thị lỗi validation "Username chỉ được chứa chữ cái, số và ký tự -.\_", Script không được thực thi trên trình duyệt
-        \end{itemize}
-    \end{enumerate}
+\item \textbf{Security Test:} XSS Script Injection
+  \begin{itemize}
+  \item Input: Username: <script>alert('hello')</script>, Password: password123
+  \item Expected: Hiển thị lỗi validation "Username chỉ được chứa chữ cái, số và ký tự -.\_", Script không được thực thi trên trình duyệt
+  \end{itemize}
+\end{enumerate}
 
-    \paragraph{c) Phân loại ưu tiên test scenarios (1 điểm)}
+\paragraph{c) Phân loại ưu tiên test scenarios (1 điểm)}
 
-    \begin{itemize}
-        \item \textbf{Critical (Rất quan trọng):} Scenario 1, 2, 3, 4, 11, 12
-        \item \textbf{High (Cao):} Scenario 5, 6, 9
-        \item \textbf{Medium (Trung bình):} Scenario 7, 8
-        \item \textbf{Low (Thấp):} Scenario 10
-    \end{itemize}
+\begin{itemize}
+\item \textbf{Critical (Rất quan trọng):} Scenario 1, 2, 3, 4, 11, 12
+\item \textbf{High (Cao):} Scenario 5, 6, 9
+\item \textbf{Medium (Trung bình):} Scenario 7, 8
+\item \textbf{Low (Thấp):} Scenario 10
+\end{itemize}
 
-    \textbf{Giải thích:}
-    \begin{itemize}
-        \item Critical: Các scenario ảnh hưởng trực tiếp đến khả năng sử dụng hệ thống và bảo mật
-        \item High: Các scenario liên quan đến core validation rules của username
-        \item Medium: Các scenario về password validation, ít xảy ra hơn trong thực tế
-        \item Low: Các trường hợp edge case ít gặp, ưu tiên thấp hơn
-    \end{itemize}
+\textbf{Giải thích:}
+\begin{itemize}
+\item Critical: Các scenario ảnh hưởng trực tiếp đến khả năng sử dụng hệ thống và bảo mật
+\item High: Các scenario liên quan đến core validation rules của username
+\item Medium: Các scenario về password validation, ít xảy ra hơn trong thực tế
+\item Low: Các trường hợp edge case ít gặp, ưu tiên thấp hơn
+\end{itemize}
 
-    \subsubsection{Thiết kế Test Cases chi tiết (5 điểm)}
+\subsubsection{Thiết kế Test Cases chi tiết (5 điểm)}
 % ================== LOGIN TEST CASES ==================
-    \begin{table}[htbp]
-        \small
-        \centering
-        \begin{tabular}{|>{\arraybackslash}p{4cm}|p{10cm}|}
-            \hline
-            \textbf{Test Case ID} & TC\_LOGIN\_001 \\ \hline
-            \textbf{Test Name} & Đăng nhập thành công với credentials hợp lệ \\ \hline
-            \textbf{Priority} & Quan trọng \\ \hline
-            \textbf{Preconditions} &
-            \begin{itemize}[leftmargin=*,noitemsep]
-                \item Tài khoản tồn tại trong hệ thống
-                \item Ứng dụng đang chạy
-            \end{itemize} \\ \hline
-            \textbf{Test Steps} &
-            \begin{enumerate}[leftmargin=*,noitemsep]
-                \item Vào trang login
-                \item Nhập username
-                \item Nhập password
-                \item Click nút Login
-            \end{enumerate} \\ \hline
-            \textbf{Test Data} & Username: admin123 \newline Password: admin123 \\ \hline
-            \textbf{Expected Result} &
-            \begin{itemize}[leftmargin=*,noitemsep]
-                \item Hiển thị welcome message
-                \item Token/Session được lưu
-                \item Chuyển hướng đến trang quản lý sản phẩm
-            \end{itemize} \\ \hline
-            \textbf{Actual Result} & (Để trống) \\ \hline
-            \textbf{Status} & Not Run \\ \hline
-        \end{tabular}
-        \caption{Test Case Đăng nhập thành công}
-    \end{table}
+\begin{table}[htbp]
+\small
+\centering
+\begin{tabular}{|>{\arraybackslash}p{4cm}|p{10cm}|}
+\hline
+\textbf{Test Case ID} & TC\_LOGIN\_001 \\ \hline
+\textbf{Test Name} & Đăng nhập thành công với credentials hợp lệ \\ \hline
+\textbf{Priority} & Quan trọng \\ \hline
+\textbf{Preconditions} & 
+\begin{itemize}[leftmargin=*,noitemsep]
+\item Tài khoản tồn tại trong hệ thống
+\item Ứng dụng đang chạy
+\end{itemize} \\ \hline
+\textbf{Test Steps} & 
+\begin{enumerate}[leftmargin=*,noitemsep]
+\item Vào trang login
+\item Nhập username
+\item Nhập password
+\item Click nút Login 
+\end{enumerate} \\ \hline
+\textbf{Test Data} & Username: admin123 \newline Password: admin123 \\ \hline
+\textbf{Expected Result} & 
+\begin{itemize}[leftmargin=*,noitemsep]
+\item Hiển thị welcome message
+\item Token/Session được lưu
+\item Chuyển hướng đến trang quản lý sản phẩm
+\end{itemize} \\ \hline
+\textbf{Actual Result} & (Để trống) \\ \hline
+\textbf{Status} & Not Run \\ \hline
+\end{tabular}
+\caption{Test Case Đăng nhập thành công}
+\end{table}
 
-    \begin{table}[htbp]
-        \small
-        \centering
-        \begin{tabular}{|p{2.8cm}|p{10.2cm}|}
-            \hline
-            \textbf{Test Case ID} & TC\_LOGIN\_002 \\ \hline
-            \textbf{Test Name} & Đăng nhập thất bại khi username rỗng \\ \hline
-            \textbf{Priority} & Quan trọng \\ \hline
-            \textbf{Preconditions} & Ứng dụng đang chạy \\ \hline
-            \textbf{Test Steps} &
-            \begin{enumerate}[leftmargin=*,noitemsep]
-                \item Vào trang login
-                \item Không nhập username
-                \item Nhập password
-                \item Click nút Login
-            \end{enumerate} \\ \hline
-            \textbf{Test Data} & Username: (rỗng) \newline Password: Test123 \\ \hline
-            \textbf{Expected Result} &
-            \begin{itemize}[leftmargin=*,noitemsep]
-                \item Hiển thị thông báo lỗi: ``Username không được để trống''
-                \item Vẫn ở trang login
-                \item Không tạo session/token
-            \end{itemize} \\ \hline
-            \textbf{Actual Result} & (Để trống) \\ \hline
-            \textbf{Status} & Not Run \\ \hline
-        \end{tabular}
-        \caption{Test Case Đăng nhập thất bại khi username rỗng}
-    \end{table}
-
-
-    \begin{table}[htbp]
-        \small
-        \centering
-        \begin{tabular}{|p{2.8cm}|p{10.2cm}|}
-            \hline
-            \textbf{Test Case ID} & TC\_LOGIN\_003 \\ \hline
-            \textbf{Test Name} & Đăng nhập thất bại Password rỗng \\ \hline
-            \textbf{Priority} & Quan trọng \\ \hline
-            \textbf{Preconditions} & Ứng dụng đang chạy, đang ở trang login \\ \hline
-            \textbf{Test Steps} &
-            \begin{enumerate}[leftmargin=*,noitemsep]
-                \item Vào trang login
-                \item Nhập username đúng định dạng
-                \item Không nhập  password
-                \item Click nút Login
-            \end{enumerate} \\ \hline
-            \textbf{Test Data} & Username: admin123 \newline Password\\ \hline
-            \textbf{Expected Result} &
-            \begin{itemize}[leftmargin=*,noitemsep]
-                \item Hiển thị thông báo lỗi: "Password không được để trống"
-                \item Vẫn ở trang login
-                \item Không tạo session/token
-            \end{itemize} \\ \hline
-            \textbf{Actual Result} & (Để trống) \\ \hline
-            \textbf{Status} & Not Run \\ \hline
-        \end{tabular}
-        \caption{Test Case đăng nhập thất bại khi password rỗng}
-    \end{table}
-
-    \begin{table}[htbp]
-        \small
-        \centering
-        \begin{tabular}{|p{2.8cm}|p{10.2cm}|}
-            \hline
-            \textbf{Test Case ID} & TC\_LOGIN\_004 \\ \hline
-            \textbf{Test Name} & Đăng nhập thất bại khi password chỉ chứa chữ \\ \hline
-            \textbf{Priority} & Cao \\ \hline
-            \textbf{Preconditions} & Ứng dụng đang chạy \\ \hline
-            \textbf{Test Steps} &
-            \begin{enumerate}[leftmargin=*,noitemsep]
-                \item Vào trang login
-                \item Nhập username
-                \item Nhập password sai định dạng
-                \item Click nút Login
-            \end{enumerate} \\ \hline
-            \textbf{Test Data} & Username: testuser \newline Password: password \\ \hline
-            \textbf{Expected Result} &
-            \begin{itemize}[leftmargin=*,noitemsep]
-                \item Hiển thị thông báo lỗi: ``Mật khẩu phải chứa ít nhất 1 chữ cái và 1 số''
-                \item Vẫn ở trang login
-                \item Giữ username, reset input password
-            \end{itemize} \\ \hline
-            \textbf{Actual Result} & (Để trống) \\ \hline
-            \textbf{Status} & Not Run \\ \hline
-        \end{tabular}
-        \caption{Test Case Đăng nhập thất bại khi password chỉ chứa chữ}
-    \end{table}
+\begin{table}[htbp]
+\small
+\centering
+\begin{tabular}{|p{2.8cm}|p{10.2cm}|}
+\hline
+\textbf{Test Case ID} & TC\_LOGIN\_002 \\ \hline
+\textbf{Test Name} & Đăng nhập thất bại khi username rỗng \\ \hline
+\textbf{Priority} & Quan trọng \\ \hline
+\textbf{Preconditions} & Ứng dụng đang chạy \\ \hline
+\textbf{Test Steps} & 
+\begin{enumerate}[leftmargin=*,noitemsep]
+\item Vào trang login
+\item Không nhập username
+\item Nhập password
+\item Click nút Login
+\end{enumerate} \\ \hline
+\textbf{Test Data} & Username: (rỗng) \newline Password: Test123 \\ \hline
+\textbf{Expected Result} & 
+\begin{itemize}[leftmargin=*,noitemsep]
+\item Hiển thị thông báo lỗi: ``Username không được để trống''
+\item Vẫn ở trang login
+\item Không tạo session/token
+\end{itemize} \\ \hline
+\textbf{Actual Result} & (Để trống) \\ \hline
+\textbf{Status} & Not Run \\ \hline
+\end{tabular}
+\caption{Test Case Đăng nhập thất bại khi username rỗng}
+\end{table}
 
 
-    \begin{table}[htbp]
-        \small
-        \centering
-        \begin{tabular}{|p{2.8cm}|p{10.2cm}|}
-            \hline
-            \textbf{Test Case ID} & TC\_LOGIN\_005 \\ \hline
-            \textbf{Test Name} & Đăng nhập thất bại khi username > 50 ký tự \\ \hline
-            \textbf{Priority} & Trung bình \\ \hline
-            \textbf{Preconditions} & Ứng dụng đang chạy \\ \hline
-            \textbf{Test Steps} &
-            \begin{enumerate}[leftmargin=*,noitemsep]
-                \item Vào trang login
-                \item Nhập username > 50 ký tự
-                \item Nhập password
-                \item Click nút Login
-            \end{enumerate} \\ \hline
-            \textbf{Test Data} & Username:abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxy \newline Password: Test123 \\ \hline
-            \textbf{Expected Result} &
-            \begin{itemize}[leftmargin=*,noitemsep]
-                \item Hiển thị lỗi: ``Username chỉ được phép từ 3-50 ký tự''
-                \item Không gửi request đến server (client-side validation)
-            \end{itemize} \\ \hline
-            \textbf{Actual Result} & (Để trống) \\ \hline
-            \textbf{Status} & Not Run \\ \hline
-        \end{tabular}
-        \caption{Test Case Đăng nhập thất bại khi username quá dài}
-    \end{table}
+\begin{table}[htbp]
+\small
+\centering
+\begin{tabular}{|p{2.8cm}|p{10.2cm}|}
+\hline
+\textbf{Test Case ID} & TC\_LOGIN\_003 \\ \hline
+\textbf{Test Name} & Đăng nhập thất bại Password rỗng \\ \hline
+\textbf{Priority} & Quan trọng \\ \hline
+\textbf{Preconditions} & Ứng dụng đang chạy, đang ở trang login \\ \hline
+\textbf{Test Steps} & 
+\begin{enumerate}[leftmargin=*,noitemsep]
+\item Vào trang login
+\item Nhập username đúng định dạng
+\item Không nhập  password
+\item Click nút Login
+\end{enumerate} \\ \hline
+\textbf{Test Data} & Username: admin123 \newline Password\\ \hline
+\textbf{Expected Result} & 
+\begin{itemize}[leftmargin=*,noitemsep]
+\item Hiển thị thông báo lỗi: "Password không được để trống"
+\item Vẫn ở trang login
+\item Không tạo session/token
+\end{itemize} \\ \hline
+\textbf{Actual Result} & (Để trống) \\ \hline
+\textbf{Status} & Not Run \\ \hline
+\end{tabular}
+\caption{Test Case đăng nhập thất bại khi password rỗng}
+\end{table}
+
+\begin{table}[htbp]
+\small
+\centering
+\begin{tabular}{|p{2.8cm}|p{10.2cm}|}
+\hline
+\textbf{Test Case ID} & TC\_LOGIN\_004 \\ \hline
+\textbf{Test Name} & Đăng nhập thất bại khi password chỉ chứa chữ \\ \hline
+\textbf{Priority} & Cao \\ \hline
+\textbf{Preconditions} & Ứng dụng đang chạy \\ \hline
+\textbf{Test Steps} & 
+\begin{enumerate}[leftmargin=*,noitemsep]
+\item Vào trang login
+\item Nhập username
+\item Nhập password sai định dạng
+\item Click nút Login
+\end{enumerate} \\ \hline
+\textbf{Test Data} & Username: testuser \newline Password: password \\ \hline
+\textbf{Expected Result} & 
+\begin{itemize}[leftmargin=*,noitemsep]
+\item Hiển thị thông báo lỗi: ``Mật khẩu phải chứa ít nhất 1 chữ cái và 1 số''
+\item Vẫn ở trang login
+\item Giữ username, reset input password
+\end{itemize} \\ \hline
+\textbf{Actual Result} & (Để trống) \\ \hline
+\textbf{Status} & Not Run \\ \hline
+\end{tabular}
+\caption{Test Case Đăng nhập thất bại khi password chỉ chứa chữ}
+\end{table}
+
+
+\begin{table}[htbp]
+\small
+\centering
+\begin{tabular}{|p{2.8cm}|p{10.2cm}|}
+\hline
+\textbf{Test Case ID} & TC\_LOGIN\_005 \\ \hline
+\textbf{Test Name} & Đăng nhập thất bại khi username > 50 ký tự \\ \hline
+\textbf{Priority} & Trung bình \\ \hline
+\textbf{Preconditions} & Ứng dụng đang chạy \\ \hline
+\textbf{Test Steps} & 
+\begin{enumerate}[leftmargin=*,noitemsep]
+\item Vào trang login
+\item Nhập username > 50 ký tự
+\item Nhập password
+\item Click nút Login
+\end{enumerate} \\ \hline
+\textbf{Test Data} & Username:abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxy \newline Password: Test123 \\ \hline
+\textbf{Expected Result} & 
+\begin{itemize}[leftmargin=*,noitemsep]
+\item Hiển thị lỗi: ``Username chỉ được phép từ 3-50 ký tự''
+\item Không gửi request đến server (client-side validation)
+\end{itemize} \\ \hline
+\textbf{Actual Result} & (Để trống) \\ \hline
+\textbf{Status} & Not Run \\ \hline
+\end{tabular}
+\caption{Test Case Đăng nhập thất bại khi username quá dài}
+\end{table}
+\FloatBarrier
+\subsection{Câu 1.2: Product - Phân tích và Test Scenarios (10 điểm)}
+
+\subsubsection{Yêu cầu (5 điểm)}
+
+\paragraph{a) Phân tích yêu cầu chức năng Product CRUD (2 điểm)}
+
+\textbf{Create - Thêm sản phẩm mới:}
+\begin{itemize}
+\item \textbf{Validation Rules:}
+  \begin{itemize}
+  \item Product Name: 3-100 ký tự, bắt buộc, không trùng
+  \item Price: 0 -> 999.999.999
+  \item Quantity: số nguyên dương
+  \item Description: ≤ 500 ký tự, có thể để trống
+  \item Category: Phải chọn từ danh sách có sẵn
+  \end{itemize}
+\item \textbf{Business Logic:}
+  \begin{itemize}
+  \item Tạo mã sản phẩm tự động (nếu có)
+  \item Kiểm tra trùng tên sản phẩm
+  \item Tính toán tồn kho ban đầu
+  \item Log hoạt động tạo sản phẩm
+  \end{itemize}
+\end{itemize}
+
+\textbf{Read - Xem danh sách/chi tiết sản phẩm:}
+\begin{itemize}
+\item \textbf{Danh sách sản phẩm:}
+  \begin{itemize}
+  \item Pagination, sorting, filtering theo category
+  \item Search theo tên sản phẩm
+  \item Hiển thị thông tin cơ bản: tên, giá, số lượng
+  \end{itemize}
+\item \textbf{Chi tiết sản phẩm:}
+  \begin{itemize}
+  \item Hiển thị đầy đủ thông tin sản phẩm
+  \item Hiển thị ngày tạo, ngày cập nhật
+  \item Ảnh sản phẩm (nếu có)
+  \end{itemize}
+\end{itemize}
+
+\textbf{Update - Cập nhật thông tin sản phẩm:}
+\begin{itemize}
+\item \textbf{Validation:} Tương tự Create
+\item \textbf{Business Logic:}
+  \begin{itemize}
+  \item Cho phép cập nhật tất cả trường (trừ ID)
+  \item Kiểm tra trùng tên (loại trừ chính nó)
+  \item Cập nhật ngày sửa đổi
+  \item Log lịch sử thay đổi
+  \end{itemize}
+\end{itemize}
+
+\textbf{Delete - Xóa sản phẩm:}
+\begin{itemize}
+\item \textbf{Validation:}
+  \begin{itemize}
+  \item Sản phẩm phải tồn tại
+  \item Kiểm tra ràng buộc (có đơn hàng liên quan không)
+  \end{itemize}
+\item \textbf{Business Logic:}
+  \begin{itemize}
+  \item Soft delete (khuyến nghị) hoặc hard delete
+  \item Xóa ảnh, file đính kèm (nếu có)
+  \item Log hoạt động xóa
+  \end{itemize}
+\end{itemize}
+
+\paragraph{b) Test Scenarios cho Product (2 điểm)}
+
+\begin{enumerate}
+\item \textbf{Happy Path:} Tạo sản phẩm mới thành công
+  \begin{itemize}
+  \item Input: Dữ liệu hợp lệ đầy đủ
+  \item Expected: Tạo thành công, hiển thị message, xuất hiện trong danh sách
+  \end{itemize}
+
+\item \textbf{Happy Path:} Xem chi tiết sản phẩm thành công
+  \begin{itemize}
+  \item Input: ID sản phẩm hợp lệ
+  \item Expected: Hiển thị đầy đủ thông tin sản phẩm
+  \end{itemize}
+
+\item \textbf{Happy Path:} Cập nhật sản phẩm thành công
+  \begin{itemize}
+  \item Input: Dữ liệu mới hợp lệ
+  \item Expected: Cập nhật thành công, thông tin thay đổi được lưu
+  \end{itemize}
+
+\item \textbf{Happy Path:} Xóa sản phẩm thành công
+  \begin{itemize}
+  \item Input: ID sản phẩm hợp lệ, không có ràng buộc
+  \item Expected: Xóa thành công, sản phẩm biến mất khỏi danh sách
+  \end{itemize}
+
+\item \textbf{Negative Test:} Tạo sản phẩm thất bại - Tên trùng
+  \begin{itemize}
+  \item Input: Tên sản phẩm đã tồn tại
+  \item Expected: Hiển thị lỗi "Tên sản phẩm đã tồn tại"
+  \end{itemize}
+
+\item \textbf{Negative Test:} Tạo sản phẩm thất bại - Giá âm
+  \begin{itemize}
+  \item Input: Price = -1000
+  \item Expected: Hiển thị lỗi "Giá phải lớn hơn 0"
+  \end{itemize}
+
+\item \textbf{Negative Test:} Cập nhật thất bại - số lượng tồn kho âm 
+  \begin{itemize}
+  \item Input:  Stock quantity = -50
+
+  \item Expected:  Hiển thị lỗi "Số lượng tồn kho không được âm"
+  \end{itemize}
+
+\item \textbf{Boundary Test:} Tạo sản phẩm - Tên đạt min length
+  \begin{itemize}
+  \item Input: Product Name = "ABC" (3 ký tự)
+  \item Expected: Tạo thành công
+  \end{itemize}
+
+\item \textbf{Boundary Test:} Tạo sản phẩm - Price đạt max value
+  \begin{itemize}
+  \item Input: Price = 999,999,999
+  \item Expected: Tạo thành công
+  \end{itemize}
+
+\item \textbf{Edge Case:} Xóa sản phẩm không tồn tại
+  \begin{itemize}
+  \item Input: ID sản phẩm không tồn tại
+  \item Expected: Hiển thị lỗi "Sản phẩm không tồn tại"
+  \end{itemize}
+\end{enumerate}
+
+\paragraph{c) Phân loại ưu tiên test scenarios (1 điểm)}
+
+\begin{itemize}
+\item \textbf{Critical (Rất quan trọng):} Scenario 1, 5, 6, 7
+\item \textbf{High (Cao):} Scenario 3, 4
+\item \textbf{Medium (Trung bình):} Scenario 2, 8, 9
+\item \textbf{Low (Thấp):} Scenario 10
+\end{itemize}
+
+\textbf{Giải thích:}
+\begin{itemize}
+\item Critical: Các scenario ảnh hưởng trực tiếp đến business logic và data integrity
+\item High: Các chức năng core CRUD và validation quan trọng
+\item Medium: Các chức năng cơ bản và boundary tests
+\item Low: Edge case ít xảy ra trong thực tế
+\end{itemize}
+
+\subsubsection{Thiết kế Test Cases chi tiết (5 điểm)}
+
+\begin{table}[h]
+\centering
+\begin{tabular}{|p{3cm}|p{10cm}|}
+\hline
+\textbf{Test Case ID} & TC\_PRODUCT\_001 \\
+\hline
+\textbf{Test Name} & Tạo sản phẩm mới thành công \\
+\hline
+\textbf{Priority} & Quan trọng \\
+\hline
+\textbf{Preconditions} & User đã đăng nhập \\ 
+                       & User có quyền tạo sản phẩm \\
+                       & Danh mục "Electronics" tồn tại \\
+\hline
+\textbf{Test Steps} & 1. Chuyển đến trang quản lý sản phẩm \\
+                    & 2. Click thêm sản phẩm \\
+                    & 3. Nhập thông tin theo mẫu \\
+                    & 4. Click nút lưu \\
+\hline
+\textbf{Test Data} & - Name: Laptop Dell XPS 13 \\
+                   & - Price: 15000000 \\
+                   & - Quantity: 10 \\
+                   & - Category: Electronics \\
+                   & - Description: Laptop cao cấp cho doanh nhân \\
+\hline
+\textbf{Expected Result} & - Hiển thị thông báo "thêm sản phẩm thành công" \\
+                         & - Hiển thị sản phẩm mới trong danh sách sản phẩm \\
+\hline
+\textbf{Actual Result} & (Để trống) \\
+\hline
+\textbf{Status} & Not Run \\
+\hline
+\end{tabular}
+\caption{Test Case Tạo sản phẩm thành công}
+\end{table}
+
+\begin{table}[h]
+\centering
+\begin{tabular}{|p{3cm}|p{10cm}|}
+\hline
+\textbf{Test Case ID} & TC\_PRODUCT\_002 \\
+\hline
+\textbf{Test Name} & Cập nhật thông tin sản phẩm thành công \\
+\hline
+\textbf{Priority} & Cao \\
+\hline
+\textbf{Preconditions} & User đã đăng nhập \\
+                       & User có quyền chỉnh sửa sản phẩm \\
+                       & Sản phẩm "Laptop Dell XPS 13" tồn tại \\
+                       & Danh mục "Laptop" tồn tại \\
+\hline
+\textbf{Test Steps} & 1. Chuyển đến trang quản lý sản phẩm \\
+                    & 2. Click vào button sửa ở dòng sản phẩm "Laptop Dell XPS 13" \\
+                    & 3. Cập nhật thông tin sản phẩm \\
+                    & 4. Click nút lưu \\
+\hline
+\textbf{Test Data} & Name: Laptop Dell XPS 13 (2024) \\
+                   & Price: 16000000 \\
+                   & Quantity: 15 \\
+                   & Category: Laptop \\
+                   & Description: Laptop cao cấp phiên bản 2024 \\
+\hline
+\textbf{Expected Result} & - Hiển thị thông báo "Cập nhật sản phẩm thành công" \\
+                         & - Hiển thị thông tin mới của sản phẩm trong danh sách sản phẩm \\
+\hline
+\textbf{Actual Result} & (Để trống) \\
+\hline
+\textbf{Status} & Not Run \\
+\hline
+\end{tabular}
+\caption{Test Case Cập nhật sản phẩm thành công}
+\end{table}
+
+\begin{table}[h]
+\centering
+\begin{tabular}{|p{3cm}|p{10cm}|}
+\hline
+\textbf{Test Case ID} & TC\_PRODUCT\_003 \\
+\hline
+\textbf{Test Name} & Xóa sản phẩm thành công \\
+\hline
+\textbf{Priority} & Cao \\
+\hline
+\textbf{Preconditions} & User đã đăng nhập \\
+                       & User có quyền xóa sản phẩm \\
+                       & Sản phẩm " Laptop Dell XPS 13 (2024)" tồn tại \\
+                       & Sản phẩm không có đơn hàng liên quan \\
+\hline
+\textbf{Test Steps} & 1. Chuyển đến trang quản lý sản phẩm \\
+                    & 2. Click vào button xóa ở dòng sản phẩm "Test Product For Delete" \\
+                    & 3. Xác nhận xóa trong confirmation dialog \\
+\hline
+\textbf{Test Data} & Product Name: Laptop Dell XPS 13 (2024)\\
+\hline
+\textbf{Expected Result} & - Hiển thị confirmation dialog \\
+                         & - Sau khi confirm, hiển thị message: "Xóa sản phẩm thành công" \\
+                         & - Sản phẩm biến mất khỏi danh sách \\
+                         & - Không thể tìm thấy sản phẩm bằng search \\
+\hline
+\textbf{Actual Result} & (Để trống) \\
+\hline
+\textbf{Status} & Not Run \\
+\hline
+\end{tabular}
+\caption{Test Case Xóa sản phẩm thành công}
+\end{table}
+
+\begin{table}[h]
+\centering
+\begin{tabular}{|p{3cm}|p{10cm}|}
+\hline
+\textbf{Test Case ID} & TC\_PRODUCT\_004 \\
+\hline
+\textbf{Test Name} & Xem danh sách sản phẩm \\
+\hline
+\textbf{Priority} & Cao \\
+\hline
+\textbf{Preconditions} & User đã đăng nhập \\ 
+&Có ít nhất 1 sản phẩm trong hệ thống \\
+\hline
+\textbf{Test Steps} & 1. Chuyển đến trang quản lý sản phẩm \\
+\hline
+\textbf{Test Data} & (trống) \\
+\hline
+\textbf{Expected Result} & Hiển thị danh sách sản phẩm với đầy đủ thông tin \\
+\hline
+\textbf{Actual Result} & (Để trống) \\
+\hline
+\textbf{Status} & Not Run \\
+\hline
+\end{tabular}
+\caption{Test Case Xem danh sách sản phẩm}
+\end{table}
+
+\begin{table}[h]
+\centering
+\begin{tabular}{|p{3cm}|p{10cm}|}
+\hline
+\textbf{Test Case ID} & TC\_PRODUCT\_005 \\
+\hline
+\textbf{Test Name} & Tạo sản phẩm thất bại do trùng tên \\
+\hline
+\textbf{Priority} & Quan trọng \\
+\hline
+\textbf{Preconditions} & User đã đăng nhập \\ 
+& User có quyền tạo sản phẩm \\ 
+&Sản phẩm "Laptop Dell XPS 13" đã tồn tại \\
+\hline
+\textbf{Test Steps} & 1. Chuyển đến trang quản lý sản phẩm \\
+                    & 2. Click thêm sản phẩm \\
+                    & 3. Nhập tên trùng và các thông tin theo mẫu \\
+                    & 4. Click nút lưu \\
+\hline
+\textbf{Test Data} & Name: Laptop Dell XPS 13 (trùng), Price: 15000000, Quantity: 5, Category: Electronics, Description: Sản phẩm mô tả mới \\
+\hline
+\textbf{Expected Result} & - Hiển thị lỗi: "Tên sản phẩm đã tồn tại" \\
+                         & - Form không được submit \\
+                         & - Vẫn ở trang tạo sản phẩm \\
+                         & - Các field khác giữ nguyên giá trị đã nhập \\
+\hline
+\textbf{Actual Result} & (Để trống) \\
+\hline
+\textbf{Status} & Not Run \\
+\hline
+\end{tabular}
+\caption{Test Case Tạo sản phẩm thất bại do trùng tên}
+\end{table}
     \FloatBarrier
-    \subsection{Câu 1.2: Product - Phân tích và Test Scenarios (10 điểm)}
+\clearpage
+    
+\section{CÂU 2: UNIT TESTING VÀ TDD}
 
-    \subsubsection{Yêu cầu (5 điểm)}
+Nhóm áp dụng quy trình TDD (Test-Driven Development) theo chu trình: \textbf{Red} (Viết test fail) $\rightarrow$ \textbf{Green} (Viết code để pass test) $\rightarrow$ \textbf{Refactor} (Tối ưu code). Dưới đây là các unit tests chi tiết cho Frontend và Backend.
 
-    \paragraph{a) Phân tích yêu cầu chức năng Product CRUD (2 điểm)}
+\subsection{2.1. Frontend Unit Tests (TDD Approach)}
+Quy trình phát triển được thực hiện theo mô hình TDD: Viết kịch bản kiểm thử trước khi viết mã nguồn chức năng. Dưới đây là minh họa quy trình unit tests cho validation module của \texttt{login} và \texttt{product}.
 
-    \textbf{Create - Thêm sản phẩm mới:}
-    \begin{itemize}
-        \item \textbf{Validation Rules:}
-        \begin{itemize}
-            \item Product Name: 3-100 ký tự, bắt buộc, không trùng
-            \item Price: 0 -> 999.999.999
-            \item Quantity: số nguyên dương
-            \item Description: ≤ 500 ký tự, có thể để trống
-            \item Category: Phải chọn từ danh sách có sẵn
-        \end{itemize}
-        \item \textbf{Business Logic:}
-        \begin{itemize}
-            \item Tạo mã sản phẩm tự động (nếu có)
-            \item Kiểm tra trùng tên sản phẩm
-            \item Tính toán tồn kho ban đầu
-            \item Log hoạt động tạo sản phẩm
-        \end{itemize}
-    \end{itemize}
+\subsubsection{2.1.1. Phát triển unit tests cho validation module của Login}
+\textbf{Bước 1: Red (Viết Test)} - Viết test case kiểm tra các trường hợp user. Test này sẽ thất bại vì hàm chưa có logic.
 
-    \textbf{Read - Xem danh sách/chi tiết sản phẩm:}
-    \begin{itemize}
-        \item \textbf{Danh sách sản phẩm:}
-        \begin{itemize}
-            \item Pagination, sorting, filtering theo category
-            \item Search theo tên sản phẩm
-            \item Hiển thị thông tin cơ bản: tên, giá, số lượng
-        \end{itemize}
-        \item \textbf{Chi tiết sản phẩm:}
-        \begin{itemize}
-            \item Hiển thị đầy đủ thông tin sản phẩm
-            \item Hiển thị ngày tạo, ngày cập nhật
-            \item Ảnh sản phẩm (nếu có)
-        \end{itemize}
-    \end{itemize}
-
-    \textbf{Update - Cập nhật thông tin sản phẩm:}
-    \begin{itemize}
-        \item \textbf{Validation:} Tương tự Create
-        \item \textbf{Business Logic:}
-        \begin{itemize}
-            \item Cho phép cập nhật tất cả trường (trừ ID)
-            \item Kiểm tra trùng tên (loại trừ chính nó)
-            \item Cập nhật ngày sửa đổi
-            \item Log lịch sử thay đổi
-        \end{itemize}
-    \end{itemize}
-
-    \textbf{Delete - Xóa sản phẩm:}
-    \begin{itemize}
-        \item \textbf{Validation:}
-        \begin{itemize}
-            \item Sản phẩm phải tồn tại
-            \item Kiểm tra ràng buộc (có đơn hàng liên quan không)
-        \end{itemize}
-        \item \textbf{Business Logic:}
-        \begin{itemize}
-            \item Soft delete (khuyến nghị) hoặc hard delete
-            \item Xóa ảnh, file đính kèm (nếu có)
-            \item Log hoạt động xóa
-        \end{itemize}
-    \end{itemize}
-
-    \paragraph{b) Test Scenarios cho Product (2 điểm)}
-
-    \begin{enumerate}
-        \item \textbf{Happy Path:} Tạo sản phẩm mới thành công
-        \begin{itemize}
-            \item Input: Dữ liệu hợp lệ đầy đủ
-            \item Expected: Tạo thành công, hiển thị message, xuất hiện trong danh sách
-        \end{itemize}
-
-        \item \textbf{Happy Path:} Xem chi tiết sản phẩm thành công
-        \begin{itemize}
-            \item Input: ID sản phẩm hợp lệ
-            \item Expected: Hiển thị đầy đủ thông tin sản phẩm
-        \end{itemize}
-
-        \item \textbf{Happy Path:} Cập nhật sản phẩm thành công
-        \begin{itemize}
-            \item Input: Dữ liệu mới hợp lệ
-            \item Expected: Cập nhật thành công, thông tin thay đổi được lưu
-        \end{itemize}
-
-        \item \textbf{Happy Path:} Xóa sản phẩm thành công
-        \begin{itemize}
-            \item Input: ID sản phẩm hợp lệ, không có ràng buộc
-            \item Expected: Xóa thành công, sản phẩm biến mất khỏi danh sách
-        \end{itemize}
-
-        \item \textbf{Negative Test:} Tạo sản phẩm thất bại - Tên trùng
-        \begin{itemize}
-            \item Input: Tên sản phẩm đã tồn tại
-            \item Expected: Hiển thị lỗi "Tên sản phẩm đã tồn tại"
-        \end{itemize}
-
-        \item \textbf{Negative Test:} Tạo sản phẩm thất bại - Giá âm
-        \begin{itemize}
-            \item Input: Price = -1000
-            \item Expected: Hiển thị lỗi "Giá phải lớn hơn 0"
-        \end{itemize}
-
-        \item \textbf{Negative Test:} Cập nhật thất bại - số lượng tồn kho âm
-        \begin{itemize}
-            \item Input:  Stock quantity = -50
-
-            \item Expected:  Hiển thị lỗi "Số lượng tồn kho không được âm"
-        \end{itemize}
-
-        \item \textbf{Boundary Test:} Tạo sản phẩm - Tên đạt min length
-        \begin{itemize}
-            \item Input: Product Name = "ABC" (3 ký tự)
-            \item Expected: Tạo thành công
-        \end{itemize}
-
-        \item \textbf{Boundary Test:} Tạo sản phẩm - Price đạt max value
-        \begin{itemize}
-            \item Input: Price = 999,999,999
-            \item Expected: Tạo thành công
-        \end{itemize}
-
-        \item \textbf{Edge Case:} Xóa sản phẩm không tồn tại
-        \begin{itemize}
-            \item Input: ID sản phẩm không tồn tại
-            \item Expected: Hiển thị lỗi "Sản phẩm không tồn tại"
-        \end{itemize}
-    \end{enumerate}
-
-    \paragraph{c) Phân loại ưu tiên test scenarios (1 điểm)}
-
-    \begin{itemize}
-        \item \textbf{Critical (Rất quan trọng):} Scenario 1, 5, 6, 7
-        \item \textbf{High (Cao):} Scenario 3, 4
-        \item \textbf{Medium (Trung bình):} Scenario 2, 8, 9
-        \item \textbf{Low (Thấp):} Scenario 10
-    \end{itemize}
-
-    \textbf{Giải thích:}
-    \begin{itemize}
-        \item Critical: Các scenario ảnh hưởng trực tiếp đến business logic và data integrity
-        \item High: Các chức năng core CRUD và validation quan trọng
-        \item Medium: Các chức năng cơ bản và boundary tests
-        \item Low: Edge case ít xảy ra trong thực tế
-    \end{itemize}
-
-    \subsubsection{Thiết kế Test Cases chi tiết (5 điểm)}
-
-    \begin{table}[h]
-        \centering
-        \begin{tabular}{|p{3cm}|p{10cm}|}
-            \hline
-            \textbf{Test Case ID} & TC\_PRODUCT\_001 \\
-            \hline
-            \textbf{Test Name} & Tạo sản phẩm mới thành công \\
-            \hline
-            \textbf{Priority} & Quan trọng \\
-            \hline
-            \textbf{Preconditions} & User đã đăng nhập \\
-            & User có quyền tạo sản phẩm \\
-            & Danh mục "Electronics" tồn tại \\
-            \hline
-            \textbf{Test Steps} & 1. Chuyển đến trang quản lý sản phẩm \\
-            & 2. Click thêm sản phẩm \\
-            & 3. Nhập thông tin theo mẫu \\
-            & 4. Click nút lưu \\
-            \hline
-            \textbf{Test Data} & - Name: Laptop Dell XPS 13 \\
-            & - Price: 15000000 \\
-            & - Quantity: 10 \\
-            & - Category: Electronics \\
-            & - Description: Laptop cao cấp cho doanh nhân \\
-            \hline
-            \textbf{Expected Result} & - Hiển thị thông báo "thêm sản phẩm thành công" \\
-            & - Hiển thị sản phẩm mới trong danh sách sản phẩm \\
-            \hline
-            \textbf{Actual Result} & (Để trống) \\
-            \hline
-            \textbf{Status} & Not Run \\
-            \hline
-        \end{tabular}
-        \caption{Test Case Tạo sản phẩm thành công}
-    \end{table}
-
-    \begin{table}[h]
-        \centering
-        \begin{tabular}{|p{3cm}|p{10cm}|}
-            \hline
-            \textbf{Test Case ID} & TC\_PRODUCT\_002 \\
-            \hline
-            \textbf{Test Name} & Cập nhật thông tin sản phẩm thành công \\
-            \hline
-            \textbf{Priority} & Cao \\
-            \hline
-            \textbf{Preconditions} & User đã đăng nhập \\
-            & User có quyền chỉnh sửa sản phẩm \\
-            & Sản phẩm "Laptop Dell XPS 13" tồn tại \\
-            & Danh mục "Laptop" tồn tại \\
-            \hline
-            \textbf{Test Steps} & 1. Chuyển đến trang quản lý sản phẩm \\
-            & 2. Click vào button sửa ở dòng sản phẩm "Laptop Dell XPS 13" \\
-            & 3. Cập nhật thông tin sản phẩm \\
-            & 4. Click nút lưu \\
-            \hline
-            \textbf{Test Data} & Name: Laptop Dell XPS 13 (2024) \\
-            & Price: 16000000 \\
-            & Quantity: 15 \\
-            & Category: Laptop \\
-            & Description: Laptop cao cấp phiên bản 2024 \\
-            \hline
-            \textbf{Expected Result} & - Hiển thị thông báo "Cập nhật sản phẩm thành công" \\
-            & - Hiển thị thông tin mới của sản phẩm trong danh sách sản phẩm \\
-            \hline
-            \textbf{Actual Result} & (Để trống) \\
-            \hline
-            \textbf{Status} & Not Run \\
-            \hline
-        \end{tabular}
-        \caption{Test Case Cập nhật sản phẩm thành công}
-    \end{table}
-
-    \begin{table}[h]
-        \centering
-        \begin{tabular}{|p{3cm}|p{10cm}|}
-            \hline
-            \textbf{Test Case ID} & TC\_PRODUCT\_003 \\
-            \hline
-            \textbf{Test Name} & Xóa sản phẩm thành công \\
-            \hline
-            \textbf{Priority} & Cao \\
-            \hline
-            \textbf{Preconditions} & User đã đăng nhập \\
-            & User có quyền xóa sản phẩm \\
-            & Sản phẩm " Laptop Dell XPS 13 (2024)" tồn tại \\
-            & Sản phẩm không có đơn hàng liên quan \\
-            \hline
-            \textbf{Test Steps} & 1. Chuyển đến trang quản lý sản phẩm \\
-            & 2. Click vào button xóa ở dòng sản phẩm "Test Product For Delete" \\
-            & 3. Xác nhận xóa trong confirmation dialog \\
-            \hline
-            \textbf{Test Data} & Product Name: Laptop Dell XPS 13 (2024)\\
-            \hline
-            \textbf{Expected Result} & - Hiển thị confirmation dialog \\
-            & - Sau khi confirm, hiển thị message: "Xóa sản phẩm thành công" \\
-            & - Sản phẩm biến mất khỏi danh sách \\
-            & - Không thể tìm thấy sản phẩm bằng search \\
-            \hline
-            \textbf{Actual Result} & (Để trống) \\
-            \hline
-            \textbf{Status} & Not Run \\
-            \hline
-        \end{tabular}
-        \caption{Test Case Xóa sản phẩm thành công}
-    \end{table}
-
-    \begin{table}[h]
-        \centering
-        \begin{tabular}{|p{3cm}|p{10cm}|}
-            \hline
-            \textbf{Test Case ID} & TC\_PRODUCT\_004 \\
-            \hline
-            \textbf{Test Name} & Xem danh sách sản phẩm \\
-            \hline
-            \textbf{Priority} & Cao \\
-            \hline
-            \textbf{Preconditions} & User đã đăng nhập \\
-            &Có ít nhất 1 sản phẩm trong hệ thống \\
-            \hline
-            \textbf{Test Steps} & 1. Chuyển đến trang quản lý sản phẩm \\
-            \hline
-            \textbf{Test Data} & (trống) \\
-            \hline
-            \textbf{Expected Result} & Hiển thị danh sách sản phẩm với đầy đủ thông tin \\
-            \hline
-            \textbf{Actual Result} & (Để trống) \\
-            \hline
-            \textbf{Status} & Not Run \\
-            \hline
-        \end{tabular}
-        \caption{Test Case Xem danh sách sản phẩm}
-    \end{table}
-
-    \begin{table}[h]
-        \centering
-        \begin{tabular}{|p{3cm}|p{10cm}|}
-            \hline
-            \textbf{Test Case ID} & TC\_PRODUCT\_005 \\
-            \hline
-            \textbf{Test Name} & Tạo sản phẩm thất bại do trùng tên \\
-            \hline
-            \textbf{Priority} & Quan trọng \\
-            \hline
-            \textbf{Preconditions} & User đã đăng nhập \\
-            & User có quyền tạo sản phẩm \\
-            &Sản phẩm "Laptop Dell XPS 13" đã tồn tại \\
-            \hline
-            \textbf{Test Steps} & 1. Chuyển đến trang quản lý sản phẩm \\
-            & 2. Click thêm sản phẩm \\
-            & 3. Nhập tên trùng và các thông tin theo mẫu \\
-            & 4. Click nút lưu \\
-            \hline
-            \textbf{Test Data} & Name: Laptop Dell XPS 13 (trùng), Price: 15000000, Quantity: 5, Category: Electronics, Description: Sản phẩm mô tả mới \\
-            \hline
-            \textbf{Expected Result} & - Hiển thị lỗi: "Tên sản phẩm đã tồn tại" \\
-            & - Form không được submit \\
-            & - Vẫn ở trang tạo sản phẩm \\
-            & - Các field khác giữ nguyên giá trị đã nhập \\
-            \hline
-            \textbf{Actual Result} & (Để trống) \\
-            \hline
-            \textbf{Status} & Not Run \\
-            \hline
-        \end{tabular}
-        \caption{Test Case Tạo sản phẩm thất bại do trùng tên}
-    \end{table}
-    \FloatBarrier
-    \clearpage
-
-    \section{CÂU 2: UNIT TESTING VÀ TDD}
-
-    Nhóm áp dụng quy trình TDD (Test-Driven Development) theo chu trình: \textbf{Red} (Viết test fail) $\rightarrow$ \textbf{Green} (Viết code để pass test) $\rightarrow$ \textbf{Refactor} (Tối ưu code). Dưới đây là các unit tests chi tiết cho Frontend và Backend.
-
-    \subsection{2.1. Frontend Unit Tests (TDD Approach)}
-    Quy trình phát triển được thực hiện theo mô hình TDD: Viết kịch bản kiểm thử trước khi viết mã nguồn chức năng. Dưới đây là minh họa quy trình unit tests cho validation module cua \texttt{login} và \texttt{product}.
-
-    \subsubsection{2.1.1. Phát triển unit tests cho validation module của Login}
-    \textbf{Bước 1: Red (Viết Test)} - Viết test case kiểm tra các trường hợp user. Test này sẽ thất bại vì hàm chưa có logic.
-
-    \begin{lstlisting}[language=Java, caption={TDD Cycle 1 - Test Case (Red)}]
+\begin{lstlisting}[language=Java, caption={TDD Cycle 1 - Test Case (Red)}]
 describe('Login Validation Tests', () => {
   describe('validateUsername', () => {
     test('TC1: Username rong - nen tra ve loi', () => {
@@ -878,18 +890,18 @@ describe('Login Validation Tests', () => {
     });
   });
 });
-    \end{lstlisting}
+\end{lstlisting}
 
-    \begin{figure}[H]
-        \centering
-        \includegraphics[width=0.9\linewidth]{FrontendValidationTestTDD-RED.png}
-        \caption{Kết quả chạy test thất bại (Phase Red) khi chưa cài đặt logic}
-        \label{fig:test-fail}
-    \end{figure}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\linewidth]{FrontendValidationTestTDD-RED.png} 
+    \caption{Kết quả chạy test thất bại (Phase Red) khi chưa cài đặt logic}
+    \label{fig:test-fail}
+\end{figure}
 
-    \textbf{Bước 2: Green (Viết Code)} - Viết mã nguồn để test case trên thông qua (Passed).
+\textbf{Bước 2: Green (Viết Code)} - Viết mã nguồn để test case trên thông qua (Passed).
 
-    \begin{lstlisting}[language=Java, caption={TDD Cycle 1 - Implementation (Green)}]
+\begin{lstlisting}[language=Java, caption={TDD Cycle 1 - Implementation (Green)}]
 export const validateUsername = (username) => {
   if (!username || username.trim() === '') {
     return 'Ten dang nhap khong duoc de trong';
@@ -923,18 +935,18 @@ export const validatePassword = (password) => {
   }
   return '';
 };
-    \end{lstlisting}
+\end{lstlisting}
 
-    \begin{figure}[H]
-        \centering
-        \includegraphics[width=0.9\linewidth]{FrontendValidationTestTDD-Green.png}
-        \caption{Kết quả kiểm thử thành công (All Passed) và báo cáo độ phủ mã nguồn đạt 100\%}
-        \label{fig:test-pass}
-    \end{figure}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\linewidth]{FrontendValidationTestTDD-Green.png} 
+    \caption{Kết quả kiểm thử thành công (All Passed) và báo cáo độ phủ mã nguồn đạt 100\%}
+    \label{fig:test-pass}
+\end{figure}
 
-    \textbf{Bước 3: Refactor (Tối ưu hóa)} - Sau khi tất cả các test đã xanh (Green), tiến hành tối ưu hóa mã nguồn để gọn gàng hơn mà không làm thay đổi hành vi (Logic đã được bảo đảm bởi bộ test)
+\textbf{Bước 3: Refactor (Tối ưu hóa)} - Sau khi tất cả các test đã xanh (Green), tiến hành tối ưu hóa mã nguồn để gọn gàng hơn mà không làm thay đổi hành vi (Logic đã được bảo đảm bởi bộ test)
 
-    \begin{lstlisting}[language=Java, caption={TDD Cycle 1 - Final Refactored Code (Refactor)}]
+\begin{lstlisting}[language=Java, caption={TDD Cycle 1 - Final Refactored Code (Refactor)}]
 export const validateUsername = (username) => {
   if (!username || username.trim() === '') {
     return 'Ten dang nhap khong duoc de trong';
@@ -960,23 +972,23 @@ export const validatePassword = (password) => {
   }
   return '';
 };
-    \end{lstlisting}
+\end{lstlisting}
 
-    \begin{figure}[H]
-        \centering
-        \includegraphics[width=0.9\linewidth]{Coverage.png}
-        \caption{Độ phủ của module sau khi Refactor}
-        \label{fig:fe-tdd-refactor}
-    \end{figure}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\linewidth]{Coverage.png} 
+    \caption{Độ phủ của module sau khi Refactor}
+    \label{fig:fe-tdd-refactor}
+\end{figure}
 
-    \subsubsection{2.1.2. Phát triển unit tests cho validation module của Product}
+\subsubsection{2.1.2. Phát triển unit tests cho validation module của Product}
 
-    Tương tự như Login, module Product cũng được phát triển theo quy trình TDD. Do số lượng dữ liệu nhiều (Name, Price, Quantity, Description, Category), chỉ tập trung kiểm thử các giá trị biến (Boundary Testing) và các nghiệp vụ ràng buộc quan trọng.
+Tương tự như Login, module Product cũng được phát triển theo quy trình TDD. Do số lượng dữ liệu nhiều (Name, Price, Quantity, Description, Category), chỉ tập trung kiểm thử các giá trị biến (Boundary Testing) và các nghiệp vụ ràng buộc quan trọng.
 
-    \textbf{Buoc 1: Red (Viet Test Case)} \\
-    Viết kịch bản kiểm thử cho các trường hợp: Tên rỗng, Giá/Số lượng âm hoặc vượt qua giới hạn cho phép.
+\textbf{Buoc 1: Red (Viet Test Case)} \\
+Viết kịch bản kiểm thử cho các trường hợp: Tên rỗng, Giá/Số lượng âm hoặc vượt qua giới hạn cho phép.
 
-    \begin{lstlisting}[language=Java, caption={Product Validation Test Script (Red Phase)}]
+\begin{lstlisting}[language=Java, caption={Product Validation Test Script (Red Phase)}]
 import { validateProduct } from '../../utils/productValidation';
 
 describe('Product Validation Tests', () => {
@@ -1015,19 +1027,19 @@ describe('Product Validation Tests', () => {
     });
   });
 });
-    \end{lstlisting}
+\end{lstlisting}
 
-    \begin{figure}[H]
-        \centering
-        \includegraphics[width=0.8\linewidth]{ProductValidation-Red.png}
-        \caption{Kết quả test product thất bại (Red Phase)}
-        \label{fig:prod-tdd-red}
-    \end{figure}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\linewidth]{ProductValidation-Red.png} 
+    \caption{Kết quả test product thất bại (Red Phase)}
+    \label{fig:prod-tdd-red}
+\end{figure}
 
-    \textbf{Buoc 2: Green (Viết Code Logic)} \\
-    Xây dựng hàm \texttt{validateProduct} để xử lý các logic trên. Sử dụng đối tượng \texttt{errors} để tập hợp các lỗi trả về.
+\textbf{Buoc 2: Green (Viết Code Logic)} \\
+Xây dựng hàm \texttt{validateProduct} để xử lý các logic trên. Sử dụng đối tượng \texttt{errors} để tập hợp các lỗi trả về.
 
-    \begin{lstlisting}[language=Java, caption={Product Implementation (Green Phase)}]
+\begin{lstlisting}[language=Java, caption={Product Implementation (Green Phase)}]
 export const validateProduct = (data) => {
   const errors = {};
 
@@ -1059,31 +1071,31 @@ export const validateProduct = (data) => {
 
   return errors;
 };
-    \end{lstlisting}
+\end{lstlisting}
 
-    \begin{figure}[H]
-        \centering
-        \includegraphics[width=0.8\linewidth]{ProductValidation-Green.png}
-        \caption{Kết quả test Product thành công (Green Phase)}
-        \label{fig:prod-tdd-green}
-    \end{figure}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\linewidth]{ProductValidation-Green.png} 
+    \caption{Kết quả test Product thành công (Green Phase)}
+    \label{fig:prod-tdd-green}
+\end{figure}
 
-    \textbf{Bước 3: Refactor (Tối ưu)} \\
-    Do logic validation product khá nhiều điều kiện if-else, trong bước Refactor, nhóm tiến hành kiểm tra lại coverage để đảm bảo các nhánh (branch) điều kiện như giá min/max, số lượng min/max đều được bao phủ.
+\textbf{Bước 3: Refactor (Tối ưu)} \\
+Do logic validation product khá nhiều điều kiện if-else, trong bước Refactor, nhóm tiến hành kiểm tra lại coverage để đảm bảo các nhánh (branch) điều kiện như giá min/max, số lượng min/max đều được bao phủ.
 
-    \begin{figure}[H]
-        \centering
-        \includegraphics[width=0.9\linewidth]{Coverage.png}
-        \caption{Độ phủ mã nguồn cua module Product Validation đạt mức cao}
-        \label{fig:prod-tdd-refactor}
-    \end{figure}
-    \subsection{2.2. Backend Unit Tests (JUnit 5 \& Fake Object)}
-    Thay vì sử dụng Mockito, nhóm xây dựng các lớp **FakeDependency** để giả lập hành vi của Database thật. Điều này giúp Unit Test hoàn toàn độc lập với Database.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\linewidth]{Coverage.png} 
+    \caption{Độ phủ mã nguồn cua module Product Validation đạt mức cao}
+    \label{fig:prod-tdd-refactor}
+\end{figure}
+\subsection{2.2. Backend Unit Tests (JUnit 5 \& Fake Object)}
+Thay vì sử dụng Mockito, nhóm xây dựng các lớp **FakeDependency** để giả lập hành vi của Database thật. Điều này giúp Unit Test hoàn toàn độc lập với Database.
 
-    \subsubsection{2.2.1. Login Service Tests}
-    Kiểm thử \texttt{AuthService} sử dụng \texttt{FakeUserRepository, FakePasswordEncoder, FakeJwtService, FakeAuthenticationManager, Fake UserDetailsService}.
+\subsubsection{2.2.1. Login Service Tests}
+Kiểm thử \texttt{AuthService} sử dụng \texttt{FakeUserRepository, FakePasswordEncoder, FakeJwtService, FakeAuthenticationManager, Fake UserDetailsService}.
 
-    \begin{lstlisting}[language=Java, caption={AuthService Test voi Fake Dependency}]
+\begin{lstlisting}[language=Java, caption={AuthService Test voi Fake Dependency}]
 @DisplayName("Login Service Unit tests")
 public class AuthServiceTest {
     private AuthService authService;
@@ -1168,12 +1180,12 @@ public class AuthServiceTest {
         assertEquals("Mat khau khong dung", ex.getMessage());
     }
 }
-    \end{lstlisting}
+\end{lstlisting}
 
-    \subsubsection{2.2.2. Product Service Tests}
-    Kiểm thử \texttt{ProductService} sử dụng \texttt{FakeProductRepository, FakeCategoryResponsitory, Fake ProductMapper} và dùng 2 danh sách Category và Product để thay thế `database` để kiểm tra logic CRUD.
+\subsubsection{2.2.2. Product Service Tests}
+Kiểm thử \texttt{ProductService} sử dụng \texttt{FakeProductRepository, FakeCategoryResponsitory, Fake ProductMapper} và dùng 2 danh sách Category và Product để thay thế `database` để kiểm tra logic CRUD.
 
-    \begin{lstlisting}[language=Java, caption={ProductService Test voi Fake Dependency}]
+\begin{lstlisting}[language=Java, caption={ProductService Test voi Fake Dependency}]
 @DisplayName("Product Service Unit tests")
 public class ProductServiceTest {
     private ProductService productService;
@@ -1348,12 +1360,12 @@ public class ProductServiceTest {
         assertNotNull(pageResult);
         assertEquals(2, pageResult.getTotalElements());
         assertEquals(1, pageResult.getTotalPages());
-        assertEquals(2, pageResult.getContent().size());
+        assertEquals(2, pageResult.getContent().size()); 
         assertEquals("Dell Xenos 3000", pageResult.getContent().get(0).getProductName());
 
         Page<ProductResponseDTO> pageSmall = productService.getAllProduct(0, 1);
         assertEquals(2, pageSmall.getTotalElements());
-        assertEquals(2, pageSmall.getTotalPages());
+        assertEquals(2, pageSmall.getTotalPages());   
         assertEquals(1, pageSmall.getContent().size());
         assertEquals("Dell Xenos 3000", pageSmall.getContent().get(0).getProductName());
 
@@ -1363,24 +1375,24 @@ public class ProductServiceTest {
     }
 }
 
-    \end{lstlisting}
+\end{lstlisting}
 
-    \subsection{2.3. Báo cáo độ bao phủ (Test Coverage)}
-    Theo yêu cầu của môn học, nhóm đảm bảo độ bao phủ code đạt tiêu chuẩn.
-    \begin{itemize}
-        \item \textbf{Frontend Coverage:} Đạt \textbf{100\%} cho module Login và đạt \textbf{92\%} cho module Product (Yêu cầu $\ge$ 90\% cho module validation).
-        \begin{figure}[H]
-            \centering
-            \includegraphics[width=0.8\textwidth]{Coverage.png}
-            \caption{LoginValidation va ProductValidation Coverage}
-        \end{figure}
-        \item \textbf{Backend Coverage:} Đạt \textbf{100\%} (Yêu cầu $\ge$ 85\% cho AuthService và ProductService).
-        \begin{figure}[H]
-            \centering
-            \includegraphics[width=0.8\textwidth]{BackendServiceCoverage.png}
-            \caption{AuthService va ProductService Coverage}
-        \end{figure}
-    \end{itemize}
+\subsection{2.3. Báo cáo độ bao phủ (Test Coverage)}
+Theo yêu cầu của môn học, nhóm đảm bảo độ bao phủ code đạt tiêu chuẩn.
+\begin{itemize}
+    \item \textbf{Frontend Coverage:} Đạt \textbf{100\%} cho module Login và đạt \textbf{92\%} cho module Product (Yêu cầu $\ge$ 90\% cho module validation).
+    \begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{Coverage.png}
+    \caption{LoginValidation va ProductValidation Coverage}
+\end{figure}
+    \item \textbf{Backend Coverage:} Đạt \textbf{100\%} (Yêu cầu $\ge$ 85\% cho AuthService và ProductService).
+    \begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{BackendServiceCoverage.png}
+    \caption{AuthService va ProductService Coverage}
+\end{figure}
+\end{itemize}
 
 % Bạn nên chèn hình ảnh coverage report từ Jest/JaCoCo vào đây nếu có
 % \begin{figure}[H]
@@ -1390,7 +1402,7 @@ public class ProductServiceTest {
 % \end{figure}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-    \newpage
+   \newpage
 \section{CÂU 3: INTEGRATION TESTING}
 
 % ===============================================================
@@ -2316,111 +2328,840 @@ void deleteProductNotFound() throws Exception {
     \label{fig:product_api_integration_result}
 \end{figure}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+ \newpage
+\section{CÂU 4: MOCK TESTING}
 
-    \newpage
-    \section{CÂU 4: MOCK TESTING}
+\subsection{4.1: Login - Mock Testing}
 
-    \subsection{Mục đích}
-    Cô lập unit cần test bằng cách giả lập (mock) các dependencies bên ngoài (Database, External Services).
+\subsubsection{4.1.1 Frontend Mocking}
 
-    \subsection{Triển khai}
+\textbf{Mục tiêu test:} Mock external dependencies cho Login component nhằm kiểm tra logic và hành vi của component Login trong các tình huống khác nhau mà không phụ thuộc vào backend thực tế.
+
+\textbf{Các bước thực hiện:}
+\begin{itemize}
+    \item Mock authService.loginUser()
+    \item Test với mocked successful/failed responses  
+    \item Verify mock calls
+\end{itemize}
+
+\textbf{Các test case đã thực hiện:}
+\begin{enumerate}
+    \item Login thành công với response hợp lệ
+    \item Login thất bại với credentials không đúng (username/password)
+    \item Login thất bại với server error
+    \item Login thất bại với connection error
+\end{enumerate}
+
+\textbf{Kết quả test:}
+\begin{center}
+    \includegraphics[width=1\textwidth]{Login.mock.test.png}  
+\end{center}
+
+\subsubsection*{Chi tiết các test case:}
+
+\begin{lstlisting}[language=Java, caption={Login thành công với response hợp lệ}]
+    test("Successful response", async () => {
+        authService.logIn.mockResolvedValue({
+          status: 200,
+          accessToken: "mockAccessToken",
+        });
+    
+        render(
+          <MemoryRouter>
+            <Login />
+          </MemoryRouter>
+    );
+
+    const usernameInput = screen.getByLabelText(/Ten dang nhap/i);
+    const passwordInput = screen.getByLabelText(/Mat khau/i);
+    const submitButton = screen.getByRole("button", { name: /Dang nhap/i });
+
+    fireEvent.change(usernameInput, { target: { value: "correctUser" } });
+    fireEvent.change(passwordInput, {
+      target: { value: "correctPassword1" },
+    });
+
+    fireEvent.click(submitButton);
+    expect(submitButton).toBeDisabled();
+
+    await waitFor(() => {
+      //Verify mock calls
+      expect(authService.logIn).toHaveBeenCalledTimes(1);
+      expect(authService.logIn).toHaveBeenCalledWith(
+        "correctUser",
+        "correctPassword1"
+      );
+
+      expect(setJWTtoCookie).toHaveBeenCalledWith("mockAccessToken");
+      expect(useAuthStore.getState().accessToken).toBe("mockAccessToken");
+      expect(useAuthStore.getState().loading).toBe(false);
+      expect(toast.success).toHaveBeenCalledWith(
+        "Dang nhap thanh cong ",
+        expect.objectContaining({
+          description: expect.any(Object),
+        })
+      );
+    });
+  });
+\end{lstlisting}
+
+\begin{lstlisting}[language=Java, caption={Login thất bại với username, password sai}]
+test.each([
+    {
+      username: "wrongUsername",
+      password: "correctPassword1",
+    },
+    {
+      username: "correctUsername",
+      password: "wrongPassword1",
+    },
+  ])("Failed response - 401 (%o)", async ({ username, password }) => {
+    authService.logIn.mockRejectedValue({
+      response: { status: 401 },
+    });
+
+    render(
+      <MemoryRouter>
+        <Login />
+      </MemoryRouter>
+    );
+
+    const usernameInput = screen.getByLabelText(/Ten dang nhap/i);
+    const passwordInput = screen.getByLabelText(/Mat khau/i);
+    const submitButton = screen.getByRole("button", { name: /Dang nhap/i });
+
+    fireEvent.change(usernameInput, { target: { value: username } });
+    fireEvent.change(passwordInput, { target: { value: password } });
+    fireEvent.click(submitButton);
+
+    await waitFor(() => {
+      //Verify mock calls
+      expect(authService.logIn).toHaveBeenCalledTimes(1);
+      expect(authService.logIn).toHaveBeenCalledWith(username, password);
+      
+      expect(setJWTtoCookie).not.toHaveBeenCalled();
+      expect(useAuthStore.getState().accessToken).toBeNull();
+      expect(useAuthStore.getState().loading).toBe(false);
+      expect(toast.error).toHaveBeenCalledWith(
+        "Ten dang nhap hoac mat khau khong chinh xac"
+      );
+    });
+  });
+\end{lstlisting}
+
+\begin{lstlisting}[language=Java, caption={Login thất bại khi server error}]
+test("Login failed - Server error(500)", async () => {
+    authService.logIn.mockRejectedValue({
+      response: { status: 500 },
+    });
+
+    render(
+      <MemoryRouter>
+        <Login />
+      </MemoryRouter>
+    );
+
+    const usernameInput = screen.getByLabelText(/Ten dang nhap/i);
+    const passwordInput = screen.getByLabelText(/Mat khau/i);
+    const submitButton = screen.getByRole("button", { name: /Dang nhap/i });
+
+    fireEvent.change(usernameInput, { target: { value: "validUser" } });
+    fireEvent.change(passwordInput, {
+      target: { value: "validPassword1" },
+    });
+    fireEvent.click(submitButton);
+
+    await waitFor(() => {
+      //Verify mock calls
+      expect(authService.logIn).toHaveBeenCalledTimes(1);
+      expect(authService.logIn).toHaveBeenCalledWith(
+        "validUser",
+        "validPassword1"
+      );
+
+      expect(setJWTtoCookie).not.toHaveBeenCalled();
+      expect(useAuthStore.getState().accessToken).toBeNull();
+      expect(useAuthStore.getState().loading).toBe(false);
+      expect(toast.error).toHaveBeenCalledWith(
+        "May chu dang gap su co, vui long thu lai sau!"
+      );
+    });
+  });
+\end{lstlisting}
+
+\begin{lstlisting}[language=Java, caption={Login thất bại khi connection error}]
+test("Login failed - Network/Connection Error ", async () => {
+    authService.logIn.mockRejectedValue({
+      request: {},
+    });
+
+    render(
+      <MemoryRouter>
+        <Login />
+      </MemoryRouter>
+    );
+    const usernameInput = screen.getByLabelText(/Ten dang nhap/i);
+    const passwordInput = screen.getByLabelText(/Mat khau/i);
+    const submitButton = screen.getByRole("button", { name: /Dang nhap/i });
+
+    fireEvent.change(usernameInput, { target: { value: "validUser" } });
+    fireEvent.change(passwordInput, {
+      target: { value: "validPassword1" },
+    });
+    fireEvent.click(submitButton);
+
+    await waitFor(() => {
+      //Verify mock calls
+      expect(authService.logIn).toHaveBeenCalledTimes(1);
+      expect(authService.logIn).toHaveBeenCalledWith(
+        "validUser",
+        "validPassword1"
+      );
+      expect(setJWTtoCookie).not.toHaveBeenCalled();
+      expect(useAuthStore.getState().accessToken).toBeNull();
+      expect(toast.error).toHaveBeenCalledWith(
+        "Khong the ket noi den may chu. Vui long kiem tra duong truyen!"
+      );
+    });
+  });
+\end{lstlisting}
+
+\subsubsection{4.1.2 Backend Mocking}
+
+\textbf{Mục tiêu test:} Mock dependencies trong Backend tests để kiểm tra logic của controller mà không phụ thuộc vào service thực tế, đảm bảo controller xử lý đúng các request và response.
+
+\textbf{Các bước thực hiện:}
+\begin{itemize}
+    \item Mock AuthService với @MockBean
+    \item Test controller với mocked service
+    \item Verify mock interactions
+\end{itemize}
+
+\textbf{Các test case đã thực hiện:}
+\begin{enumerate}
+    \item TC001: Login thành công với mocked service
+    \item TC002: Login thất bại - username rỗng
+    \item TC003: Login thất bại - password rỗng
+    \item TC004: Login thất bại - password không có số
+    \item TC005: Login thất bại - username quá dài
+\end{enumerate}
+
+\textbf{Kết quả test:}
+\begin{center}
+    \includegraphics[width=1\textwidth]{AuthControllerMockTest.png}  
+\end{center}
+
+
+\subsubsection*{Chi tiết các test case:}
     \begin{itemize}
-        \item \textbf{Frontend:} Sử dụng `jest.mock` để mock `axios` hoặc `authService`.
-        \item \textbf{Backend:}
-        \begin{itemize}
-            \item Mock dependencies trong Backend tests
-            \begin{lstlisting}[language=Java, caption={Mock AuthService với @MockitoBean }]
-// login success
-@Test
+        \begin{lstlisting}[language=Java, caption={AuthControllerMockTest.java}]
+    @Test
+    @DisplayName("TC001: Login success voi mocked service")
     void TC_LOGIN_001() throws Exception {
-        LoginRequestDTO loginRequestDTO = new LoginRequestDTO(
-                "admin123",
-                "admin123"
-        );
-        LoginResponseDTO mockResponse = new LoginResponseDTO(
-                "fake_jwt_token"
-        );
-        when(authService.login(any(LoginRequestDTO.class)))
-                .thenReturn(mockResponse);
+        LoginRequestDTO loginRequestDTO = new LoginRequestDTO("admin123", "admin123");
+        LoginResponseDTO mockResponse = new LoginResponseDTO("fake_jwt_token");
 
-        when(jwtService.validateToken(any(), any())).thenReturn(true);
-        when(jwtService.getUsernameFromToken(any())).thenReturn("admin123");
         when(authService.login(any(LoginRequestDTO.class))).thenReturn(mockResponse);
+        
         mockMvc.perform(post("/auth/login")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(loginRequestDTO)))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.accessToken").exists()
-                );
+                .andExpect(jsonPath("$.accessToken").exists());
 
         verify(authService, times(1)).login(any(LoginRequestDTO.class));
     }
-            \end{lstlisting}
-            \begin{lstlisting}[language=Java, caption={Mock AuthService với @MockitoBean trường hợp thành công}]
-// test username ""
+    \end{lstlisting}
+         \begin{lstlisting}[language=Java, caption={AuthControllerMockTest.java}]
     @Test
+    @DisplayName("TC002: Login Fail - username null")
     void TC_LOGIN_002() throws Exception {
-        LoginRequestDTO loginRequestDTO = new LoginRequestDTO(
-                "",
-                "Test123"
-        );
+        LoginRequestDTO loginRequestDTO = new LoginRequestDTO("", "Test123");
+
         mockMvc.perform(post("/auth/login")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(loginRequestDTO)))
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.messages.username").exists());
-    }
-            \end{lstlisting}
-            \begin{lstlisting}[language=Java, caption={Mock AuthService với @MockitoBean trường hợp thành công}]
- // test password rỗng
-    @Test
-    void TC_LOGIN_003() throws Exception {
-        LoginRequestDTO loginRequestDTO = new LoginRequestDTO(
-                "admin123",
-                ""  // password rỗng
-        );
-        mockMvc.perform(post("/auth/login")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(loginRequestDTO)))
-                .andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.messages.password").exists()); // Just check that validation error exists
-    }
-            \end{lstlisting}
 
-            \begin{lstlisting}[language=Java, caption={Mock AuthService với @MockitoBean trường hợp thành công}]
-// test sai định dạng pass
+        verify(authService, never()).login(any(LoginRequestDTO.class));
+    }
+
+     \end{lstlisting}
+        \begin{lstlisting}[language=Java, caption={AuthControllerMockTest.java}]
+ 
     @Test
-    void TC_LOGIN_004() throws Exception {
-        LoginRequestDTO loginRequestDTO = new LoginRequestDTO(
-                "testuser",
-                "password"  // chỉ chứa chữ, không có số
-        );
+    @DisplayName("TC003: Login Fail - password null")
+    void TC_LOGIN_003() throws Exception {
+        LoginRequestDTO loginRequestDTO = new LoginRequestDTO("admin123", "");
+
         mockMvc.perform(post("/auth/login")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(loginRequestDTO)))
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.messages.password").exists());
+
+        verify(authService, never()).login(any(LoginRequestDTO.class));
     }
-            \end{lstlisting}
-
-            \item Mock ProductRepository trong service tests
-        \end{itemize}
-    \end{itemize}
-
-    \begin{lstlisting}[language=Java, caption={Mocking Repository}]
+    \end{lstlisting}
+    
+        \begin{lstlisting}[language=Java, caption={AuthControllerMockTest.java}]
 @Test
-void testCreateProduct() {
-    Product product = new Product("Laptop", 15000000);
-    when(productRepository.save(any())).thenReturn(product);
+    @DisplayName("TC004: Login Fail - password khong co so")
+    void TC_LOGIN_004() throws Exception {
+        LoginRequestDTO loginRequestDTO = new LoginRequestDTO("testuser", "password");
 
-    ProductDto result = productService.createProduct(new ProductDto("Laptop", ...));
+        mockMvc.perform(post("/auth/login")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(loginRequestDTO)))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.messages.password").exists());
 
-    verify(productRepository, times(1)).save(any());
-    assertEquals("Laptop", result.getName());
-}
+        verify(authService, never()).login(any(LoginRequestDTO.class));
+    }
+    \end{lstlisting}
+        \begin{lstlisting}[language=Java, caption={AuthControllerMockTest.java}]
+ @Test
+    @DisplayName("TC005: Login that bai - username long > 50")
+    void TC_LOGIN_005() throws Exception {
+        String longUsername = "a".repeat(51);
+        LoginRequestDTO loginRequestDTO = new LoginRequestDTO(longUsername, "password123");
+
+        mockMvc.perform(post("/auth/login")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(loginRequestDTO)))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.messages.username").exists());
+
+        verify(authService, never()).login(any(LoginRequestDTO.class));
+    }
+    \end{lstlisting}
+\end{itemize}
+
+\subsection{4.2 Product - Mock Testing}
+    \subsubsection{4.2.1 Frontend Mocking}
+    \textbf{Mục tiêu test:} Mock ProductService trong component tests để kiểm tra các operations CRUD mà không phụ thuộc vào service thực tế.
+
+\textbf{Các bước thực hiện:}
+
+\begin{itemize}
+    \item Mock CRUD operations của ProductService
+    \item Test success và failure scenarios
+    \item Verify all mock calls
+\end{itemize}
+
+\textbf{Các test case đã thực hiện:}
+\begin{enumerate}
+    \item Mock: Get products success - Kiểm tra việc lấy danh sách sản phẩm thành công
+    \item Mock: Get products failure - Kiểm tra việc lấy danh sách sản phẩm thất bại
+    \item Mock: Create product success - Kiểm tra việc tạo sản phẩm mới thành công
+    \item Mock: Create product failure - Kiểm tra việc tạo sản phẩm mới thất bại
+    \item Mock: Update product success - Kiểm tra việc cập nhật sản phẩm thành công
+    \item Mock: Update product failure - Kiểm tra việc cập nhật sản phẩm thất bại
+    \item Mock: Delete product success - Kiểm tra việc xóa sản phẩm thành công
+   
+\end{enumerate}
+
+\textbf{Kết quả test:}
+\begin{center}
+ \includegraphics[width=1\textwidth]{Product.mock.test.png}  
+\end{center}
+
+
+\subsubsection*{Chi tiết các test case:}
+\begin{lstlisting}[language=Java, caption={Product.mock.test.jsx}]
+
+jest.mock('../../services/productService');
+jest.mock('sonner');
+
+const mockProducts = [
+  {
+    id: 1,
+    productName: 'Laptop',
+    price: 15000000,
+    quantity: 10,
+    description: 'Laptop gaming',
+    category: { id: 1, name: 'Electronics' },
+  },
+];
+
+const mockCategories = [
+  { id: 1, name: 'Electronics' }, ];
+
+describe('Product Mock Tests', () => {
+  let originalState;
+  const mockOnEdit = jest.fn();
+  const mockOnDelete = jest.fn();
+  const mockOnClose = jest.fn();
+
+  beforeEach(() => {
+    jest.clearAllMocks();
+    originalState = useProductStore.getState();
+  });
+
+  afterEach(() => {
+    useProductStore.setState(originalState, true);
+  });
+
+  test('Mock: Get products success', async () => {
+    productService.getAllProducts.mockResolvedValue(mockProducts);
+
+    render(
+      <MemoryRouter>
+        <ProductTable onEdit={mockOnEdit} onDelete={mockOnDelete} />
+      </MemoryRouter>
+    );
+
+    await waitFor(() => {
+      expect(productService.getAllProducts).toHaveBeenCalledTimes(1);
+      expect(screen.getByText('Laptop')).toBeInTheDocument();
+    });
+  });
+
+  test('Mock: Get products failure', async () => {
+    productService.getAllProducts.mockRejectedValue(new Error('Network Error'));
+
+    render(
+      <MemoryRouter>
+        <ProductTable onEdit={mockOnEdit} onDelete={mockOnDelete} />
+      </MemoryRouter>
+    );
+
+    await waitFor(() => {
+      expect(productService.getAllProducts).toHaveBeenCalledTimes(1);
+      expect(toast.error).toHaveBeenCalledWith('Co loi khi lay danh sach san pham ');
+    });
+  });
+
+  test('Mock: Create product success', async () => {
+    const newProduct = { id: 2, productName: 'Phone', price: 10000000, quantity: 5, description: 'Smartphone', category: { id: 1, name: 'Electronics' } };
+    productService.addProduct.mockResolvedValue(newProduct);
+
+    render(
+      <MemoryRouter>
+        <ProductFormModal categories={mockCategories} onClose={mockOnClose} />
+      </MemoryRouter>
+    );
+
+    fireEvent.change(screen.getByTestId('product-name'), { target: { value: 'Phone' } });
+    fireEvent.change(screen.getByTestId('product-price'), { target: { value: '10000000' } });
+    fireEvent.change(screen.getByTestId('product-category'), { target: { value: '1' } });
+
+    fireEvent.click(screen.getByTestId('submit-btn'));
+
+    await waitFor(() => {
+      expect(productService.addProduct).toHaveBeenCalledWith({
+        productName: 'Phone',
+        price: 10000000,
+        quantity: 1,
+        category_id: '1',
+        description: '',
+      });
+      expect(toast.success).toHaveBeenCalledWith('Them moi thanh cong', expect.any(Object));
+    });
+  });
+
+  test('Mock: Create product failure', async () => {
+    productService.addProduct.mockRejectedValue(new Error('Create failed'));
+
+    render(
+      <MemoryRouter>
+        <ProductFormModal categories={mockCategories} onClose={mockOnClose} />
+      </MemoryRouter>
+    );
+
+    fireEvent.change(screen.getByTestId('product-name'), { target: { value: 'Phone' } });
+    fireEvent.change(screen.getByTestId('product-price'), { target: { value: '10000000' } });
+    fireEvent.change(screen.getByTestId('product-category'), { target: { value: '1' } });
+
+    fireEvent.click(screen.getByTestId('submit-btn'));
+
+    await waitFor(() => {
+      expect(productService.addProduct).toHaveBeenCalledTimes(1);
+      expect(toast.error).toHaveBeenCalledWith('Them moi that bai', expect.any(Object));
+    });
+  });
+
+  test('Mock: Update product success', async () => {
+    const updatedProduct = { ...mockProducts[0], productName: 'Updated Laptop' };
+    productService.updateProduct.mockResolvedValue(updatedProduct);
+
+    useProductStore.setState({ products: mockProducts });
+
+    render(
+      <MemoryRouter>
+        <ProductFormModal product={mockProducts[0]} categories={mockCategories} onClose={mockOnClose} />
+      </MemoryRouter>
+    );
+
+    fireEvent.change(screen.getByTestId('product-name'), { target: { value: 'Updated Laptop' } });
+    fireEvent.click(screen.getByTestId('submit-btn'));
+
+    await waitFor(() => {
+      expect(productService.updateProduct).toHaveBeenCalledWith(1, expect.any(Object));
+      expect(toast.success).toHaveBeenCalledWith('Cap nhat thanh cong', expect.any(Object));
+    });
+  });
+
+  test('Mock: Update product failure', async () => {
+    productService.updateProduct.mockRejectedValue(new Error('Update failed'));
+
+    useProductStore.setState({ products: mockProducts });
+
+    render(
+      <MemoryRouter>
+        <ProductFormModal product={mockProducts[0]} categories={mockCategories} onClose={mockOnClose} />
+      </MemoryRouter>
+    );
+
+    fireEvent.change(screen.getByTestId('product-name'), { target: { value: 'Updated Laptop' } });
+    fireEvent.click(screen.getByTestId('submit-btn'));
+
+    await waitFor(() => {
+      expect(productService.updateProduct).toHaveBeenCalledTimes(1);
+      expect(toast.error).toHaveBeenCalledWith('Cap nhat that bai', expect.any(Object));
+    });
+  });
+
+  test('Mock: Delete product success', async () => {
+    productService.deleteProduct.mockResolvedValue({});
+
+    useProductStore.setState({ products: mockProducts });
+
+    render(
+      <MemoryRouter>
+        <ProductTable onEdit={mockOnEdit} onDelete={mockOnDelete} />
+      </MemoryRouter>
+    );
+
+    await waitFor(() => {
+      expect(screen.getByText('Laptop')).toBeInTheDocument();
+    });
+
+    const deleteBtn = screen.getByTestId('delete-product-btn');
+    fireEvent.click(deleteBtn);
+
+    // Since onDelete is called, but to test delete, perhaps need to mock the store's deleteProduct
+    // For simplicity, since onDelete is mock, check call
+    expect(mockOnDelete).toHaveBeenCalledWith(mockProducts[0]);
+  });
+});
     \end{lstlisting}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsubsection{4.2.2 Backend Mocking}
+  \subsubsection*{ProductRepository Mocking}
+
+\textbf{Mục tiêu test:} Mock ProductRepository trong service tests để kiểm tra business logic của service layer mà không phụ thuộc vào database thực tế.
+
+\textbf{Các bước thực hiện:}
+\begin{itemize}
+    \item Mock ProductRepository
+    \item Test service layer với mocked repository
+    \item Verify repository interactions
+\end{itemize}
+
+\textbf{Các test case đã thực hiện:}
+\begin{enumerate}
+    \item Create Product Success - Mock Repository
+    \item Create Product Fail - Category Not Found
+    \item Get Product By ID Success - Mock Repository
+    \item Get Product By ID Fail - Not Found
+    \item Get All Products Success - Mock Repository
+    \item Get All Products Empty - Mock Repository
+    \item Update Product Success - Mock Repository
+    \item Update Product Fail - Product Not Found
+    \item Delete Product Success - Mock Repository
+    \item Delete Product Fail - Not Found
+\end{enumerate}
+
+\textbf{Kết quả test:}
+\begin{center}
+ \includegraphics[width=1\textwidth]{ProductServiceMockTest.png}  
+\end{center}
+
+\subsubsection*{Chi tiết các test case:}
+    \begin{lstlisting}[language=Java, caption={ProductServiceMockTest.java (Mocking Repository) }]
+    @Test
+    @DisplayName("Create Product Success - Mock Repository")
+    void testCreateProductSuccess() {
+
+        ProductRequestDTO request = new ProductRequestDTO(
+                "Laptop DELL XPS",
+                new BigDecimal("24000000"),
+                10,
+                "High-end Laptop",
+                1L
+        );
+
+        Category mockCategory = new Category("Laptop");
+        mockCategory.setId(1L);
+
+        Product savedProduct = new Product("Laptop DELL XPS", new BigDecimal("24000000"), 10, "High-end Laptop", mockCategory);
+        savedProduct.setId(4L);
+
+        when(categoryRepository.findById(1L)).thenReturn(Optional.of(mockCategory));
+        when(productRepository.save(any(Product.class))).thenAnswer(invocation -> {
+            Product p = invocation.getArgument(0);
+            p.setId(4L);
+            return p;
+        });
+
+        ProductResponseDTO result = productService.createProduct(request);
+
+        assertNotNull(result);
+        assertEquals(4L, result.getId());
+        assertEquals("Laptop DELL XPS", result.getProductName());
+        assertEquals(new BigDecimal("24000000"), result.getPrice());
+
+        verify(categoryRepository, times(1)).findById(1L);
+        verify(productRepository, times(1)).save(any(Product.class));
+    }
+
+    \end{lstlisting}
+
+     \begin{lstlisting}[language=Java, caption={Mocking Repository}]
+    @Test
+    @DisplayName("Create Product Fail - Category Not Found")
+    void testCreateProductFail_CategoryNotFound() {
+
+        ProductRequestDTO request = new ProductRequestDTO(
+                "Laptop DELL XPS",
+                new BigDecimal("24000000"),
+                10,
+                "High-end Laptop",
+                99L
+        );
+
+        when(categoryRepository.findById(99L)).thenReturn(Optional.empty());
+
+
+        RuntimeException exception = assertThrows(RuntimeException.class,
+                () -> productService.createProduct(request));
+        assertEquals("Category khong ton tai ", exception.getMessage());
+
+        verify(categoryRepository, times(1)).findById(99L);
+        verify(productRepository, never()).save(any(Product.class));
+    }
+    \end{lstlisting}
+
+     \begin{lstlisting}[language=Java, caption={Mocking Repository}]
+  @Test
+    @DisplayName("Get Product By ID Success - Mock Repository")
+    void testGetProductByIdSuccess() {
+
+        Long productId = 1L;
+        Category mockCategory = new Category("Phone");
+        mockCategory.setId(1L);
+
+        Product mockProduct = new Product("iPhone", new BigDecimal("20000000"), 5, "Apple phone", mockCategory);
+        mockProduct.setId(productId);
+
+        ProductResponseDTO expectedResponse = new ProductResponseDTO(
+                productId, "iPhone", new BigDecimal("20000000"), 5, "Apple phone", mockCategory);
+
+        when(productRepository.findById(productId)).thenReturn(Optional.of(mockProduct));
+        when(productMapper.toProductResponseDTO(mockProduct)).thenReturn(expectedResponse);
+
+
+        ProductResponseDTO result = productService.getProduct(productId);
+
+
+        assertNotNull(result);
+        assertEquals(productId, result.getId());
+        assertEquals("iPhone", result.getProductName());
+
+        verify(productRepository, times(1)).findById(productId);
+        verify(productMapper, times(1)).toProductResponseDTO(mockProduct);
+    }
+    \end{lstlisting}
+
+     \begin{lstlisting}[language=Java, caption={Mocking Repository}]
+    @Test
+    @DisplayName("Get Product By ID Fail - Not Found")
+    void testGetProductByIdFail_NotFound() {
+
+        Long productId = 99L;
+        when(productRepository.findById(productId)).thenReturn(Optional.empty());
+
+        RuntimeException exception = assertThrows(RuntimeException.class,
+                () -> productService.getProduct(productId));
+        assertEquals("Product khong ton tai", exception.getMessage());
+
+        verify(productRepository, times(1)).findById(productId);
+        verify(productMapper, never()).toProductResponseDTO(any(Product.class));
+    }
+    \end{lstlisting}
+
+     \begin{lstlisting}[language=Java, caption={Mocking Repository}]
+  @Test
+    @DisplayName("Get All Products Success - Mock Repository")
+    void testGetAllProductsSuccess() {
+
+        Category phoneCategory = new Category("Phone");
+        phoneCategory.setId(1L);
+        Category laptopCategory = new Category("Laptop");
+        laptopCategory.setId(2L);
+
+        List<Product> mockProducts = Arrays.asList(
+                new Product("iPhone", new BigDecimal("20000000"), 5, "Apple phone", phoneCategory),
+                new Product("MacBook", new BigDecimal("30000000"), 3, "Apple laptop", laptopCategory)
+        );
+        mockProducts.get(0).setId(1L);
+        mockProducts.get(1).setId(2L);
+
+        List<ProductResponseDTO> expectedResponses = Arrays.asList(
+                new ProductResponseDTO(1L, "iPhone", new BigDecimal("20000000"), 5, "Apple phone", phoneCategory),
+                new ProductResponseDTO(2L, "MacBook", new BigDecimal("30000000"), 3, "Apple laptop", laptopCategory)
+        );
+
+        when(productRepository.findAll()).thenReturn(mockProducts);
+        when(productMapper.toProductResponseDTO(mockProducts.get(0))).thenReturn(expectedResponses.get(0));
+        when(productMapper.toProductResponseDTO(mockProducts.get(1))).thenReturn(expectedResponses.get(1));
+
+        List<ProductResponseDTO> result = productService.getAllProduct();
+
+        assertNotNull(result);
+        assertEquals(2, result.size());
+        assertEquals("iPhone", result.get(0).getProductName());
+        assertEquals("MacBook", result.get(1).getProductName());
+
+        verify(productRepository, times(1)).findAll();
+        verify(productMapper, times(2)).toProductResponseDTO(any(Product.class));
+    }
+    \end{lstlisting}
+            \begin{lstlisting}[language=Java, caption={Mocking Repository}]
+   @Test
+    @DisplayName("Get All Products Empty - Mock Repository")
+    void testGetAllProductsEmpty() {
+
+        when(productRepository.findAll()).thenReturn(Arrays.asList());
+
+        List<ProductResponseDTO> result = productService.getAllProduct();
+
+        assertNull(result);
+
+        verify(productRepository, times(1)).findAll();
+        verify(productMapper, never()).toProductResponseDTO(any(Product.class));
+    }
+    \end{lstlisting}
+
+
+         \begin{lstlisting}[language=Java, caption={Mocking Repository}]
+@Test
+    @DisplayName("Update Product Success - Mock Repository")
+    void testUpdateProductSuccess() {
+
+        Long productId = 1L;
+        ProductRequestDTO updateRequest = new ProductRequestDTO(
+                "iPhone 15 Pro",
+                new BigDecimal("28000000"),
+                7,
+                "Latest Apple phone",
+                1L
+        );
+
+        Category mockCategory = new Category("Phone");
+        mockCategory.setId(1L);
+
+        Product existingProduct = new Product("iPhone", new BigDecimal("20000000"), 5, "Apple phone", mockCategory);
+        existingProduct.setId(productId);
+
+        when(productRepository.findById(productId)).thenReturn(Optional.of(existingProduct));
+        when(categoryRepository.findById(1L)).thenReturn(Optional.of(mockCategory));
+        when(productRepository.save(any(Product.class))).thenAnswer(invocation -> {
+            Product p = invocation.getArgument(0);
+            return p;
+        });
+
+
+        ProductResponseDTO result = productService.updateProduct(productId, updateRequest);
+
+        assertNotNull(result);
+        assertEquals(productId, result.getId());
+        assertEquals("iPhone 15 Pro", result.getProductName());
+
+        verify(productRepository, times(1)).findById(productId);
+        verify(categoryRepository, times(1)).findById(1L);
+        verify(productRepository, times(1)).save(existingProduct);
+    }
+
+    \end{lstlisting}
+    \begin{lstlisting}[language=Java, caption={Mocking Repository}]
+   @Test
+    @DisplayName("Update Product Fail - Product Not Found")
+    void testUpdateProductFail_ProductNotFound() {
+
+        Long productId = 99L;
+        ProductRequestDTO updateRequest = new ProductRequestDTO(
+                "iPhone 15 Pro",
+                new BigDecimal("28000000"),
+                7,
+                "Latest Apple phone",
+                1L
+        );
+
+        when(productRepository.findById(productId)).thenReturn(Optional.empty());
+
+        RuntimeException exception = assertThrows(RuntimeException.class,
+                () -> productService.updateProduct(productId, updateRequest));
+        assertEquals("Product không tồn tại", exception.getMessage());
+
+
+        verify(productRepository, times(1)).findById(productId);
+        verify(categoryRepository, never()).findById(anyLong());
+        verify(productRepository, never()).save(any(Product.class));
+    }
+    \end{lstlisting}
+
+
+     \begin{lstlisting}[language=Java, caption={Mocking Repository}]
+@Test
+    @DisplayName("Delete Product Success - Mock Repository")
+    void testDeleteProductSuccess() {
+
+        Long productId = 1L;
+        Category mockCategory = new Category("Phone");
+        mockCategory.setId(1L);
+
+        Product existingProduct = new Product("iPhone", new BigDecimal("20000000"), 5, "Apple phone", mockCategory);
+        existingProduct.setId(productId);
+
+        when(productRepository.findById(productId)).thenReturn(Optional.of(existingProduct));
+
+        ProductResponseDTO result = productService.deleteProduct(productId);
+
+        assertNotNull(result);
+        assertEquals(productId, result.getId());
+        assertEquals("iPhone", result.getProductName());
+
+        verify(productRepository, times(1)).findById(productId);
+        verify(productRepository, times(1)).delete(existingProduct);
+    }
+
+    \end{lstlisting}
+
+    \begin{lstlisting}[language=Java, caption={Mocking Repository}]
+    @Test
+    @DisplayName("Delete Product Fail - Not Found")
+    void testDeleteProductFail_NotFound() {
+
+        Long productId = 99L;
+        when(productRepository.findById(productId)).thenReturn(Optional.empty());
+
+        RuntimeException exception = assertThrows(RuntimeException.class,
+                () -> productService.deleteProduct(productId));
+        assertEquals("Product khong ton tai", exception.getMessage());
+
+        verify(productRepository, times(1)).findById(productId);
+        verify(productRepository, never()).delete(any(Product.class));
+    }
+    \end{lstlisting}
+
+
+ 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     \newpage
     \section{CÂU 5: AUTOMATION TESTING VÀ CI/CD}
 
