@@ -1,4 +1,4 @@
-package com.flogin.IntegrationTest;
+package com.flogin.controller;
 
 import com.flogin.dto.login.LoginRequestDTO;
 import com.flogin.dto.login.LoginResponseDTO;

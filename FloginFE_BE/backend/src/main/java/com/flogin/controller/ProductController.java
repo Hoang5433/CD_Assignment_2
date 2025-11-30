@@ -1,4 +1,4 @@
-package com.flogin.IntegrationTest;
+package com.flogin.controller;
 
 import com.flogin.dto.product.ProductRequestDTO;
 import com.flogin.dto.product.ProductResponseDTO;
@@ -7,10 +7,9 @@ import jakarta.validation.Valid;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RequestMapping("/products")
 @RequiredArgsConstructor
@@ -27,8 +26,8 @@ public class ProductController {
         return ResponseEntity.ok(productService.updateProduct(id, productRequestDTO));
     }
     @GetMapping()
-    public ResponseEntity<List<ProductResponseDTO>> getAllProduct(){
-        return ResponseEntity.ok(productService.getAllProduct());
+    public ResponseEntity<Page<ProductResponseDTO>> getAllProduct(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size){
+        return ResponseEntity.ok(productService.getAllProduct(page, size));
     }
     @GetMapping("/{id}")
     public ResponseEntity<ProductResponseDTO> getProduct(@PathVariable Long id) {
