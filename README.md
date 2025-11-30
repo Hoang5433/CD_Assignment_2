@@ -483,6 +483,11 @@ This project is licensed under the MIT License - see LICENSE file for details.
 ## 👥 Authors
 
 - **TphuSGU** - Full-stack development
+- **phong28105** - Full-stack development
+- **Hoang5433** - Full-stack development
+- **NguyenLong03126** - Full-stack development
+- **Taivvit** - Full-stack development
+
 
 ---
 
