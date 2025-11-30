@@ -408,7 +408,7 @@ describe("Product Components Integration Test", () => {
       useProductStore.setState(originalState, true);
     });
 
-    test("Hiển thị đầy đủ thông tin chi tiết sản phẩm trong table", async () => {
+    test("Should have enough fields of products", async () => {
       render(<ProductTable onEdit={mockOnEdit} onDelete={mockOnDelete} />);
 
       await waitFor(() => {
@@ -430,7 +430,7 @@ describe("Product Components Integration Test", () => {
       expect(formatVND).toHaveBeenCalledWith(18000000);
     });
 
-    test("Hiển thị giá đã được format", async () => {
+    test("Price should be formatted", async () => {
       // Mock formatVND
       formatVND.mockImplementation((amount) => {
         const formats = {
