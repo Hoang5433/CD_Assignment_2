@@ -2,8 +2,6 @@ import * as React from "react"
 import { Slot } from "@radix-ui/react-slot"
 import {
     Controller,
-    FieldPath,
-    FieldValues,
     FormProvider,
     useFormContext,
 } from "react-hook-form"
@@ -33,7 +31,6 @@ const FormField = ({
 
 const useFormField = () => {
     const fieldContext = React.useContext(FormFieldContext)
-    const itemContext = React.useContext(FormItemContext)
     const { getFieldState, formState } = useFormContext()
 
     const fieldState = getFieldState(fieldContext.name, formState)

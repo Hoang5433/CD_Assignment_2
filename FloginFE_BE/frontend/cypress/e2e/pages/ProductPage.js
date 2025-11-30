@@ -7,10 +7,28 @@ class ProductPage {
     }
 
     setupIntercepts() {
-        cy.intercept('GET', '/products',(req) => {
+        cy.intercept('GET', /\/products\?page=.*&size=.*/,(req) => {
+            // Get search parameter from query string
+            const url = new URL(req.url, 'http://localhost');
+            const search = url.searchParams.get('search') || '';
+            
+            // Filter products based on search term
+            let filteredProducts = this.products;
+            if (search) {
+                filteredProducts = this.products.filter(p => 
+                    p.productName.toLowerCase().includes(search.toLowerCase())
+                );
+            }
+            
             req.reply({
                 statusCode: 200,
-                body: this.products
+                body: {
+                    content: filteredProducts,
+                    totalElements: filteredProducts.length,
+                    totalPages: 1,
+                    number: 0,
+                    size: 10
+                }
             });
         }).as('getProducts');
     }
@@ -32,7 +50,9 @@ class ProductPage {
                 cy.get('[data-testid="product-quantity"]').clear().type(product.quantity);
             }
             if (product.categoryId) {
-                cy.get('[data-testid="product-category"]').should('be.visible').select(String(product.categoryId));
+                cy.get('[data-testid="product-category"]').should('be.visible').then(($select) => {
+                    cy.wrap($select).select(String(product.categoryId), { force: true });
+                });
             }
             if (product.description) {
                 cy.get('[data-testid="product-description"]').clear().type(product.description);
@@ -41,7 +61,11 @@ class ProductPage {
             if (product.name) cy.get('[data-testid="product-name"]').type(product.name);
             if (product.price) cy.get('[data-testid="product-price"]').type(product.price);
             if (product.quantity) cy.get('[data-testid="product-quantity"]').type(product.quantity);
-            if (product.categoryId) cy.get('[data-testid="product-category"]').should('be.visible').select(String(product.categoryId));
+            if (product.categoryId) {
+                cy.get('[data-testid="product-category"]').should('be.visible').then(($select) => {
+                    cy.wrap($select).select(String(product.categoryId), { force: true });
+                });
+            }
             if (product.description) cy.get('[data-testid="product-description"]').type(product.description);
         }
     }
@@ -79,10 +103,16 @@ class ProductPage {
             body: newProduct
         }).as("addProduct");
 
-        cy.intercept('GET', '/products', (req) => {
+        cy.intercept('GET', /\/products\?page=.*&size=.*/, (req) => {
             req.reply({
                 statusCode: 200,
-                body: this.products
+                body: {
+                    content: this.products,
+                    totalElements: this.products.length,
+                    totalPages: 1,
+                    number: 0,
+                    size: 10
+                }
             });
         }).as('getProductsAfterAdd');
 
@@ -120,11 +150,17 @@ class ProductPage {
             });
         }).as("updateProduct");
 
-        // Reload products list after update
-        cy.intercept('GET', '/products', (req) => {
+        // Reload products list after update with paginated response
+        cy.intercept('GET', /\/products\?page=.*&size=.*/, (req) => {
             req.reply({
                 statusCode: 200,
-                body: this.products
+                body: {
+                    content: this.products,
+                    totalElements: this.products.length,
+                    totalPages: 1,
+                    number: 0,
+                    size: 10
+                }
             });
         }).as('getProductsAfterUpdate');
 
@@ -133,7 +169,7 @@ class ProductPage {
 
     confirmDelete() {
         cy.intercept('DELETE', '/products/**', (req) => {
-            const idMatch = req.url.match(/\/products\/(\d+)/); //  URL goi api thi se co products/3 match tim theo url lay dc id product
+            const idMatch = req.url.match(/\/products\/(\d+)/);
             if (idMatch) {
                 const productId = parseInt(idMatch[1]);
                 this.products = this.products.filter(p => p.id !== productId);
@@ -144,10 +180,16 @@ class ProductPage {
             });
         }).as("deleteProduct");
 
-        cy.intercept('GET', '/products', (req) => {
+        cy.intercept('GET', /\/products\?page=.*&size=.*/, (req) => {
             req.reply({
                 statusCode: 200,
-                body: this.products
+                body: {
+                    content: this.products,
+                    totalElements: this.products.length,
+                    totalPages: 1,
+                    number: 0,
+                    size: 10
+                }
             });
         }).as('getProductsAfterDelete');
 

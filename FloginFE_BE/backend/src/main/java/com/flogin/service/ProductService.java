@@ -99,9 +99,16 @@ public class ProductService {
         }
         return responseDTOList;
     }
-    public Page<ProductResponseDTO> getAllProduct(int page, int size) {
+    public Page<ProductResponseDTO> getAllProduct(int page, int size, String search) {
         Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "id"));
-        Page<Product> productPage = productRepository.findAll(pageable);
+
+        Page<Product> productPage;
+
+        if (search != null && !search.trim().isEmpty()) {
+            productPage = productRepository.findByNameContainingIgnoreCase(search.trim(), pageable);
+        } else {
+            productPage = productRepository.findAll(pageable);
+        }
         return productPage.map(product -> productMapper.toProductResponseDTO(product));
     }
 }
