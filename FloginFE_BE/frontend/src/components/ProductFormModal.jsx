@@ -2,7 +2,6 @@ import { useEffect } from "react";
 import { useForm, Controller } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { getCategoryIdFromName } from "../utils/helper";
 import { useProductStore } from "../stores/useProductStore";
 
 const productSchema = z.object({
@@ -62,8 +61,7 @@ const ProductFormModal = ({ categories, product, onClose }) => {
       productName: product?.productName || "",
       price: product?.price || "",
       quantity: product?.quantity ?? 1,
-      categoryId:
-        getCategoryIdFromName(product?.category?.name, categories) || "",
+      categoryId: product?.category?.id || "",
       description: product?.description || "",
     });
   }, [product, reset, categories]);

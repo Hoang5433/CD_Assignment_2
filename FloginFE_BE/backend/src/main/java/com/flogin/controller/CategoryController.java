@@ -1,4 +1,4 @@
-package com.flogin.IntegrationTest;
+package com.flogin.controller;
 
 import com.flogin.dto.category.CategoryRequestDTO;
 import com.flogin.entity.Category;

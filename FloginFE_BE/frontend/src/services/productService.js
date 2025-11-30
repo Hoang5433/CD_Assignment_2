@@ -8,10 +8,10 @@ export const productService = {
   },
 
   // GET ALL PRODUCTS
-  getAllProducts: async () => {
+  getAllProducts: async (page = 0, size = 10) => {
     try {
       const res = await apiWithAuth.get(
-          "/products"
+          `/products?page=${page}&size=${size}`
       );
       return res.data;
     } catch (e) {

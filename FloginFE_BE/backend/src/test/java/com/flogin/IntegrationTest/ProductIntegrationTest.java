@@ -1,6 +1,7 @@
 package com.flogin.IntegrationTest;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.flogin.controller.ProductController;
 import com.flogin.dto.product.ProductRequestDTO;
 import com.flogin.dto.product.ProductResponseDTO;
 import com.flogin.entity.Category;

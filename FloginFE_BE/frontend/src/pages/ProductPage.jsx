@@ -6,18 +6,29 @@ import ProductFormModal from "../components/ProductFormModal";
 import DeleteProductModal from "../components/DeleteProductModal";
 
 const ProductPage = () => {
-  const {deleteProduct } = useProductStore();
-  const quantity = useProductStore((state) => state.quantity);
+  const {
+    deleteProduct,
+    quantity,
+    getAllProducts,
+    currentPage,
+    totalPages
+  } = useProductStore();
   const { categories, getAllCategory } = useCategoryStore();
-
   const [showFormModal, setShowFormModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [editingProduct, setEditingProduct] = useState(null);
   const [deletingProduct, setDeletingProduct] = useState(null);
 
   useEffect(() => {
+    getAllProducts(0)
     getAllCategory();
-  }, [getAllCategory]);
+  }, [getAllCategory, getAllProducts]);
+
+  const handlePageChange = (newPage) => {
+    if (newPage >= 0 && newPage < totalPages) {
+      getAllProducts(newPage);
+    }
+  };
 
   const openAddModal = () => {
     setEditingProduct(null);
@@ -73,6 +84,30 @@ const ProductPage = () => {
         onEdit={handleEditClick} 
         onDelete={handleDeleteClick} 
       />
+
+      <div className="pagination-controls" style={{ display: 'flex', gap: '10px', justifyContent: 'center', marginTop: '20px', alignItems: 'center' }}>
+        <button
+            className="btn-page"
+            onClick={() => handlePageChange(currentPage - 1)}
+            disabled={currentPage === 0}
+            style={{ opacity: currentPage === 0 ? 0.5 : 1, cursor: 'pointer' }}
+        >
+          &lt; Trước
+        </button>
+
+        <span>
+          Trang <strong>{currentPage + 1}</strong> / {totalPages}
+        </span>
+
+        <button
+            className="btn-page"
+            onClick={() => handlePageChange(currentPage + 1)}
+            disabled={currentPage + 1 >= totalPages}
+            style={{ opacity: currentPage + 1 >= totalPages ? 0.5 : 1, cursor: 'pointer' }}
+        >
+          Sau &gt;
+        </button>
+      </div>
 
       {showFormModal && (
         <ProductFormModal

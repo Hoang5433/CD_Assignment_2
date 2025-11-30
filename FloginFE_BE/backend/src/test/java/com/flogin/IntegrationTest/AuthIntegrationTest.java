@@ -2,6 +2,7 @@ package com.flogin.IntegrationTest;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import com.flogin.controller.AuthController;
 import com.flogin.dto.login.LoginRequestDTO;
 import com.flogin.dto.login.LoginResponseDTO;
 import com.flogin.service.AuthService;

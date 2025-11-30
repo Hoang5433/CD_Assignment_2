@@ -6,12 +6,19 @@ export const useProductStore = create((set, get) => ({
   products: [],
   quantity: 0,
   loading: false,
+  totalPages: 0,
+  currentPage: 0,
 
-  getAllProducts: async () => {
+  getAllProducts: async (page = 0) => {
     set({ loading: true });
     try {
-      const data = await productService.getAllProducts(); // nếu trả về res.data
-      set({ products: data, quantity: data.length });
+      const data = await productService.getAllProducts(page, 10); // nếu trả về res.data
+      set({
+        products: data.content,
+        quantity: data.totalElements,
+        totalPages: data.totalPages,
+        currentPage: data.number,
+      });
     } catch (error) {
       console.error("Failed to fetch products:", error);
       toast.error("Có lỗi khi lấy danh sách sản phẩm");
@@ -31,6 +38,7 @@ export const useProductStore = create((set, get) => ({
       toast.success("Thêm mới thành công", {
         description: <span data-testid="add-success">Success</span>,
       });
+      await get().getAllProducts(get().currentPage);
     } catch (error) {
       console.error("Failed to add product:", error);
       toast.error("Thêm mới thất bại", {
@@ -52,6 +60,7 @@ export const useProductStore = create((set, get) => ({
       toast.success("Cập nhật thành công", {
         description: <span data-testid="update-success">Success</span>,
       });
+      await get().getAllProducts(get().currentPage);
     } catch (error) {
       console.error("Failed to update product:", error);
       toast.error("Cập nhật thất bại", {
@@ -72,6 +81,7 @@ export const useProductStore = create((set, get) => ({
         quantity: state.quantity - 1,
       }));
       toast.success("Xóa thành công");
+      await get().getAllProducts(get().currentPage);
     } catch (error) {
       console.error("Failed to delete product:", error);
       toast.error("Xóa thất bại");
