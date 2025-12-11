@@ -3,16 +3,10 @@ spring:
     name: login-product
 
   datasource:
-    url: jdbc:mysql://localhost:3306/login-product
+    url: jdbc:mysql://mysql.railway.internal:3306/railway
     username: root
-    password: root
+    password: YtzyJuBxxmlPXTyuRWWMEhBPrwdDEImm
     driver-class-name: com.mysql.cj.jdbc.Driver
-    hikari:
-      connection-timeout: 30000
-      maximum-pool-size: 20
-      minimum-idle: 10
-      max-lifetime: 1800000
-      idle-timeout: 600000
 
   docker:
     compose:
