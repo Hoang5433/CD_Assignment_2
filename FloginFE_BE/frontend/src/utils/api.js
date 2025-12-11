@@ -2,11 +2,11 @@ import axios from 'axios'
 import {getJWTfromCookie} from "./cookie";
 
 export const api = axios.create({
-    baseURL: "http://cdassignment2-production.up.railway.app/",
+    baseURL: "https://cdassignment2-production.up.railway.app/",
     withCredentials: true,
 })
 export const apiWithAuth = axios.create({
-    baseURL: "http://cdassignment2-production.up.railway.app/",
+    baseURL: "https://cdassignment2-production.up.railway.app/",
     withCredentials: true,
 });
 
