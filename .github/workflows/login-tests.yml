@@ -1,29 +1,29 @@
-name: Login Tests CI
-on:
+name: Login Tests CI # ten work flow
+on: #khi nao chay
   push:
     branches: ['*']
   pull_request:
     branches: ['*']
 jobs:
   test-login:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-latest #he dieu hanh
     steps:
-      - uses: actions/checkout@v2
-      - name: Setup Node.js
+      - uses: actions/checkout@v2 #clone repo
+      - name: Setup Node.js # cai node
         uses: actions/setup-node@v2
         with:
           node-version: '24'
 
-      - name: Install dependencies
+      - name: Install dependencies #cai dependency frontend
         run: |
           cd FloginFE_BE/frontend
           npm install
 
-      - name: Start Frontend
+      - name: Start Frontend #chay frontend
         run: |
           cd FloginFE_BE/frontend
           npm start &
       - name: Run Login E2E Tests
-        run: |
+        run: | # chay test e2e ==> chi chay file duoc chi dinh
           cd FloginFE_BE/frontend
           npm run test:e2e -- --spec "cypress/e2e/login.e2e.cy.js"

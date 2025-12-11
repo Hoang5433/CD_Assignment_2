@@ -8,10 +8,10 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-latest #chay tren he dieu hanh nao
 
     services:
-      mysql:
+      mysql: #cai database tuong duong giong docker compose de backend hoac frontend co the sai
         image: mysql:latest
         ports:
           - 3306:3306
@@ -20,46 +20,46 @@ jobs:
           MYSQL_PASSWORD: root
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v2 #clone code vao moi truong khac
 
       - name: Setup Java
         uses: actions/setup-java@v2
-        with:
+        with: # cai java 21
           java-version: '21'
-          distribution: 'temurin'
+          distribution: 'temurin' #de github action biet lay JDK o dau de cai java 21
 
       - name: Setup Node.js
         uses: actions/setup-node@v2
-        with:
+        with: #cai node 24
           node-version: '24'
 
       - name: Backend Tests
-        run: |
+        run: | #intellij khong co ho tro ci nen phai cai dependency jacoco de ho tro ci
           cd FloginFE_BE/backend
           chmod +x ./mvnw
-          ./mvnw clean test jacoco:report
+          ./mvnw clean test jacoco:report  
 
       - name: Frontend Tests
-        run: |
+        run: | #chay test 1 lan khong theo doi file tao coverage bao cao
           cd FloginFE_BE/frontend
           npm install
           npm test -- --coverage --watchAll=false
 
       - name: Start Frontend
-        run: |
+        run: | # chay npm start & thi server khong on dinh = serve -s build -l 3000 & vi no tao 1 static server thay vi server 
           cd FloginFE_BE/frontend
           npm run build
           npm install -g serve
           serve -s build -l 3000 &
 
       - name: E2E Tests
-        run: |
+        run: | #chay test e2e
           cd FloginFE_BE/frontend
           npm run test:e2e
 
       - name: Upload Coverage
-        uses: codecov/codecov-action@v5
+        uses: codecov/codecov-action@v5 #upload bao cao test
         with:
-          files: FloginFE_BE/frontend/coverage/lcov.info,FloginFE_BE/backend/target/site/jacoco/jacoco.xml
-          token: ${{secrets.CODECOV_TOKEN}}
-          fail_ci_if_error: 'true'
+          files: FloginFE_BE/frontend/coverage/lcov.info,FloginFE_BE/backend/target/site/jacoco/jacoco.xml #duong dan 2 file bao cao test da tao
+          token: ${{secrets.CODECOV_TOKEN}} #token set trong secret github
+          fail_ci_if_error: 'true' #neu ci loi thi log error
