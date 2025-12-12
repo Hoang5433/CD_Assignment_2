@@ -60,7 +60,9 @@ export const useAuthStore = create((set, get) => ({
 
         // 401: Unauthorized (Sai user/pass)
         if (status === 401 || status === 403) {
-          toast.error("Tên đăng nhập hoặc mật khẩu không chính xác!");
+          toast.error("Tên đăng nhập hoặc mật khẩu không chính xác!", {
+            description: <span data-testid="login-failed">Failed</span>
+          });
         }
         // 500+: Lỗi Server
         else if (status >= 500) {

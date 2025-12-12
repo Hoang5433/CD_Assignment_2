@@ -26,10 +26,18 @@ describe('Login E2E Tests', () => {
   })
   it('Nen hien thi loi voi credentials khong hop le', () => {
     cy.visit("/")
-    cy.get('[data-testid="username-input"]').type('ab')
-    cy.get('[data-testid="password-input"]').type('1234')
+
+    cy.intercept('POST', 'auth/login', {
+      statusCode: 401,
+      body:{
+        message: "Invalid username or password"
+      }
+    })
+
+    cy.get('[data-testid="username-input"]').type('admin123')
+    cy.get('[data-testid="password-input"]').type('wrongPassword123')
     cy.get('[data-testid="login-button"]').click()
 
-    cy.get('[data-testid="username-error"]').should('be.visible')
+    cy.get('[data-testid="login-failed"]').should('be.visible')
   })
 })

@@ -33,10 +33,10 @@ jobs:
         with: #cai node 24
           node-version: '24'
 
-      - name: Backend Tests
+      - name: Backend Tests # chu x là quyen execute
         run: | #intellij khong co ho tro ci nen phai cai dependency jacoco de ho tro ci
           cd FloginFE_BE/backend
-          chmod +x ./mvnw
+          chmod +x ./mvnw 
           ./mvnw clean test jacoco:report  
 
       - name: Frontend Tests
@@ -49,8 +49,7 @@ jobs:
         run: | # chay npm start & thi server khong on dinh = serve -s build -l 3000 & vi no tao 1 static server thay vi server 
           cd FloginFE_BE/frontend
           npm run build
-          npm install -g serve
-          serve -s build -l 3000 &
+          npm start &
 
       - name: E2E Tests
         run: | #chay test e2e
